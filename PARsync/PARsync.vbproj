@@ -132,6 +132,18 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\notFound.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\synced.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\toReadMP3Tag.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\toSync.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
