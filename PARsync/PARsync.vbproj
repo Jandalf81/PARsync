@@ -133,16 +133,31 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\notFound.png" />
+    <EmbeddedResource Include="Resources\notFound.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\synced.png" />
+    <EmbeddedResource Include="Resources\synced.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\toReadMP3Tag.png" />
+    <EmbeddedResource Include="Resources\toSync.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\toSync.png" />
+    <EmbeddedResource Include="Resources\toRead.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\script.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrow_left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrow_refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\arrow_right.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

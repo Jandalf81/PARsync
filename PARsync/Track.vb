@@ -140,13 +140,13 @@ Public Class Track
             'TODO move resources into application
             Select Case value
                 Case trackStatusEnum.toRead
-                    _trackImage = Image.FromFile(My.Application.Info.DirectoryPath + "\icons\toRead.png")
+                    _trackImage = My.Resources.toRead
                 Case trackStatusEnum.notFound
-                    _trackImage = Image.FromFile(My.Application.Info.DirectoryPath + "\icons\notFound.png")
+                    _trackImage = My.Resources.notFound
                 Case trackStatusEnum.toSync
-                    _trackImage = Image.FromFile(My.Application.Info.DirectoryPath + "\icons\toSync.png")
+                    _trackImage = My.Resources.toSync
                 Case trackStatusEnum.synced
-                    _trackImage = Image.FromFile(My.Application.Info.DirectoryPath + "\icons\synced.png")
+                    _trackImage = My.Resources.synced
             End Select
 
         End Set

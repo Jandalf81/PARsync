@@ -23,6 +23,7 @@ Partial Class frm_Main
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frm_Main))
+        Me.rad_SyncMode_UseRemoteRating = New System.Windows.Forms.RadioButton()
         Me.ofd_AllTracksCSV = New System.Windows.Forms.OpenFileDialog()
         Me.grp_Source = New System.Windows.Forms.GroupBox()
         Me.lbl_Source_1 = New System.Windows.Forms.Label()
@@ -37,7 +38,6 @@ Partial Class frm_Main
         Me.btn_SyncNow = New System.Windows.Forms.Button()
         Me.grp_SyncMode = New System.Windows.Forms.GroupBox()
         Me.rad_SyncMode_AskUser = New System.Windows.Forms.RadioButton()
-        Me.rad_SyncMode_UseRemoteRating = New System.Windows.Forms.RadioButton()
         Me.rad_SyncMode_UseLocalRating = New System.Windows.Forms.RadioButton()
         Me.dgv_Tracklist = New System.Windows.Forms.DataGridView()
         Me.grp_Target = New System.Windows.Forms.GroupBox()
@@ -68,6 +68,19 @@ Partial Class frm_Main
         Me.StatusStrip1.SuspendLayout()
         Me.grp_Settings.SuspendLayout()
         Me.SuspendLayout()
+        '
+        'rad_SyncMode_UseRemoteRating
+        '
+        Me.rad_SyncMode_UseRemoteRating.Image = Global.PARsync.My.Resources.Resources.arrow_left
+        Me.rad_SyncMode_UseRemoteRating.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.rad_SyncMode_UseRemoteRating.Location = New System.Drawing.Point(338, 19)
+        Me.rad_SyncMode_UseRemoteRating.Name = "rad_SyncMode_UseRemoteRating"
+        Me.rad_SyncMode_UseRemoteRating.Size = New System.Drawing.Size(160, 22)
+        Me.rad_SyncMode_UseRemoteRating.TabIndex = 1
+        Me.rad_SyncMode_UseRemoteRating.TabStop = True
+        Me.rad_SyncMode_UseRemoteRating.Text = "Always use remote rating"
+        Me.rad_SyncMode_UseRemoteRating.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.rad_SyncMode_UseRemoteRating.UseVisualStyleBackColor = True
         '
         'ofd_AllTracksCSV
         '
@@ -100,11 +113,12 @@ Partial Class frm_Main
         'btn_OFD
         '
         Me.btn_OFD.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_OFD.Location = New System.Drawing.Point(941, 82)
+        Me.btn_OFD.BackgroundImage = Global.PARsync.My.Resources.Resources.script
+        Me.btn_OFD.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
+        Me.btn_OFD.Location = New System.Drawing.Point(949, 81)
         Me.btn_OFD.Name = "btn_OFD"
-        Me.btn_OFD.Size = New System.Drawing.Size(33, 23)
+        Me.btn_OFD.Size = New System.Drawing.Size(25, 25)
         Me.btn_OFD.TabIndex = 3
-        Me.btn_OFD.Text = "..."
         Me.btn_OFD.UseVisualStyleBackColor = True
         '
         'txt_OFD
@@ -114,7 +128,7 @@ Partial Class frm_Main
         Me.txt_OFD.Location = New System.Drawing.Point(9, 84)
         Me.txt_OFD.Name = "txt_OFD"
         Me.txt_OFD.ReadOnly = True
-        Me.txt_OFD.Size = New System.Drawing.Size(926, 20)
+        Me.txt_OFD.Size = New System.Drawing.Size(934, 20)
         Me.txt_OFD.TabIndex = 2
         '
         'grp_Sync
@@ -128,7 +142,7 @@ Partial Class frm_Main
         Me.grp_Sync.Controls.Add(Me.dgv_Tracklist)
         Me.grp_Sync.Location = New System.Drawing.Point(12, 244)
         Me.grp_Sync.Name = "grp_Sync"
-        Me.grp_Sync.Size = New System.Drawing.Size(980, 345)
+        Me.grp_Sync.Size = New System.Drawing.Size(980, 393)
         Me.grp_Sync.TabIndex = 3
         Me.grp_Sync.TabStop = False
         Me.grp_Sync.Text = "Sync"
@@ -141,9 +155,9 @@ Partial Class frm_Main
         Me.grp_FilterDGV.Controls.Add(Me.chk_Synced)
         Me.grp_FilterDGV.Controls.Add(Me.chk_ToSync)
         Me.grp_FilterDGV.Controls.Add(Me.chk_NotFound)
-        Me.grp_FilterDGV.Location = New System.Drawing.Point(9, 185)
+        Me.grp_FilterDGV.Location = New System.Drawing.Point(9, 244)
         Me.grp_FilterDGV.Name = "grp_FilterDGV"
-        Me.grp_FilterDGV.Size = New System.Drawing.Size(965, 57)
+        Me.grp_FilterDGV.Size = New System.Drawing.Size(965, 47)
         Me.grp_FilterDGV.TabIndex = 5
         Me.grp_FilterDGV.TabStop = False
         Me.grp_FilterDGV.Text = "filter View"
@@ -152,7 +166,7 @@ Partial Class frm_Main
         '
         Me.chk_ToRead.Checked = True
         Me.chk_ToRead.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chk_ToRead.Image = CType(resources.GetObject("chk_ToRead.Image"), System.Drawing.Image)
+        Me.chk_ToRead.Image = Global.PARsync.My.Resources.Resources.toRead
         Me.chk_ToRead.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.chk_ToRead.Location = New System.Drawing.Point(6, 19)
         Me.chk_ToRead.Name = "chk_ToRead"
@@ -166,7 +180,7 @@ Partial Class frm_Main
         '
         Me.chk_Synced.Checked = True
         Me.chk_Synced.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chk_Synced.Image = CType(resources.GetObject("chk_Synced.Image"), System.Drawing.Image)
+        Me.chk_Synced.Image = Global.PARsync.My.Resources.Resources.synced
         Me.chk_Synced.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.chk_Synced.Location = New System.Drawing.Point(342, 19)
         Me.chk_Synced.Name = "chk_Synced"
@@ -180,7 +194,7 @@ Partial Class frm_Main
         '
         Me.chk_ToSync.Checked = True
         Me.chk_ToSync.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chk_ToSync.Image = CType(resources.GetObject("chk_ToSync.Image"), System.Drawing.Image)
+        Me.chk_ToSync.Image = Global.PARsync.My.Resources.Resources.toSync
         Me.chk_ToSync.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.chk_ToSync.Location = New System.Drawing.Point(230, 19)
         Me.chk_ToSync.Name = "chk_ToSync"
@@ -194,7 +208,7 @@ Partial Class frm_Main
         '
         Me.chk_NotFound.Checked = True
         Me.chk_NotFound.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chk_NotFound.Image = CType(resources.GetObject("chk_NotFound.Image"), System.Drawing.Image)
+        Me.chk_NotFound.Image = Global.PARsync.My.Resources.Resources.notFound
         Me.chk_NotFound.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.chk_NotFound.Location = New System.Drawing.Point(118, 19)
         Me.chk_NotFound.Name = "chk_NotFound"
@@ -208,7 +222,7 @@ Partial Class frm_Main
         '
         Me.btn_SyncNow.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_SyncNow.Location = New System.Drawing.Point(9, 303)
+        Me.btn_SyncNow.Location = New System.Drawing.Point(9, 351)
         Me.btn_SyncNow.Name = "btn_SyncNow"
         Me.btn_SyncNow.Size = New System.Drawing.Size(965, 34)
         Me.btn_SyncNow.TabIndex = 3
@@ -222,44 +236,37 @@ Partial Class frm_Main
         Me.grp_SyncMode.Controls.Add(Me.rad_SyncMode_AskUser)
         Me.grp_SyncMode.Controls.Add(Me.rad_SyncMode_UseRemoteRating)
         Me.grp_SyncMode.Controls.Add(Me.rad_SyncMode_UseLocalRating)
-        Me.grp_SyncMode.Location = New System.Drawing.Point(9, 248)
+        Me.grp_SyncMode.Location = New System.Drawing.Point(9, 297)
         Me.grp_SyncMode.Name = "grp_SyncMode"
-        Me.grp_SyncMode.Size = New System.Drawing.Size(965, 49)
+        Me.grp_SyncMode.Size = New System.Drawing.Size(965, 48)
         Me.grp_SyncMode.TabIndex = 2
         Me.grp_SyncMode.TabStop = False
         Me.grp_SyncMode.Text = "Sync Mode"
         '
         'rad_SyncMode_AskUser
         '
-        Me.rad_SyncMode_AskUser.AutoSize = True
-        Me.rad_SyncMode_AskUser.Location = New System.Drawing.Point(6, 20)
+        Me.rad_SyncMode_AskUser.Image = Global.PARsync.My.Resources.Resources.arrow_refresh
+        Me.rad_SyncMode_AskUser.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.rad_SyncMode_AskUser.Location = New System.Drawing.Point(6, 19)
         Me.rad_SyncMode_AskUser.Name = "rad_SyncMode_AskUser"
-        Me.rad_SyncMode_AskUser.Size = New System.Drawing.Size(129, 17)
+        Me.rad_SyncMode_AskUser.Size = New System.Drawing.Size(160, 22)
         Me.rad_SyncMode_AskUser.TabIndex = 2
         Me.rad_SyncMode_AskUser.TabStop = True
         Me.rad_SyncMode_AskUser.Text = "Ask me for each track"
+        Me.rad_SyncMode_AskUser.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.rad_SyncMode_AskUser.UseVisualStyleBackColor = True
-        '
-        'rad_SyncMode_UseRemoteRating
-        '
-        Me.rad_SyncMode_UseRemoteRating.AutoSize = True
-        Me.rad_SyncMode_UseRemoteRating.Location = New System.Drawing.Point(318, 20)
-        Me.rad_SyncMode_UseRemoteRating.Name = "rad_SyncMode_UseRemoteRating"
-        Me.rad_SyncMode_UseRemoteRating.Size = New System.Drawing.Size(142, 17)
-        Me.rad_SyncMode_UseRemoteRating.TabIndex = 1
-        Me.rad_SyncMode_UseRemoteRating.TabStop = True
-        Me.rad_SyncMode_UseRemoteRating.Text = "Always use remote rating"
-        Me.rad_SyncMode_UseRemoteRating.UseVisualStyleBackColor = True
         '
         'rad_SyncMode_UseLocalRating
         '
-        Me.rad_SyncMode_UseLocalRating.AutoSize = True
-        Me.rad_SyncMode_UseLocalRating.Location = New System.Drawing.Point(155, 20)
+        Me.rad_SyncMode_UseLocalRating.Image = Global.PARsync.My.Resources.Resources.arrow_right
+        Me.rad_SyncMode_UseLocalRating.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.rad_SyncMode_UseLocalRating.Location = New System.Drawing.Point(172, 19)
         Me.rad_SyncMode_UseLocalRating.Name = "rad_SyncMode_UseLocalRating"
-        Me.rad_SyncMode_UseLocalRating.Size = New System.Drawing.Size(132, 17)
+        Me.rad_SyncMode_UseLocalRating.Size = New System.Drawing.Size(160, 22)
         Me.rad_SyncMode_UseLocalRating.TabIndex = 0
         Me.rad_SyncMode_UseLocalRating.TabStop = True
         Me.rad_SyncMode_UseLocalRating.Text = "Always use local rating"
+        Me.rad_SyncMode_UseLocalRating.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.rad_SyncMode_UseLocalRating.UseVisualStyleBackColor = True
         '
         'dgv_Tracklist
@@ -270,7 +277,7 @@ Partial Class frm_Main
         Me.dgv_Tracklist.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgv_Tracklist.Location = New System.Drawing.Point(9, 19)
         Me.dgv_Tracklist.Name = "dgv_Tracklist"
-        Me.dgv_Tracklist.Size = New System.Drawing.Size(965, 159)
+        Me.dgv_Tracklist.Size = New System.Drawing.Size(965, 219)
         Me.dgv_Tracklist.TabIndex = 1
         '
         'grp_Target
@@ -278,9 +285,9 @@ Partial Class frm_Main
         Me.grp_Target.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.grp_Target.Controls.Add(Me.btn_exportNPM)
-        Me.grp_Target.Location = New System.Drawing.Point(12, 595)
+        Me.grp_Target.Location = New System.Drawing.Point(12, 643)
         Me.grp_Target.Name = "grp_Target"
-        Me.grp_Target.Size = New System.Drawing.Size(980, 100)
+        Me.grp_Target.Size = New System.Drawing.Size(980, 52)
         Me.grp_Target.TabIndex = 4
         Me.grp_Target.TabStop = False
         Me.grp_Target.Text = "Target"
@@ -344,11 +351,12 @@ Partial Class frm_Main
         'btn_LocalMainPath
         '
         Me.btn_LocalMainPath.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_LocalMainPath.Location = New System.Drawing.Point(941, 15)
+        Me.btn_LocalMainPath.BackgroundImage = Global.PARsync.My.Resources.Resources.folder
+        Me.btn_LocalMainPath.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
+        Me.btn_LocalMainPath.Location = New System.Drawing.Point(949, 14)
         Me.btn_LocalMainPath.Name = "btn_LocalMainPath"
-        Me.btn_LocalMainPath.Size = New System.Drawing.Size(33, 23)
+        Me.btn_LocalMainPath.Size = New System.Drawing.Size(25, 25)
         Me.btn_LocalMainPath.TabIndex = 4
-        Me.btn_LocalMainPath.Text = "..."
         Me.btn_LocalMainPath.UseVisualStyleBackColor = True
         '
         'txt_RemoteMainPath
@@ -367,7 +375,7 @@ Partial Class frm_Main
         Me.txt_LocalMainPath.Location = New System.Drawing.Point(111, 17)
         Me.txt_LocalMainPath.Name = "txt_LocalMainPath"
         Me.txt_LocalMainPath.ReadOnly = True
-        Me.txt_LocalMainPath.Size = New System.Drawing.Size(824, 20)
+        Me.txt_LocalMainPath.Size = New System.Drawing.Size(832, 20)
         Me.txt_LocalMainPath.TabIndex = 2
         '
         'lbl_RemoteMainPath
@@ -425,7 +433,6 @@ Partial Class frm_Main
         Me.grp_Sync.ResumeLayout(False)
         Me.grp_FilterDGV.ResumeLayout(False)
         Me.grp_SyncMode.ResumeLayout(False)
-        Me.grp_SyncMode.PerformLayout()
         CType(Me.dgv_Tracklist, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grp_Target.ResumeLayout(False)
         Me.StatusStrip1.ResumeLayout(False)
@@ -446,9 +453,6 @@ Partial Class frm_Main
     Friend WithEvents lbl_Source_1 As Label
     Friend WithEvents btn_SyncNow As Button
     Friend WithEvents grp_SyncMode As GroupBox
-    Friend WithEvents rad_SyncMode_AskUser As RadioButton
-    Friend WithEvents rad_SyncMode_UseRemoteRating As RadioButton
-    Friend WithEvents rad_SyncMode_UseLocalRating As RadioButton
     Friend WithEvents dgv_Tracklist As DataGridView
     Friend WithEvents StatusStrip1 As StatusStrip
     Friend WithEvents tst_NoOfTracks As ToolStripStatusLabel
@@ -473,4 +477,7 @@ Partial Class frm_Main
     Friend WithEvents tsp_Progress As ToolStripProgressBar
     Friend WithEvents bgw_SyncNow As System.ComponentModel.BackgroundWorker
     Friend WithEvents sfd_exportNPM As SaveFileDialog
+    Friend WithEvents rad_SyncMode_AskUser As RadioButton
+    Friend WithEvents rad_SyncMode_UseLocalRating As RadioButton
+    Friend WithEvents rad_SyncMode_UseRemoteRating As RadioButton
 End Class

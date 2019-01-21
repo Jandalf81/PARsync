@@ -169,9 +169,10 @@ Public Class frm_Main
     End Sub
 
     Private Sub rad_SyncMode_CheckedChanged(sender As Object, e As EventArgs) Handles _
-            rad_SyncMode_AskUser.CheckedChanged,
-            rad_SyncMode_UseLocalRating.CheckedChanged,
-            rad_SyncMode_UseRemoteRating.CheckedChanged
+        rad_SyncMode_AskUser.CheckedChanged,
+        rad_SyncMode_UseLocalRating.CheckedChanged,
+        rad_SyncMode_UseRemoteRating.CheckedChanged
+
         Dim checkedButton As New RadioButton()
         checkedButton = grp_SyncMode.Controls.OfType(Of RadioButton)().FirstOrDefault(Function(radioButton) radioButton.Checked)
 
