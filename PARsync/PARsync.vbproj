@@ -145,19 +145,37 @@
     <EmbeddedResource Include="Resources\toRead.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\folder.png" />
+    <EmbeddedResource Include="Resources\folder.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\script.png" />
+    <EmbeddedResource Include="Resources\script.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\arrow_left.png" />
+    <EmbeddedResource Include="Resources\arrow_left.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\arrow_refresh.png" />
+    <EmbeddedResource Include="Resources\arrow_refresh.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\arrow_right.png" />
+    <EmbeddedResource Include="Resources\arrow_right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\star_0.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\star_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\star_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\star_3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\star_4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\star_5.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

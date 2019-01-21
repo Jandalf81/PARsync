@@ -15,7 +15,11 @@ Public Class Track
     ' fields from local metadata
     Private localPath As String
     Private localRating As Integer
+
+    ' other fields
     Private trackImage As Image
+    Private localRatingImage As Image
+    Private remoteRatingImage As Image
     Private trackStatus As trackStatusEnum
 
     Public Enum trackStatusEnum
@@ -87,6 +91,29 @@ Public Class Track
         End Get
         Set(value As Integer)
             remoteRating = value
+
+            Select Case value
+                Case 0
+                    _remoteRatingImage = My.Resources.star_0
+                Case 1
+                    _remoteRatingImage = My.Resources.star_1
+                Case 2
+                    _remoteRatingImage = My.Resources.star_2
+                Case 3
+                    _remoteRatingImage = My.Resources.star_3
+                Case 4
+                    _remoteRatingImage = My.Resources.star_4
+                Case 5
+                    _remoteRatingImage = My.Resources.star_5
+            End Select
+        End Set
+    End Property
+    Public Property _remoteRatingImage As Image
+        Get
+            Return remoteRatingImage
+        End Get
+        Set(value As Image)
+            remoteRatingImage = value
         End Set
     End Property
     Public Property _year As Integer
@@ -120,6 +147,30 @@ Public Class Track
         Set(value As Integer)
             localRating = value
             writeLocalRating(value)
+
+            Select Case value
+                Case 0
+                    _localRatingImage = My.Resources.star_0
+                Case 1
+                    _localRatingImage = My.Resources.star_1
+                Case 2
+                    _localRatingImage = My.Resources.star_2
+                Case 3
+                    _localRatingImage = My.Resources.star_3
+                Case 4
+                    _localRatingImage = My.Resources.star_4
+                Case 5
+                    _localRatingImage = My.Resources.star_5
+            End Select
+
+        End Set
+    End Property
+    Public Property _localRatingImage As Image
+        Get
+            Return localRatingImage
+        End Get
+        Set(value As Image)
+            localRatingImage = value
         End Set
     End Property
     Public Property _trackImage As Image
@@ -137,7 +188,6 @@ Public Class Track
         Set(value As trackStatusEnum)
             trackStatus = value
 
-            'TODO move resources into application
             Select Case value
                 Case trackStatusEnum.toRead
                     _trackImage = My.Resources.toRead
@@ -172,12 +222,14 @@ Public Class Track
         Me.album = album
         Me.composer = composer
         Me.duration = duration
-        Me.remoteRating = remoteRating
+        Me._remoteRating = remoteRating
         Me.year = year
         Me.timesPlayed = timesPlayed
 
         Me.localPath = ""
         Me.localRating = 0
+        Me.localRatingImage = My.Resources.star_0
+        Me.remoteRatingImage = My.Resources.star_0
         Me._trackStatus = trackStatusEnum.toRead
     End Sub
 

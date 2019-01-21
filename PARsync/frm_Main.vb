@@ -61,9 +61,17 @@ Public Class frm_Main
         col_LocalRating.DataPropertyName = "_localRating"
         col_LocalRating.Name = "local" + vbCrLf + "Rating"
 
+        Dim col_LocalRatingImage As New DataGridViewImageColumn()
+        col_LocalRatingImage.DataPropertyName = "_localRatingImage"
+        col_LocalRatingImage.Name = "local" + vbCrLf + "Rating"
+
         Dim col_RemoteRating As New DataGridViewTextBoxColumn()
         col_RemoteRating.DataPropertyName = "_remoteRating"
         col_RemoteRating.Name = "remote" + vbCrLf + "Rating"
+
+        Dim col_RemoteRatingImage As New DataGridViewImageColumn()
+        col_RemoteRatingImage.DataPropertyName = "_remoteRatingImage"
+        col_RemoteRatingImage.Name = "remote" + vbCrLf + "Rating"
 
         Dim col_LocalPath As New DataGridViewTextBoxColumn()
         col_LocalPath.DataPropertyName = "_localPath"
@@ -84,7 +92,9 @@ Public Class frm_Main
         dgv_Tracklist.Columns.Add(col_Trackno)
         dgv_Tracklist.Columns.Add(col_Track)
         dgv_Tracklist.Columns.Add(col_LocalRating)
+        dgv_Tracklist.Columns.Add(col_LocalRatingImage)
         dgv_Tracklist.Columns.Add(col_RemoteRating)
+        dgv_Tracklist.Columns.Add(col_RemoteRatingImage)
         dgv_Tracklist.Columns.Add(col_LocalPath)
         dgv_Tracklist.Columns.Add(col_RemotePath)
 
