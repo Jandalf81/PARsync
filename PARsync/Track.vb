@@ -9,17 +9,17 @@ Public Class Track
     Private album As String
     Private composer As String
     Private duration As Integer
-    Private remoteRating As Integer
+    Private PowerampRating As Integer
     Private year As Integer
     Private timesPlayed As Integer
     ' fields from local metadata
     Private localPath As String
-    Private localRating As Integer
+    Private TagRating As Integer
 
     ' other fields
     Private trackImage As Image
-    Private localRatingImage As Image
-    Private remoteRatingImage As Image
+    Private TagRatingImage As Image
+    Private PowerampRatingImage As Image
     Private trackStatus As trackStatusEnum
 
     Public Enum trackStatusEnum
@@ -85,35 +85,35 @@ Public Class Track
             duration = value
         End Set
     End Property
-    Public Property _remoteRating As Integer
+    Public Property _PowerampRating As Integer
         Get
-            Return remoteRating
+            Return PowerampRating
         End Get
         Set(value As Integer)
-            remoteRating = value
+            PowerampRating = value
 
             Select Case value
                 Case 0
-                    _remoteRatingImage = My.Resources.star_0
+                    _PowerampRatingImage = My.Resources.star_0
                 Case 1
-                    _remoteRatingImage = My.Resources.star_1
+                    _PowerampRatingImage = My.Resources.star_1
                 Case 2
-                    _remoteRatingImage = My.Resources.star_2
+                    _PowerampRatingImage = My.Resources.star_2
                 Case 3
-                    _remoteRatingImage = My.Resources.star_3
+                    _PowerampRatingImage = My.Resources.star_3
                 Case 4
-                    _remoteRatingImage = My.Resources.star_4
+                    _PowerampRatingImage = My.Resources.star_4
                 Case 5
-                    _remoteRatingImage = My.Resources.star_5
+                    _PowerampRatingImage = My.Resources.star_5
             End Select
         End Set
     End Property
-    Public Property _remoteRatingImage As Image
+    Public Property _PowerampRatingImage As Image
         Get
-            Return remoteRatingImage
+            Return PowerampRatingImage
         End Get
         Set(value As Image)
-            remoteRatingImage = value
+            PowerampRatingImage = value
         End Set
     End Property
     Public Property _year As Integer
@@ -140,37 +140,37 @@ Public Class Track
             localPath = value
         End Set
     End Property
-    Public Property _localRating As Integer
+    Public Property _TagRating As Integer
         Get
-            Return localRating
+            Return TagRating
         End Get
         Set(value As Integer)
-            localRating = value
-            writeLocalRating(value)
+            TagRating = value
+            writeTagRating(value)
 
             Select Case value
                 Case 0
-                    _localRatingImage = My.Resources.star_0
+                    _TagRatingImage = My.Resources.star_0
                 Case 1
-                    _localRatingImage = My.Resources.star_1
+                    _TagRatingImage = My.Resources.star_1
                 Case 2
-                    _localRatingImage = My.Resources.star_2
+                    _TagRatingImage = My.Resources.star_2
                 Case 3
-                    _localRatingImage = My.Resources.star_3
+                    _TagRatingImage = My.Resources.star_3
                 Case 4
-                    _localRatingImage = My.Resources.star_4
+                    _TagRatingImage = My.Resources.star_4
                 Case 5
-                    _localRatingImage = My.Resources.star_5
+                    _TagRatingImage = My.Resources.star_5
             End Select
 
         End Set
     End Property
-    Public Property _localRatingImage As Image
+    Public Property _TagRatingImage As Image
         Get
-            Return localRatingImage
+            Return TagRatingImage
         End Get
         Set(value As Image)
-            localRatingImage = value
+            TagRatingImage = value
         End Set
     End Property
     Public Property _trackImage As Image
@@ -222,13 +222,13 @@ Public Class Track
         Me.album = album
         Me.composer = composer
         Me.duration = duration
-        Me._remoteRating = remoteRating
+        Me._PowerampRating = remoteRating
         Me.year = year
         Me.timesPlayed = timesPlayed
 
         Me.localPath = ""
-        Me.localRating = 0
-        Me.localRatingImage = My.Resources.star_0
+        Me.TagRating = 0
+        Me.TagRatingImage = My.Resources.star_0
         'Me.remoteRatingImage = My.Resources.star_0
         Me._trackStatus = trackStatusEnum.toRead
     End Sub
@@ -246,7 +246,7 @@ Public Class Track
         End If
     End Sub
 
-    Public Sub readLocalRating()
+    Public Sub readTagRating()
         TagLib.Id3v2.Tag.DefaultVersion = 3
         TagLib.Id3v2.Tag.ForceDefaultVersion = True
 
@@ -258,17 +258,17 @@ Public Class Track
 
             Select Case popm.Rating
                 Case 0
-                    Me._localRating = 0
+                    Me._TagRating = 0
                 Case 1
-                    Me._localRating = 1
+                    Me._TagRating = 1
                 Case 64
-                    Me._localRating = 2
+                    Me._TagRating = 2
                 Case 128
-                    Me._localRating = 3
+                    Me._TagRating = 3
                 Case 196
-                    Me._localRating = 4
+                    Me._TagRating = 4
                 Case 255
-                    Me._localRating = 5
+                    Me._TagRating = 5
                 Case Else
                     MsgBox(popm.Rating.ToString())
             End Select
@@ -277,7 +277,7 @@ Public Class Track
         End If
     End Sub
 
-    Public Sub writeLocalRating(ByVal rating As Integer)
+    Public Sub writeTagRating(ByVal rating As Integer)
         TagLib.Id3v2.Tag.DefaultVersion = 3
         TagLib.Id3v2.Tag.ForceDefaultVersion = True
 

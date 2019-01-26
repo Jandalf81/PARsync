@@ -16,16 +16,16 @@ Public Class frm_Main
         Select Case settings._syncMode
             Case Settings.syncModeEnum.askUser
                 rad_SyncMode_AskUser.Checked = True
-                rad_SyncMode_UseLocalRating.Checked = False
-                rad_SyncMode_UseRemoteRating.Checked = False
+                rad_SyncMode_UseTagRating.Checked = False
+                rad_SyncMode_UsePowerampRating.Checked = False
             Case Settings.syncModeEnum.useTagRating
                 rad_SyncMode_AskUser.Checked = False
-                rad_SyncMode_UseLocalRating.Checked = True
-                rad_SyncMode_UseRemoteRating.Checked = False
+                rad_SyncMode_UseTagRating.Checked = True
+                rad_SyncMode_UsePowerampRating.Checked = False
             Case Settings.syncModeEnum.usePowerampRating
                 rad_SyncMode_AskUser.Checked = False
-                rad_SyncMode_UseLocalRating.Checked = False
-                rad_SyncMode_UseRemoteRating.Checked = True
+                rad_SyncMode_UseTagRating.Checked = False
+                rad_SyncMode_UsePowerampRating.Checked = True
         End Select
 
         tst_NoOfTracks.Text = "Number of Tracks: 0"
@@ -57,21 +57,21 @@ Public Class frm_Main
         col_Track.DataPropertyName = "_track"
         col_Track.Name = "Track"
 
-        Dim col_LocalRating As New DataGridViewTextBoxColumn()
-        col_LocalRating.DataPropertyName = "_localRating"
-        col_LocalRating.Name = "local" + vbCrLf + "Rating"
+        Dim col_TagRating As New DataGridViewTextBoxColumn()
+        col_TagRating.DataPropertyName = "_TagRating"
+        col_TagRating.Name = "Tag" + vbCrLf + "Rating"
 
-        Dim col_LocalRatingImage As New DataGridViewImageColumn()
-        col_LocalRatingImage.DataPropertyName = "_localRatingImage"
-        col_LocalRatingImage.Name = "local" + vbCrLf + "Rating"
+        Dim col_TagRatingImage As New DataGridViewImageColumn()
+        col_TagRatingImage.DataPropertyName = "_TagRatingImage"
+        col_TagRatingImage.Name = "Tag" + vbCrLf + "Rating"
 
-        Dim col_RemoteRating As New DataGridViewTextBoxColumn()
-        col_RemoteRating.DataPropertyName = "_remoteRating"
-        col_RemoteRating.Name = "remote" + vbCrLf + "Rating"
+        Dim col_PowerampRating As New DataGridViewTextBoxColumn()
+        col_PowerampRating.DataPropertyName = "_PowerampRating"
+        col_PowerampRating.Name = "Poweramp" + vbCrLf + "Rating"
 
-        Dim col_RemoteRatingImage As New DataGridViewImageColumn()
-        col_RemoteRatingImage.DataPropertyName = "_remoteRatingImage"
-        col_RemoteRatingImage.Name = "remote" + vbCrLf + "Rating"
+        Dim col_PowerampRatingImage As New DataGridViewImageColumn()
+        col_PowerampRatingImage.DataPropertyName = "_PowerampRatingImage"
+        col_PowerampRatingImage.Name = "Poweramp" + vbCrLf + "Rating"
 
         Dim col_LocalPath As New DataGridViewTextBoxColumn()
         col_LocalPath.DataPropertyName = "_localPath"
@@ -91,10 +91,10 @@ Public Class frm_Main
         dgv_Tracklist.Columns.Add(col_Album)
         dgv_Tracklist.Columns.Add(col_Trackno)
         dgv_Tracklist.Columns.Add(col_Track)
-        dgv_Tracklist.Columns.Add(col_LocalRating)
-        dgv_Tracklist.Columns.Add(col_LocalRatingImage)
-        dgv_Tracklist.Columns.Add(col_RemoteRating)
-        dgv_Tracklist.Columns.Add(col_RemoteRatingImage)
+        'dgv_Tracklist.Columns.Add(col_TagRating)
+        dgv_Tracklist.Columns.Add(col_TagRatingImage)
+        'dgv_Tracklist.Columns.Add(col_PowerampRating)
+        dgv_Tracklist.Columns.Add(col_PowerampRatingImage)
         dgv_Tracklist.Columns.Add(col_LocalPath)
         dgv_Tracklist.Columns.Add(col_RemotePath)
 
@@ -180,8 +180,8 @@ Public Class frm_Main
 
     Private Sub rad_SyncMode_CheckedChanged(sender As Object, e As EventArgs) Handles _
         rad_SyncMode_AskUser.CheckedChanged,
-        rad_SyncMode_UseLocalRating.CheckedChanged,
-        rad_SyncMode_UseRemoteRating.CheckedChanged
+        rad_SyncMode_UseTagRating.CheckedChanged,
+        rad_SyncMode_UsePowerampRating.CheckedChanged
 
         Dim checkedButton As New RadioButton()
         checkedButton = grp_SyncMode.Controls.OfType(Of RadioButton)().FirstOrDefault(Function(radioButton) radioButton.Checked)
@@ -190,16 +190,16 @@ Public Class frm_Main
             Select Case checkedButton.Name
                 Case "rad_SyncMode_AskUser"
                     settings._syncMode = Settings.syncModeEnum.askUser
-                Case "rad_SyncMode_UseLocalRating"
+                Case "rad_SyncMode_UseTagRating"
                     settings._syncMode = Settings.syncModeEnum.useTagRating
-                Case "rad_SyncMode_UseRemoteRating"
+                Case "rad_SyncMode_UsePowerampRating"
                     settings._syncMode = Settings.syncModeEnum.usePowerampRating
             End Select
         End If
     End Sub
 
     Private Sub btn_SyncNow_Click(sender As Object, e As EventArgs) Handles btn_SyncNow.Click
-        tst_Status.Text = " | Status: syncing ratings..."
+        tst_Status.Text = " | Status: syncing Ratings..."
 
         bgw_SyncNow.RunWorkerAsync()
     End Sub
@@ -246,20 +246,20 @@ Public Class frm_Main
         tsp_Progress.ProgressBar.Value = e.ProgressPercentage
     End Sub
     Private Sub bgw_transformLocalPath_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles bgw_transformLocalPath.RunWorkerCompleted
-        tst_Status.Text = "| Status: Getting local Rating..."
-        bgw_ReadLocalRating.RunWorkerAsync()
+        tst_Status.Text = "| Status: getting Tag Rating..."
+        bgw_ReadTagRating.RunWorkerAsync()
     End Sub
 #End Region
 
 #Region "bgw_ReadLocalRating"
-    Private Sub bgw_ReadLocalRating_DoWork(sender As Object, e As DoWorkEventArgs) Handles bgw_ReadLocalRating.DoWork
+    Private Sub bgw_ReadTagRating_DoWork(sender As Object, e As DoWorkEventArgs) Handles bgw_ReadTagRating.DoWork
         Dim percent As Integer = 0
         Dim i As Integer = 0
 
         For Each track As Track In bs.List
             If (My.Computer.FileSystem.FileExists(track._localPath) = True) Then
-                track.readLocalRating()
-                If (track._localRating = track._remoteRating) Then
+                track.readTagRating()
+                If (track._TagRating = track._PowerampRating) Then
                     track._trackStatus = Track.trackStatusEnum.synced
                 Else
                     track._trackStatus = Track.trackStatusEnum.toSync
@@ -268,13 +268,13 @@ Public Class frm_Main
 
             i = i + 1
             percent = i * 100 / bs.Count
-            bgw_ReadLocalRating.ReportProgress(percent)
+            bgw_ReadTagRating.ReportProgress(percent)
         Next
     End Sub
-    Private Sub bgw_ReadLocalRating_ProgressChanged(sender As Object, e As ProgressChangedEventArgs) Handles bgw_ReadLocalRating.ProgressChanged
+    Private Sub bgw_ReadTagRating_ProgressChanged(sender As Object, e As ProgressChangedEventArgs) Handles bgw_ReadTagRating.ProgressChanged
         tsp_Progress.ProgressBar.Value = e.ProgressPercentage
     End Sub
-    Private Sub bgw_ReadLocalRating_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles bgw_ReadLocalRating.RunWorkerCompleted
+    Private Sub bgw_ReadTagRating_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles bgw_ReadTagRating.RunWorkerCompleted
         tst_Status.Text = "| Status: Idle"
         tsp_Progress.ProgressBar.Value = 0
 
@@ -293,7 +293,7 @@ Public Class frm_Main
 
         For Each track As Track In bs.List
             If (track._trackStatus <> Track.trackStatusEnum.notFound) Then
-                If (track._localRating <> track._remoteRating) Then
+                If (track._TagRating <> track._PowerampRating) Then
 
                     Select Case settings._syncMode
                         Case Settings.syncModeEnum.askUser
@@ -302,10 +302,10 @@ Public Class frm_Main
 
                             Select Case frm_SyncDecision.ShowDialog()
                                 Case frm_SyncDecision.syncDecisionResult.useTagRating
-                                    track._remoteRating = track._localRating
+                                    track._PowerampRating = track._TagRating
                                     track._trackStatus = Track.trackStatusEnum.synced
                                 Case frm_SyncDecision.syncDecisionResult.usePowerampRating
-                                    track._localRating = track._remoteRating
+                                    track._TagRating = track._PowerampRating
                                     track._trackStatus = Track.trackStatusEnum.synced
                                 Case frm_SyncDecision.syncDecisionResult.Cancel
                                     MsgBox("Cancel")
@@ -313,10 +313,10 @@ Public Class frm_Main
                                     MsgBox("else")
                             End Select
                         Case Settings.syncModeEnum.useTagRating
-                            track._remoteRating = track._localRating
+                            track._PowerampRating = track._TagRating
                             track._trackStatus = Track.trackStatusEnum.synced
                         Case Settings.syncModeEnum.usePowerampRating
-                            track._localRating = track._remoteRating
+                            track._TagRating = track._PowerampRating
                             track._trackStatus = Track.trackStatusEnum.synced
                     End Select
                 End If

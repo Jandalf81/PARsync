@@ -84,7 +84,7 @@ Public Class Tracklist
             line += """" + track._composer + """|"
             line += """" + track._duration.ToString + """|"
             line += """" + track._year.ToString + """|"
-            line += """" + track._remoteRating.ToString + """|"
+            line += """" + track._PowerampRating.ToString + """|"
             line += """" + track._timesPlayed.ToString + """"
 
             content += line + vbCrLf
@@ -104,7 +104,7 @@ Public Class Tracklist
 
         For Each track In tracks
             line = """" + Path.GetFileName(track._localPath) + """##"
-            line += """" + track._remoteRating.ToString + """##"
+            line += """" + track._PowerampRating.ToString + """##"
             line += """" + track._timesPlayed.ToString + """##"
             line += """0""##"
             line += """" + track._album + """##"

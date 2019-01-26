@@ -33,8 +33,8 @@ Public Class frm_SyncDecision
                 'TODO set default image here
             End If
 
-            btn_UseLocalRating.Image = track._localRatingImage
-            btn_UseRemoteRating.Image = track._remoteRatingImage
+            btn_UseLocalRating.Image = track._TagRatingImage
+            btn_UseRemoteRating.Image = track._PowerampRatingImage
         End Set
     End Property
 

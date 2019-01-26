@@ -23,7 +23,7 @@ Partial Class frm_Main
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frm_Main))
-        Me.rad_SyncMode_UseRemoteRating = New System.Windows.Forms.RadioButton()
+        Me.rad_SyncMode_UsePowerampRating = New System.Windows.Forms.RadioButton()
         Me.ofd_AllTracksCSV = New System.Windows.Forms.OpenFileDialog()
         Me.grp_Source = New System.Windows.Forms.GroupBox()
         Me.lbl_Source_1 = New System.Windows.Forms.Label()
@@ -38,7 +38,7 @@ Partial Class frm_Main
         Me.btn_SyncNow = New System.Windows.Forms.Button()
         Me.grp_SyncMode = New System.Windows.Forms.GroupBox()
         Me.rad_SyncMode_AskUser = New System.Windows.Forms.RadioButton()
-        Me.rad_SyncMode_UseLocalRating = New System.Windows.Forms.RadioButton()
+        Me.rad_SyncMode_UseTagRating = New System.Windows.Forms.RadioButton()
         Me.dgv_Tracklist = New System.Windows.Forms.DataGridView()
         Me.grp_Target = New System.Windows.Forms.GroupBox()
         Me.btn_exportNPM = New System.Windows.Forms.Button()
@@ -56,7 +56,7 @@ Partial Class frm_Main
         Me.fbd_LocalMainPath = New System.Windows.Forms.FolderBrowserDialog()
         Me.bgw_PopulateDGV = New System.ComponentModel.BackgroundWorker()
         Me.bgw_transformLocalPath = New System.ComponentModel.BackgroundWorker()
-        Me.bgw_ReadLocalRating = New System.ComponentModel.BackgroundWorker()
+        Me.bgw_ReadTagRating = New System.ComponentModel.BackgroundWorker()
         Me.bgw_SyncNow = New System.ComponentModel.BackgroundWorker()
         Me.sfd_exportNPM = New System.Windows.Forms.SaveFileDialog()
         Me.grp_Source.SuspendLayout()
@@ -71,16 +71,16 @@ Partial Class frm_Main
         '
         'rad_SyncMode_UseRemoteRating
         '
-        Me.rad_SyncMode_UseRemoteRating.Image = Global.PARsync.My.Resources.Resources.arrow_left
-        Me.rad_SyncMode_UseRemoteRating.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.rad_SyncMode_UseRemoteRating.Location = New System.Drawing.Point(338, 19)
-        Me.rad_SyncMode_UseRemoteRating.Name = "rad_SyncMode_UseRemoteRating"
-        Me.rad_SyncMode_UseRemoteRating.Size = New System.Drawing.Size(160, 22)
-        Me.rad_SyncMode_UseRemoteRating.TabIndex = 1
-        Me.rad_SyncMode_UseRemoteRating.TabStop = True
-        Me.rad_SyncMode_UseRemoteRating.Text = "Always use remote rating"
-        Me.rad_SyncMode_UseRemoteRating.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
-        Me.rad_SyncMode_UseRemoteRating.UseVisualStyleBackColor = True
+        Me.rad_SyncMode_UsePowerampRating.Image = Global.PARsync.My.Resources.Resources.arrow_left
+        Me.rad_SyncMode_UsePowerampRating.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.rad_SyncMode_UsePowerampRating.Location = New System.Drawing.Point(338, 19)
+        Me.rad_SyncMode_UsePowerampRating.Name = "rad_SyncMode_UseRemoteRating"
+        Me.rad_SyncMode_UsePowerampRating.Size = New System.Drawing.Size(160, 22)
+        Me.rad_SyncMode_UsePowerampRating.TabIndex = 1
+        Me.rad_SyncMode_UsePowerampRating.TabStop = True
+        Me.rad_SyncMode_UsePowerampRating.Text = "Always use remote rating"
+        Me.rad_SyncMode_UsePowerampRating.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.rad_SyncMode_UsePowerampRating.UseVisualStyleBackColor = True
         '
         'ofd_AllTracksCSV
         '
@@ -234,8 +234,8 @@ Partial Class frm_Main
         Me.grp_SyncMode.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.grp_SyncMode.Controls.Add(Me.rad_SyncMode_AskUser)
-        Me.grp_SyncMode.Controls.Add(Me.rad_SyncMode_UseRemoteRating)
-        Me.grp_SyncMode.Controls.Add(Me.rad_SyncMode_UseLocalRating)
+        Me.grp_SyncMode.Controls.Add(Me.rad_SyncMode_UsePowerampRating)
+        Me.grp_SyncMode.Controls.Add(Me.rad_SyncMode_UseTagRating)
         Me.grp_SyncMode.Location = New System.Drawing.Point(9, 297)
         Me.grp_SyncMode.Name = "grp_SyncMode"
         Me.grp_SyncMode.Size = New System.Drawing.Size(965, 48)
@@ -258,16 +258,16 @@ Partial Class frm_Main
         '
         'rad_SyncMode_UseLocalRating
         '
-        Me.rad_SyncMode_UseLocalRating.Image = Global.PARsync.My.Resources.Resources.arrow_right
-        Me.rad_SyncMode_UseLocalRating.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.rad_SyncMode_UseLocalRating.Location = New System.Drawing.Point(172, 19)
-        Me.rad_SyncMode_UseLocalRating.Name = "rad_SyncMode_UseLocalRating"
-        Me.rad_SyncMode_UseLocalRating.Size = New System.Drawing.Size(160, 22)
-        Me.rad_SyncMode_UseLocalRating.TabIndex = 0
-        Me.rad_SyncMode_UseLocalRating.TabStop = True
-        Me.rad_SyncMode_UseLocalRating.Text = "Always use local rating"
-        Me.rad_SyncMode_UseLocalRating.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
-        Me.rad_SyncMode_UseLocalRating.UseVisualStyleBackColor = True
+        Me.rad_SyncMode_UseTagRating.Image = Global.PARsync.My.Resources.Resources.arrow_right
+        Me.rad_SyncMode_UseTagRating.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.rad_SyncMode_UseTagRating.Location = New System.Drawing.Point(172, 19)
+        Me.rad_SyncMode_UseTagRating.Name = "rad_SyncMode_UseLocalRating"
+        Me.rad_SyncMode_UseTagRating.Size = New System.Drawing.Size(160, 22)
+        Me.rad_SyncMode_UseTagRating.TabIndex = 0
+        Me.rad_SyncMode_UseTagRating.TabStop = True
+        Me.rad_SyncMode_UseTagRating.Text = "Always use local rating"
+        Me.rad_SyncMode_UseTagRating.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.rad_SyncMode_UseTagRating.UseVisualStyleBackColor = True
         '
         'dgv_Tracklist
         '
@@ -406,7 +406,7 @@ Partial Class frm_Main
         '
         'bgw_ReadLocalRating
         '
-        Me.bgw_ReadLocalRating.WorkerReportsProgress = True
+        Me.bgw_ReadTagRating.WorkerReportsProgress = True
         '
         'bgw_SyncNow
         '
@@ -473,11 +473,11 @@ Partial Class frm_Main
     Friend WithEvents chk_NotFound As CheckBox
     Friend WithEvents bgw_PopulateDGV As System.ComponentModel.BackgroundWorker
     Friend WithEvents bgw_transformLocalPath As System.ComponentModel.BackgroundWorker
-    Friend WithEvents bgw_ReadLocalRating As System.ComponentModel.BackgroundWorker
+    Friend WithEvents bgw_ReadTagRating As System.ComponentModel.BackgroundWorker
     Friend WithEvents tsp_Progress As ToolStripProgressBar
     Friend WithEvents bgw_SyncNow As System.ComponentModel.BackgroundWorker
     Friend WithEvents sfd_exportNPM As SaveFileDialog
     Friend WithEvents rad_SyncMode_AskUser As RadioButton
-    Friend WithEvents rad_SyncMode_UseLocalRating As RadioButton
-    Friend WithEvents rad_SyncMode_UseRemoteRating As RadioButton
+    Friend WithEvents rad_SyncMode_UseTagRating As RadioButton
+    Friend WithEvents rad_SyncMode_UsePowerampRating As RadioButton
 End Class
