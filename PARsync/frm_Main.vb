@@ -18,11 +18,11 @@ Public Class frm_Main
                 rad_SyncMode_AskUser.Checked = True
                 rad_SyncMode_UseLocalRating.Checked = False
                 rad_SyncMode_UseRemoteRating.Checked = False
-            Case Settings.syncModeEnum.useLocalRating
+            Case Settings.syncModeEnum.useTagRating
                 rad_SyncMode_AskUser.Checked = False
                 rad_SyncMode_UseLocalRating.Checked = True
                 rad_SyncMode_UseRemoteRating.Checked = False
-            Case Settings.syncModeEnum.useRemoteRating
+            Case Settings.syncModeEnum.usePowerampRating
                 rad_SyncMode_AskUser.Checked = False
                 rad_SyncMode_UseLocalRating.Checked = False
                 rad_SyncMode_UseRemoteRating.Checked = True
@@ -191,9 +191,9 @@ Public Class frm_Main
                 Case "rad_SyncMode_AskUser"
                     settings._syncMode = Settings.syncModeEnum.askUser
                 Case "rad_SyncMode_UseLocalRating"
-                    settings._syncMode = Settings.syncModeEnum.useLocalRating
+                    settings._syncMode = Settings.syncModeEnum.useTagRating
                 Case "rad_SyncMode_UseRemoteRating"
-                    settings._syncMode = Settings.syncModeEnum.useRemoteRating
+                    settings._syncMode = Settings.syncModeEnum.usePowerampRating
             End Select
         End If
     End Sub
@@ -297,21 +297,25 @@ Public Class frm_Main
 
                     Select Case settings._syncMode
                         Case Settings.syncModeEnum.askUser
-                            ' TODO create new Window, ask for user interaction
+                            ' create new Window, ask for user decision
+                            frm_SyncDecision._track = track
+
                             Select Case frm_SyncDecision.ShowDialog()
-                                Case frm_SyncDecision.syncDecisionResult.useLocalRating
-                                    MsgBox("Use Local Rating")
-                                Case frm_SyncDecision.syncDecisionResult.useRemoteRating
-                                    MsgBox("Use Remote Rating")
+                                Case frm_SyncDecision.syncDecisionResult.useTagRating
+                                    track._remoteRating = track._localRating
+                                    track._trackStatus = Track.trackStatusEnum.synced
+                                Case frm_SyncDecision.syncDecisionResult.usePowerampRating
+                                    track._localRating = track._remoteRating
+                                    track._trackStatus = Track.trackStatusEnum.synced
                                 Case frm_SyncDecision.syncDecisionResult.Cancel
                                     MsgBox("Cancel")
                                 Case Else
                                     MsgBox("else")
                             End Select
-                        Case Settings.syncModeEnum.useLocalRating
+                        Case Settings.syncModeEnum.useTagRating
                             track._remoteRating = track._localRating
                             track._trackStatus = Track.trackStatusEnum.synced
-                        Case Settings.syncModeEnum.useRemoteRating
+                        Case Settings.syncModeEnum.usePowerampRating
                             track._localRating = track._remoteRating
                             track._trackStatus = Track.trackStatusEnum.synced
                     End Select

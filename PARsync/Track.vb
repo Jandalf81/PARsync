@@ -229,7 +229,7 @@ Public Class Track
         Me.localPath = ""
         Me.localRating = 0
         Me.localRatingImage = My.Resources.star_0
-        Me.remoteRatingImage = My.Resources.star_0
+        'Me.remoteRatingImage = My.Resources.star_0
         Me._trackStatus = trackStatusEnum.toRead
     End Sub
 

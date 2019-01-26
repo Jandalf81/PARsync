@@ -23,8 +23,8 @@ Public Class Settings
 
     Public Enum syncModeEnum
         askUser
-        useLocalRating
-        useRemoteRating
+        useTagRating
+        usePowerampRating
     End Enum
 
     Private syncMode As syncModeEnum
