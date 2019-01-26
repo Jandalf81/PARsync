@@ -3,8 +3,8 @@
 Public Class Track
     ' fields from csv import
     Private remotePath As String
-    Private trackno As Integer
-    Private track As String
+    Private track As Integer
+    Private title As String
     Private artist As String
     Private album As String
     Private composer As String
@@ -37,20 +37,20 @@ Public Class Track
             remotePath = value
         End Set
     End Property
-    Public Property _trackno As Integer
-        Get
-            Return trackno
-        End Get
-        Set(value As Integer)
-            trackno = value
-        End Set
-    End Property
-    Public Property _track As String
+    Public Property _track As Integer
         Get
             Return track
         End Get
-        Set(value As String)
+        Set(value As Integer)
             track = value
+        End Set
+    End Property
+    Public Property _title As String
+        Get
+            Return title
+        End Get
+        Set(value As String)
+            title = value
         End Set
     End Property
     Public Property _artist As String
@@ -173,7 +173,7 @@ Public Class Track
             TagRatingImage = value
         End Set
     End Property
-    Public Property _trackImage As Image
+    Public Property _trackStatusImage As Image
         Get
             Return trackImage
         End Get
@@ -190,13 +190,13 @@ Public Class Track
 
             Select Case value
                 Case trackStatusEnum.toRead
-                    _trackImage = My.Resources.toRead
+                    _trackStatusImage = My.Resources.toRead
                 Case trackStatusEnum.notFound
-                    _trackImage = My.Resources.notFound
+                    _trackStatusImage = My.Resources.notFound
                 Case trackStatusEnum.toSync
-                    _trackImage = My.Resources.toSync
+                    _trackStatusImage = My.Resources.toSync
                 Case trackStatusEnum.synced
-                    _trackImage = My.Resources.synced
+                    _trackStatusImage = My.Resources.synced
             End Select
 
         End Set
@@ -216,8 +216,8 @@ Public Class Track
             ByVal year As Integer,
             ByVal timesPlayed As Integer)
         Me.remotePath = remotePath
-        Me.trackno = trackno
-        Me.track = track
+        Me.track = trackno
+        Me.title = track
         Me.artist = artist
         Me.album = album
         Me.composer = composer

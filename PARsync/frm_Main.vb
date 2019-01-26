@@ -50,12 +50,12 @@ Public Class frm_Main
         col_Album.Name = "Album"
 
         Dim col_Trackno As New DataGridViewTextBoxColumn()
-        col_Trackno.DataPropertyName = "_trackno"
+        col_Trackno.DataPropertyName = "_track"
         col_Trackno.Name = "#"
 
         Dim col_Track As New DataGridViewTextBoxColumn()
-        col_Track.DataPropertyName = "_track"
-        col_Track.Name = "Track"
+        col_Track.DataPropertyName = "_title"
+        col_Track.Name = "Title"
 
         Dim col_TagRating As New DataGridViewTextBoxColumn()
         col_TagRating.DataPropertyName = "_TagRating"
@@ -82,7 +82,7 @@ Public Class frm_Main
         col_RemotePath.Name = "remote" + vbCrLf + "Path"
 
         Dim col_TrackImage As New DataGridViewImageColumn()
-        col_TrackImage.DataPropertyName = "_trackImage"
+        col_TrackImage.DataPropertyName = "_trackStatusImage"
         col_TrackImage.Name = "Status"
 
         ' add prepared columns to DataGridView
@@ -251,7 +251,7 @@ Public Class frm_Main
     End Sub
 #End Region
 
-#Region "bgw_ReadLocalRating"
+#Region "bgw_ReadTagRating"
     Private Sub bgw_ReadTagRating_DoWork(sender As Object, e As DoWorkEventArgs) Handles bgw_ReadTagRating.DoWork
         Dim percent As Integer = 0
         Dim i As Integer = 0
@@ -290,6 +290,8 @@ Public Class frm_Main
         Dim i As Integer = 0
 
         Dim frm_SyncDecision As New frm_SyncDecision()
+        frm_SyncDecision.StartPosition = FormStartPosition.CenterParent
+        Dim retval As frm_SyncDecision.syncDecisionResult
 
         For Each track As Track In bs.List
             If (track._trackStatus <> Track.trackStatusEnum.notFound) Then
@@ -300,7 +302,9 @@ Public Class frm_Main
                             ' create new Window, ask for user decision
                             frm_SyncDecision._track = track
 
-                            Select Case frm_SyncDecision.ShowDialog()
+                            retval = frm_SyncDecision.ShowDialog(My.Forms.frm_Main)
+
+                            Select Case retval
                                 Case frm_SyncDecision.syncDecisionResult.useTagRating
                                     track._PowerampRating = track._TagRating
                                     track._trackStatus = Track.trackStatusEnum.synced

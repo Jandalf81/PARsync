@@ -69,12 +69,12 @@ Partial Class frm_Main
         Me.grp_Settings.SuspendLayout()
         Me.SuspendLayout()
         '
-        'rad_SyncMode_UseRemoteRating
+        'rad_SyncMode_UsePowerampRating
         '
         Me.rad_SyncMode_UsePowerampRating.Image = Global.PARsync.My.Resources.Resources.arrow_left
         Me.rad_SyncMode_UsePowerampRating.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.rad_SyncMode_UsePowerampRating.Location = New System.Drawing.Point(338, 19)
-        Me.rad_SyncMode_UsePowerampRating.Name = "rad_SyncMode_UseRemoteRating"
+        Me.rad_SyncMode_UsePowerampRating.Name = "rad_SyncMode_UsePowerampRating"
         Me.rad_SyncMode_UsePowerampRating.Size = New System.Drawing.Size(160, 22)
         Me.rad_SyncMode_UsePowerampRating.TabIndex = 1
         Me.rad_SyncMode_UsePowerampRating.TabStop = True
@@ -94,7 +94,7 @@ Partial Class frm_Main
         Me.grp_Source.Controls.Add(Me.lbl_Source_1)
         Me.grp_Source.Controls.Add(Me.btn_OFD)
         Me.grp_Source.Controls.Add(Me.txt_OFD)
-        Me.grp_Source.Location = New System.Drawing.Point(12, 120)
+        Me.grp_Source.Location = New System.Drawing.Point(12, 89)
         Me.grp_Source.Name = "grp_Source"
         Me.grp_Source.Size = New System.Drawing.Size(980, 118)
         Me.grp_Source.TabIndex = 2
@@ -140,9 +140,9 @@ Partial Class frm_Main
         Me.grp_Sync.Controls.Add(Me.btn_SyncNow)
         Me.grp_Sync.Controls.Add(Me.grp_SyncMode)
         Me.grp_Sync.Controls.Add(Me.dgv_Tracklist)
-        Me.grp_Sync.Location = New System.Drawing.Point(12, 244)
+        Me.grp_Sync.Location = New System.Drawing.Point(12, 213)
         Me.grp_Sync.Name = "grp_Sync"
-        Me.grp_Sync.Size = New System.Drawing.Size(980, 393)
+        Me.grp_Sync.Size = New System.Drawing.Size(980, 424)
         Me.grp_Sync.TabIndex = 3
         Me.grp_Sync.TabStop = False
         Me.grp_Sync.Text = "Sync"
@@ -155,7 +155,7 @@ Partial Class frm_Main
         Me.grp_FilterDGV.Controls.Add(Me.chk_Synced)
         Me.grp_FilterDGV.Controls.Add(Me.chk_ToSync)
         Me.grp_FilterDGV.Controls.Add(Me.chk_NotFound)
-        Me.grp_FilterDGV.Location = New System.Drawing.Point(9, 244)
+        Me.grp_FilterDGV.Location = New System.Drawing.Point(9, 275)
         Me.grp_FilterDGV.Name = "grp_FilterDGV"
         Me.grp_FilterDGV.Size = New System.Drawing.Size(965, 47)
         Me.grp_FilterDGV.TabIndex = 5
@@ -222,7 +222,7 @@ Partial Class frm_Main
         '
         Me.btn_SyncNow.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_SyncNow.Location = New System.Drawing.Point(9, 351)
+        Me.btn_SyncNow.Location = New System.Drawing.Point(9, 382)
         Me.btn_SyncNow.Name = "btn_SyncNow"
         Me.btn_SyncNow.Size = New System.Drawing.Size(965, 34)
         Me.btn_SyncNow.TabIndex = 3
@@ -236,7 +236,7 @@ Partial Class frm_Main
         Me.grp_SyncMode.Controls.Add(Me.rad_SyncMode_AskUser)
         Me.grp_SyncMode.Controls.Add(Me.rad_SyncMode_UsePowerampRating)
         Me.grp_SyncMode.Controls.Add(Me.rad_SyncMode_UseTagRating)
-        Me.grp_SyncMode.Location = New System.Drawing.Point(9, 297)
+        Me.grp_SyncMode.Location = New System.Drawing.Point(9, 328)
         Me.grp_SyncMode.Name = "grp_SyncMode"
         Me.grp_SyncMode.Size = New System.Drawing.Size(965, 48)
         Me.grp_SyncMode.TabIndex = 2
@@ -256,12 +256,12 @@ Partial Class frm_Main
         Me.rad_SyncMode_AskUser.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.rad_SyncMode_AskUser.UseVisualStyleBackColor = True
         '
-        'rad_SyncMode_UseLocalRating
+        'rad_SyncMode_UseTagRating
         '
         Me.rad_SyncMode_UseTagRating.Image = Global.PARsync.My.Resources.Resources.arrow_right
         Me.rad_SyncMode_UseTagRating.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.rad_SyncMode_UseTagRating.Location = New System.Drawing.Point(172, 19)
-        Me.rad_SyncMode_UseTagRating.Name = "rad_SyncMode_UseLocalRating"
+        Me.rad_SyncMode_UseTagRating.Name = "rad_SyncMode_UseTagRating"
         Me.rad_SyncMode_UseTagRating.Size = New System.Drawing.Size(160, 22)
         Me.rad_SyncMode_UseTagRating.TabIndex = 0
         Me.rad_SyncMode_UseTagRating.TabStop = True
@@ -277,7 +277,7 @@ Partial Class frm_Main
         Me.dgv_Tracklist.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgv_Tracklist.Location = New System.Drawing.Point(9, 19)
         Me.dgv_Tracklist.Name = "dgv_Tracklist"
-        Me.dgv_Tracklist.Size = New System.Drawing.Size(965, 219)
+        Me.dgv_Tracklist.Size = New System.Drawing.Size(965, 250)
         Me.dgv_Tracklist.TabIndex = 1
         '
         'grp_Target
@@ -343,7 +343,7 @@ Partial Class frm_Main
         Me.grp_Settings.Controls.Add(Me.lbl_LocalMainPath)
         Me.grp_Settings.Location = New System.Drawing.Point(12, 13)
         Me.grp_Settings.Name = "grp_Settings"
-        Me.grp_Settings.Size = New System.Drawing.Size(980, 100)
+        Me.grp_Settings.Size = New System.Drawing.Size(980, 70)
         Me.grp_Settings.TabIndex = 6
         Me.grp_Settings.TabStop = False
         Me.grp_Settings.Text = "Settings"
@@ -404,7 +404,7 @@ Partial Class frm_Main
         '
         Me.bgw_transformLocalPath.WorkerReportsProgress = True
         '
-        'bgw_ReadLocalRating
+        'bgw_ReadTagRating
         '
         Me.bgw_ReadTagRating.WorkerReportsProgress = True
         '

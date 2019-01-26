@@ -300,7 +300,9 @@ Partial Class frm_SyncDecision
         Me.MinimizeBox = False
         Me.Name = "frm_SyncDecision"
         Me.ShowInTaskbar = False
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "PARsync - Sync Decision"
+        Me.TopMost = True
         Me.grp_Track.ResumeLayout(False)
         Me.grp_Track.PerformLayout()
         CType(Me.pic_Cover, System.ComponentModel.ISupportInitialize).EndInit()

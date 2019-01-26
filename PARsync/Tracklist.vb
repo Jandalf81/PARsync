@@ -77,8 +77,8 @@ Public Class Tracklist
 
         For Each track In tracks
             line = """" + track._remotePath + """|"
-            line += """" + track._trackno.ToString + """|"
-            line += """" + track._track + """|"
+            line += """" + track._track.ToString + """|"
+            line += """" + track._title + """|"
             line += """" + track._artist + """|"
             line += """" + track._album + """|"
             line += """" + track._composer + """|"

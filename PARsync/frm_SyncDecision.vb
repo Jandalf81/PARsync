@@ -19,8 +19,8 @@ Public Class frm_SyncDecision
             ' set the control elements
             lbl_Track_Artist.Text = track._artist
             lbl_Track_Album.Text = track._album
-            lbl_Track_Track.Text = track._trackno
-            lbl_Track_Title.Text = track._track
+            lbl_Track_Track.Text = track._track
+            lbl_Track_Title.Text = track._title
 
             lbl_Track_LocalPath.Text = track._localPath
             lbl_Track_RemotePath.Text = track._remotePath
@@ -60,5 +60,9 @@ Public Class frm_SyncDecision
     Private Sub frm_SyncDecision_SizeChanged(sender As Object, e As EventArgs) Handles Me.SizeChanged
         ' TODO needs a new location on resize
         pic_Cover.Size = New Size(pic_Cover.Size.Height, pic_Cover.Size.Height)
+    End Sub
+
+    Private Sub frm_SyncDecision_Shown(sender As Object, e As EventArgs) Handles Me.Shown
+        MsgBox("Modal: " + Me.Modal.ToString)
     End Sub
 End Class
