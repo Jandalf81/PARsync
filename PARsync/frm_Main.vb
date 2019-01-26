@@ -289,6 +289,8 @@ Public Class frm_Main
         Dim percent As Integer = 0
         Dim i As Integer = 0
 
+        Dim frm_SyncDecision As New frm_SyncDecision()
+
         For Each track As Track In bs.List
             If (track._trackStatus <> Track.trackStatusEnum.notFound) Then
                 If (track._localRating <> track._remoteRating) Then
@@ -296,7 +298,16 @@ Public Class frm_Main
                     Select Case settings._syncMode
                         Case Settings.syncModeEnum.askUser
                             ' TODO create new Window, ask for user interaction
-                            MsgBox("user")
+                            Select Case frm_SyncDecision.ShowDialog()
+                                Case frm_SyncDecision.syncDecisionResult.useLocalRating
+                                    MsgBox("Use Local Rating")
+                                Case frm_SyncDecision.syncDecisionResult.useRemoteRating
+                                    MsgBox("Use Remote Rating")
+                                Case frm_SyncDecision.syncDecisionResult.Cancel
+                                    MsgBox("Cancel")
+                                Case Else
+                                    MsgBox("else")
+                            End Select
                         Case Settings.syncModeEnum.useLocalRating
                             track._remoteRating = track._localRating
                             track._trackStatus = Track.trackStatusEnum.synced
@@ -311,6 +322,8 @@ Public Class frm_Main
             percent = i * 100 / bs.Count
             bgw_SyncNow.ReportProgress(percent)
         Next
+
+        frm_SyncDecision.Dispose()
     End Sub
     Private Sub bgw_SyncNow_ProgressChanged(sender As Object, e As ProgressChangedEventArgs) Handles bgw_SyncNow.ProgressChanged
         tsp_Progress.ProgressBar.Value = e.ProgressPercentage
