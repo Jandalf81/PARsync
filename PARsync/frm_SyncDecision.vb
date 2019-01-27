@@ -33,22 +33,12 @@ Public Class frm_SyncDecision
                 'TODO set default image here
             End If
 
-            btn_UseLocalRating.Image = track._TagRatingImage
-            btn_UseRemoteRating.Image = track._PowerampRatingImage
+            btn_UseTagRating.Image = track._TagRatingImage
+            btn_UsePowerampRating.Image = track._PowerampRatingImage
         End Set
     End Property
 
-    Private Sub btn_UseLocalRating_Click(sender As Object, e As EventArgs) Handles btn_UseLocalRating.Click
-        Me.DialogResult = syncDecisionResult.useTagRating
-    End Sub
 
-    Private Sub btn_UseRemoteRating_Click(sender As Object, e As EventArgs) Handles btn_UseRemoteRating.Click
-        Me.DialogResult = syncDecisionResult.usePowerampRating
-    End Sub
-
-    Private Sub btn_Cancel_Click(sender As Object, e As EventArgs) Handles btn_Cancel.Click
-        Me.DialogResult = syncDecisionResult.Cancel
-    End Sub
 
     ' handle the user closing the dialog via X or ESCAPE as pushing the CANCEL button
     Private Sub frm_SyncDecision_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
@@ -65,4 +55,40 @@ Public Class frm_SyncDecision
     Private Sub frm_SyncDecision_Shown(sender As Object, e As EventArgs) Handles Me.Shown
         'MsgBox("Modal: " + Me.Modal.ToString)
     End Sub
+
+#Region "Buttons"
+    Private Sub btn_UseTagRating_Click(sender As Object, e As EventArgs) Handles btn_UseTagRating.Click
+        Me.DialogResult = syncDecisionResult.useTagRating
+    End Sub
+    Private Sub btn_UseTagRating_MouseEnter(sender As Object, e As EventArgs) Handles _
+            btn_UseTagRating.MouseEnter,
+            btn_UseTagRating.GotFocus
+        pic_syncMode.Image = My.Resources.arrow_right
+    End Sub
+
+    Private Sub btn_UsePowerampRating_Click(sender As Object, e As EventArgs) Handles btn_UsePowerampRating.Click
+        Me.DialogResult = syncDecisionResult.usePowerampRating
+    End Sub
+    Private Sub btn_UsePowerampRating_MouseEnter(sender As Object, e As EventArgs) Handles _
+            btn_UsePowerampRating.MouseEnter,
+            btn_UsePowerampRating.GotFocus
+        pic_syncMode.Image = My.Resources.arrow_left
+    End Sub
+
+    Private Sub btn_Cancel_Click(sender As Object, e As EventArgs) Handles btn_Cancel.Click
+        Me.DialogResult = syncDecisionResult.Cancel
+    End Sub
+    Private Sub btn_Cancel_MouseEnter(sender As Object, e As EventArgs) Handles _
+            btn_Cancel.MouseEnter,
+            btn_Cancel.GotFocus
+        pic_syncMode.Image = My.Resources.cancel
+    End Sub
+
+    Private Sub btn_SyncDecision_MouseLeave(sender As Object, e As EventArgs) Handles _
+            btn_UseTagRating.MouseLeave,
+            btn_UsePowerampRating.MouseLeave,
+            btn_Cancel.MouseLeave
+        pic_syncMode.Image = My.Resources.toSync
+    End Sub
+#End Region
 End Class

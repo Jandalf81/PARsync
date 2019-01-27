@@ -39,13 +39,15 @@ Partial Class frm_SyncDecision
         Me.lbl_Artist = New System.Windows.Forms.Label()
         Me.grp_Buttons = New System.Windows.Forms.GroupBox()
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
-        Me.btn_UseRemoteRating = New System.Windows.Forms.Button()
-        Me.btn_UseLocalRating = New System.Windows.Forms.Button()
+        Me.btn_UsePowerampRating = New System.Windows.Forms.Button()
+        Me.btn_UseTagRating = New System.Windows.Forms.Button()
+        Me.pic_syncMode = New System.Windows.Forms.PictureBox()
         Me.btn_Cancel = New System.Windows.Forms.Button()
         Me.grp_Track.SuspendLayout()
         CType(Me.pic_Cover, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grp_Buttons.SuspendLayout()
         Me.TableLayoutPanel1.SuspendLayout()
+        CType(Me.pic_syncMode, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Label1
@@ -236,45 +238,59 @@ Partial Class frm_SyncDecision
         '
         Me.TableLayoutPanel1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.TableLayoutPanel1.ColumnCount = 2
+        Me.TableLayoutPanel1.ColumnCount = 3
         Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40.0!))
         Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
-        Me.TableLayoutPanel1.Controls.Add(Me.btn_UseRemoteRating, 0, 0)
-        Me.TableLayoutPanel1.Controls.Add(Me.btn_UseLocalRating, 0, 0)
+        Me.TableLayoutPanel1.Controls.Add(Me.btn_UsePowerampRating, 2, 0)
+        Me.TableLayoutPanel1.Controls.Add(Me.pic_syncMode, 1, 0)
+        Me.TableLayoutPanel1.Controls.Add(Me.btn_UseTagRating, 0, 0)
         Me.TableLayoutPanel1.Location = New System.Drawing.Point(6, 19)
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
         Me.TableLayoutPanel1.RowCount = 1
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100.0!))
         Me.TableLayoutPanel1.Size = New System.Drawing.Size(541, 57)
         Me.TableLayoutPanel1.TabIndex = 7
         '
-        'btn_UseRemoteRating
+        'btn_UsePowerampRating
         '
-        Me.btn_UseRemoteRating.AutoSize = True
-        Me.btn_UseRemoteRating.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.btn_UseRemoteRating.Image = Global.PARsync.My.Resources.Resources.star_0
-        Me.btn_UseRemoteRating.Location = New System.Drawing.Point(273, 0)
-        Me.btn_UseRemoteRating.Margin = New System.Windows.Forms.Padding(3, 0, 0, 0)
-        Me.btn_UseRemoteRating.Name = "btn_UseRemoteRating"
-        Me.btn_UseRemoteRating.Size = New System.Drawing.Size(268, 57)
-        Me.btn_UseRemoteRating.TabIndex = 6
-        Me.btn_UseRemoteRating.Text = "use PowerAmp Rating"
-        Me.btn_UseRemoteRating.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage
-        Me.btn_UseRemoteRating.UseVisualStyleBackColor = True
+        Me.btn_UsePowerampRating.AutoSize = True
+        Me.btn_UsePowerampRating.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.btn_UsePowerampRating.Image = Global.PARsync.My.Resources.Resources.star_0
+        Me.btn_UsePowerampRating.Location = New System.Drawing.Point(290, 0)
+        Me.btn_UsePowerampRating.Margin = New System.Windows.Forms.Padding(0)
+        Me.btn_UsePowerampRating.Name = "btn_UsePowerampRating"
+        Me.btn_UsePowerampRating.Size = New System.Drawing.Size(251, 57)
+        Me.btn_UsePowerampRating.TabIndex = 2
+        Me.btn_UsePowerampRating.Text = "use PowerAmp Rating"
+        Me.btn_UsePowerampRating.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage
+        Me.btn_UsePowerampRating.UseVisualStyleBackColor = True
         '
-        'btn_UseLocalRating
+        'btn_UseTagRating
         '
-        Me.btn_UseLocalRating.AutoSize = True
-        Me.btn_UseLocalRating.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.btn_UseLocalRating.Image = Global.PARsync.My.Resources.Resources.star_0
-        Me.btn_UseLocalRating.Location = New System.Drawing.Point(0, 0)
-        Me.btn_UseLocalRating.Margin = New System.Windows.Forms.Padding(0, 0, 3, 0)
-        Me.btn_UseLocalRating.Name = "btn_UseLocalRating"
-        Me.btn_UseLocalRating.Size = New System.Drawing.Size(267, 57)
-        Me.btn_UseLocalRating.TabIndex = 5
-        Me.btn_UseLocalRating.Text = "use Tag Rating"
-        Me.btn_UseLocalRating.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage
-        Me.btn_UseLocalRating.UseVisualStyleBackColor = True
+        Me.btn_UseTagRating.AutoSize = True
+        Me.btn_UseTagRating.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.btn_UseTagRating.Image = Global.PARsync.My.Resources.Resources.star_0
+        Me.btn_UseTagRating.Location = New System.Drawing.Point(0, 0)
+        Me.btn_UseTagRating.Margin = New System.Windows.Forms.Padding(0)
+        Me.btn_UseTagRating.Name = "btn_UseTagRating"
+        Me.btn_UseTagRating.Size = New System.Drawing.Size(250, 57)
+        Me.btn_UseTagRating.TabIndex = 1
+        Me.btn_UseTagRating.Text = "use Tag Rating"
+        Me.btn_UseTagRating.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage
+        Me.btn_UseTagRating.UseVisualStyleBackColor = True
+        '
+        'pic_syncMode
+        '
+        Me.pic_syncMode.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.pic_syncMode.Image = Global.PARsync.My.Resources.Resources.toSync
+        Me.pic_syncMode.InitialImage = Global.PARsync.My.Resources.Resources.toSync
+        Me.pic_syncMode.Location = New System.Drawing.Point(253, 3)
+        Me.pic_syncMode.Name = "pic_syncMode"
+        Me.pic_syncMode.Size = New System.Drawing.Size(34, 51)
+        Me.pic_syncMode.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
+        Me.pic_syncMode.TabIndex = 7
+        Me.pic_syncMode.TabStop = False
         '
         'btn_Cancel
         '
@@ -284,7 +300,7 @@ Partial Class frm_SyncDecision
         Me.btn_Cancel.Location = New System.Drawing.Point(6, 81)
         Me.btn_Cancel.Name = "btn_Cancel"
         Me.btn_Cancel.Size = New System.Drawing.Size(542, 57)
-        Me.btn_Cancel.TabIndex = 6
+        Me.btn_Cancel.TabIndex = 0
         Me.btn_Cancel.Text = "Cancel" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "no Change"
         Me.btn_Cancel.UseVisualStyleBackColor = True
         '
@@ -309,6 +325,7 @@ Partial Class frm_SyncDecision
         Me.grp_Buttons.ResumeLayout(False)
         Me.TableLayoutPanel1.ResumeLayout(False)
         Me.TableLayoutPanel1.PerformLayout()
+        CType(Me.pic_syncMode, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -332,6 +349,7 @@ Partial Class frm_SyncDecision
     Friend WithEvents grp_Buttons As GroupBox
     Friend WithEvents btn_Cancel As Button
     Friend WithEvents TableLayoutPanel1 As TableLayoutPanel
-    Friend WithEvents btn_UseRemoteRating As Button
-    Friend WithEvents btn_UseLocalRating As Button
+    Friend WithEvents btn_UseTagRating As Button
+    Friend WithEvents btn_UsePowerampRating As Button
+    Friend WithEvents pic_syncMode As PictureBox
 End Class

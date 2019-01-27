@@ -109,7 +109,7 @@ Public Class frm_Main
         dgv_Tracklist.Columns.Item(0).Width = 45
 
         ' disable some control elements
-        grp_FilterDGV.Enabled = False
+        grp_Filter_TrackStatus.Enabled = False
         grp_Sync.Enabled = False
         grp_Target.Enabled = False
     End Sub
@@ -155,7 +155,7 @@ Public Class frm_Main
 
 #Region "grp_Sync"
     ' TODO make the DGV filter-able and sort-able
-    Private Sub chk_Synced_CheckedChanged(sender As Object, e As EventArgs) Handles chk_Synced.CheckedChanged
+    Private Sub chk_Synced_CheckedChanged(sender As Object, e As EventArgs) Handles chk_Track_Synced.CheckedChanged
         set_DGV_Filter()
     End Sub
 
@@ -163,19 +163,19 @@ Public Class frm_Main
         Dim filterList As New List(Of String)
         Dim filter As String = ""
 
-        If chk_ToRead.Checked = True Then
+        If chk_Track_ToRead.Checked = True Then
             filterList.Add("_trackStatus = ""toRead""")
         End If
 
-        If chk_NotFound.Checked = True Then
+        If chk_Track_NotFound.Checked = True Then
             filterList.Add("_trackStatus = ""notFound""")
         End If
 
-        If chk_ToSync.Checked = True Then
+        If chk_Track_ToSync.Checked = True Then
             filterList.Add("_trackStatus = ""toSync""")
         End If
 
-        If chk_Synced.Checked = True Then
+        If chk_Track_Synced.Checked = True Then
             filterList.Add("_trackStatus = ""synced""")
         End If
 
@@ -289,7 +289,7 @@ Public Class frm_Main
         tsp_Progress.ProgressBar.Value = 0
 
         'TODO enable following controls
-        grp_FilterDGV.Enabled = True
+        grp_Filter_TrackStatus.Enabled = True
         grp_Sync.Enabled = True
     End Sub
 #End Region
@@ -320,7 +320,7 @@ Public Class frm_Main
                                 Case frm_SyncDecision.syncDecisionResult.usePowerampRating
                                     track.usePowerampRating()
                                 Case frm_SyncDecision.syncDecisionResult.Cancel
-                                    track._syncStatus = Track.syncStatusEnum.Cancelled
+                                    track.cancelSync()
                                 Case Else
                                     MsgBox("else")
                             End Select

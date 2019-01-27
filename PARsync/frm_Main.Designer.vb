@@ -26,11 +26,24 @@ Partial Class frm_Main
         Me.ofd_AllTracksCSV = New System.Windows.Forms.OpenFileDialog()
         Me.grp_Source = New System.Windows.Forms.GroupBox()
         Me.lbl_Source_1 = New System.Windows.Forms.Label()
+        Me.btn_OFD = New System.Windows.Forms.Button()
         Me.txt_OFD = New System.Windows.Forms.TextBox()
         Me.grp_Sync = New System.Windows.Forms.GroupBox()
-        Me.grp_FilterDGV = New System.Windows.Forms.GroupBox()
+        Me.grp_Filter_SyncStatus = New System.Windows.Forms.GroupBox()
+        Me.chk_Sync_Cancelled = New System.Windows.Forms.CheckBox()
+        Me.chk_Sync_UsedPowerampRating = New System.Windows.Forms.CheckBox()
+        Me.chk_Sync_UsedTagRating = New System.Windows.Forms.CheckBox()
+        Me.chk_Sync_Synced = New System.Windows.Forms.CheckBox()
+        Me.grp_Filter_TrackStatus = New System.Windows.Forms.GroupBox()
+        Me.chk_Track_Synced = New System.Windows.Forms.CheckBox()
+        Me.chk_Track_ToSync = New System.Windows.Forms.CheckBox()
+        Me.chk_Track_NotFound = New System.Windows.Forms.CheckBox()
+        Me.chk_Track_ToRead = New System.Windows.Forms.CheckBox()
         Me.btn_SyncNow = New System.Windows.Forms.Button()
         Me.grp_SyncMode = New System.Windows.Forms.GroupBox()
+        Me.rad_SyncMode_AskUser = New System.Windows.Forms.RadioButton()
+        Me.rad_SyncMode_UsePowerampRating = New System.Windows.Forms.RadioButton()
+        Me.rad_SyncMode_UseTagRating = New System.Windows.Forms.RadioButton()
         Me.dgv_Tracklist = New System.Windows.Forms.DataGridView()
         Me.grp_Target = New System.Windows.Forms.GroupBox()
         Me.btn_exportNPM = New System.Windows.Forms.Button()
@@ -40,6 +53,7 @@ Partial Class frm_Main
         Me.tsp_Progress = New System.Windows.Forms.ToolStripProgressBar()
         Me.sfd_AllTracksCSV = New System.Windows.Forms.SaveFileDialog()
         Me.grp_Settings = New System.Windows.Forms.GroupBox()
+        Me.btn_LocalMainPath = New System.Windows.Forms.Button()
         Me.txt_RemoteMainPath = New System.Windows.Forms.TextBox()
         Me.txt_LocalMainPath = New System.Windows.Forms.TextBox()
         Me.lbl_RemoteMainPath = New System.Windows.Forms.Label()
@@ -50,18 +64,10 @@ Partial Class frm_Main
         Me.bgw_ReadTagRating = New System.ComponentModel.BackgroundWorker()
         Me.bgw_SyncNow = New System.ComponentModel.BackgroundWorker()
         Me.sfd_exportNPM = New System.Windows.Forms.SaveFileDialog()
-        Me.btn_LocalMainPath = New System.Windows.Forms.Button()
-        Me.chk_ToRead = New System.Windows.Forms.CheckBox()
-        Me.chk_Synced = New System.Windows.Forms.CheckBox()
-        Me.chk_ToSync = New System.Windows.Forms.CheckBox()
-        Me.chk_NotFound = New System.Windows.Forms.CheckBox()
-        Me.rad_SyncMode_AskUser = New System.Windows.Forms.RadioButton()
-        Me.rad_SyncMode_UsePowerampRating = New System.Windows.Forms.RadioButton()
-        Me.rad_SyncMode_UseTagRating = New System.Windows.Forms.RadioButton()
-        Me.btn_OFD = New System.Windows.Forms.Button()
         Me.grp_Source.SuspendLayout()
         Me.grp_Sync.SuspendLayout()
-        Me.grp_FilterDGV.SuspendLayout()
+        Me.grp_Filter_SyncStatus.SuspendLayout()
+        Me.grp_Filter_TrackStatus.SuspendLayout()
         Me.grp_SyncMode.SuspendLayout()
         CType(Me.dgv_Tracklist, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grp_Target.SuspendLayout()
@@ -97,6 +103,17 @@ Partial Class frm_Main
         Me.lbl_Source_1.TabIndex = 4
         Me.lbl_Source_1.Text = resources.GetString("lbl_Source_1.Text")
         '
+        'btn_OFD
+        '
+        Me.btn_OFD.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_OFD.BackgroundImage = Global.PARsync.My.Resources.Resources.script
+        Me.btn_OFD.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
+        Me.btn_OFD.Location = New System.Drawing.Point(949, 81)
+        Me.btn_OFD.Name = "btn_OFD"
+        Me.btn_OFD.Size = New System.Drawing.Size(25, 25)
+        Me.btn_OFD.TabIndex = 3
+        Me.btn_OFD.UseVisualStyleBackColor = True
+        '
         'txt_OFD
         '
         Me.txt_OFD.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
@@ -112,7 +129,8 @@ Partial Class frm_Main
         Me.grp_Sync.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.grp_Sync.Controls.Add(Me.grp_FilterDGV)
+        Me.grp_Sync.Controls.Add(Me.grp_Filter_SyncStatus)
+        Me.grp_Sync.Controls.Add(Me.grp_Filter_TrackStatus)
         Me.grp_Sync.Controls.Add(Me.btn_SyncNow)
         Me.grp_Sync.Controls.Add(Me.grp_SyncMode)
         Me.grp_Sync.Controls.Add(Me.dgv_Tracklist)
@@ -123,28 +141,152 @@ Partial Class frm_Main
         Me.grp_Sync.TabStop = False
         Me.grp_Sync.Text = "Sync"
         '
-        'grp_FilterDGV
+        'grp_Filter_SyncStatus
         '
-        Me.grp_FilterDGV.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.grp_FilterDGV.Controls.Add(Me.chk_ToRead)
-        Me.grp_FilterDGV.Controls.Add(Me.chk_Synced)
-        Me.grp_FilterDGV.Controls.Add(Me.chk_ToSync)
-        Me.grp_FilterDGV.Controls.Add(Me.chk_NotFound)
-        Me.grp_FilterDGV.Location = New System.Drawing.Point(9, 275)
-        Me.grp_FilterDGV.Name = "grp_FilterDGV"
-        Me.grp_FilterDGV.Size = New System.Drawing.Size(965, 47)
-        Me.grp_FilterDGV.TabIndex = 5
-        Me.grp_FilterDGV.TabStop = False
-        Me.grp_FilterDGV.Text = "filter View"
+        Me.grp_Filter_SyncStatus.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.grp_Filter_SyncStatus.Controls.Add(Me.chk_Sync_Cancelled)
+        Me.grp_Filter_SyncStatus.Controls.Add(Me.chk_Sync_UsedPowerampRating)
+        Me.grp_Filter_SyncStatus.Controls.Add(Me.chk_Sync_UsedTagRating)
+        Me.grp_Filter_SyncStatus.Controls.Add(Me.chk_Sync_Synced)
+        Me.grp_Filter_SyncStatus.Location = New System.Drawing.Point(802, 313)
+        Me.grp_Filter_SyncStatus.Name = "grp_Filter_SyncStatus"
+        Me.grp_Filter_SyncStatus.Size = New System.Drawing.Size(172, 105)
+        Me.grp_Filter_SyncStatus.TabIndex = 6
+        Me.grp_Filter_SyncStatus.TabStop = False
+        Me.grp_Filter_SyncStatus.Text = "filter Sync Status"
+        '
+        'chk_Sync_Cancelled
+        '
+        Me.chk_Sync_Cancelled.Checked = True
+        Me.chk_Sync_Cancelled.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chk_Sync_Cancelled.Image = Global.PARsync.My.Resources.Resources.cancel
+        Me.chk_Sync_Cancelled.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.chk_Sync_Cancelled.Location = New System.Drawing.Point(6, 76)
+        Me.chk_Sync_Cancelled.Name = "chk_Sync_Cancelled"
+        Me.chk_Sync_Cancelled.Size = New System.Drawing.Size(155, 25)
+        Me.chk_Sync_Cancelled.TabIndex = 3
+        Me.chk_Sync_Cancelled.Text = "cancelled"
+        Me.chk_Sync_Cancelled.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.chk_Sync_Cancelled.UseVisualStyleBackColor = True
+        '
+        'chk_Sync_UsedPowerampRating
+        '
+        Me.chk_Sync_UsedPowerampRating.Checked = True
+        Me.chk_Sync_UsedPowerampRating.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chk_Sync_UsedPowerampRating.Image = Global.PARsync.My.Resources.Resources.arrow_left
+        Me.chk_Sync_UsedPowerampRating.Location = New System.Drawing.Point(6, 57)
+        Me.chk_Sync_UsedPowerampRating.Name = "chk_Sync_UsedPowerampRating"
+        Me.chk_Sync_UsedPowerampRating.Size = New System.Drawing.Size(155, 25)
+        Me.chk_Sync_UsedPowerampRating.TabIndex = 2
+        Me.chk_Sync_UsedPowerampRating.Text = "used PowerAmp Rating"
+        Me.chk_Sync_UsedPowerampRating.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.chk_Sync_UsedPowerampRating.UseVisualStyleBackColor = True
+        '
+        'chk_Sync_UsedTagRating
+        '
+        Me.chk_Sync_UsedTagRating.Checked = True
+        Me.chk_Sync_UsedTagRating.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chk_Sync_UsedTagRating.Image = Global.PARsync.My.Resources.Resources.arrow_right
+        Me.chk_Sync_UsedTagRating.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.chk_Sync_UsedTagRating.Location = New System.Drawing.Point(6, 38)
+        Me.chk_Sync_UsedTagRating.Name = "chk_Sync_UsedTagRating"
+        Me.chk_Sync_UsedTagRating.Size = New System.Drawing.Size(155, 25)
+        Me.chk_Sync_UsedTagRating.TabIndex = 1
+        Me.chk_Sync_UsedTagRating.Text = "used Tag Rating"
+        Me.chk_Sync_UsedTagRating.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.chk_Sync_UsedTagRating.UseVisualStyleBackColor = True
+        '
+        'chk_Sync_Synced
+        '
+        Me.chk_Sync_Synced.Checked = True
+        Me.chk_Sync_Synced.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chk_Sync_Synced.Image = Global.PARsync.My.Resources.Resources.synced
+        Me.chk_Sync_Synced.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.chk_Sync_Synced.Location = New System.Drawing.Point(6, 19)
+        Me.chk_Sync_Synced.Name = "chk_Sync_Synced"
+        Me.chk_Sync_Synced.Size = New System.Drawing.Size(155, 25)
+        Me.chk_Sync_Synced.TabIndex = 0
+        Me.chk_Sync_Synced.Text = "synced"
+        Me.chk_Sync_Synced.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.chk_Sync_Synced.UseVisualStyleBackColor = True
+        '
+        'grp_Filter_TrackStatus
+        '
+        Me.grp_Filter_TrackStatus.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.grp_Filter_TrackStatus.Controls.Add(Me.chk_Track_Synced)
+        Me.grp_Filter_TrackStatus.Controls.Add(Me.chk_Track_ToSync)
+        Me.grp_Filter_TrackStatus.Controls.Add(Me.chk_Track_NotFound)
+        Me.grp_Filter_TrackStatus.Controls.Add(Me.chk_Track_ToRead)
+        Me.grp_Filter_TrackStatus.Location = New System.Drawing.Point(9, 313)
+        Me.grp_Filter_TrackStatus.Name = "grp_Filter_TrackStatus"
+        Me.grp_Filter_TrackStatus.Size = New System.Drawing.Size(172, 105)
+        Me.grp_Filter_TrackStatus.TabIndex = 5
+        Me.grp_Filter_TrackStatus.TabStop = False
+        Me.grp_Filter_TrackStatus.Text = "filter Track Status"
+        '
+        'chk_Track_Synced
+        '
+        Me.chk_Track_Synced.Checked = True
+        Me.chk_Track_Synced.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chk_Track_Synced.Image = Global.PARsync.My.Resources.Resources.synced
+        Me.chk_Track_Synced.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.chk_Track_Synced.Location = New System.Drawing.Point(6, 76)
+        Me.chk_Track_Synced.Name = "chk_Track_Synced"
+        Me.chk_Track_Synced.Size = New System.Drawing.Size(106, 25)
+        Me.chk_Track_Synced.TabIndex = 7
+        Me.chk_Track_Synced.Text = "synced"
+        Me.chk_Track_Synced.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.chk_Track_Synced.UseVisualStyleBackColor = True
+        '
+        'chk_Track_ToSync
+        '
+        Me.chk_Track_ToSync.Checked = True
+        Me.chk_Track_ToSync.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chk_Track_ToSync.Image = Global.PARsync.My.Resources.Resources.toSync
+        Me.chk_Track_ToSync.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.chk_Track_ToSync.Location = New System.Drawing.Point(6, 57)
+        Me.chk_Track_ToSync.Name = "chk_Track_ToSync"
+        Me.chk_Track_ToSync.Size = New System.Drawing.Size(106, 25)
+        Me.chk_Track_ToSync.TabIndex = 6
+        Me.chk_Track_ToSync.Text = "to sync"
+        Me.chk_Track_ToSync.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.chk_Track_ToSync.UseVisualStyleBackColor = True
+        '
+        'chk_Track_NotFound
+        '
+        Me.chk_Track_NotFound.Checked = True
+        Me.chk_Track_NotFound.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chk_Track_NotFound.Image = Global.PARsync.My.Resources.Resources.notFound
+        Me.chk_Track_NotFound.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.chk_Track_NotFound.Location = New System.Drawing.Point(6, 38)
+        Me.chk_Track_NotFound.Name = "chk_Track_NotFound"
+        Me.chk_Track_NotFound.Size = New System.Drawing.Size(106, 25)
+        Me.chk_Track_NotFound.TabIndex = 5
+        Me.chk_Track_NotFound.Text = "file not found"
+        Me.chk_Track_NotFound.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.chk_Track_NotFound.UseVisualStyleBackColor = True
+        '
+        'chk_Track_ToRead
+        '
+        Me.chk_Track_ToRead.Checked = True
+        Me.chk_Track_ToRead.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chk_Track_ToRead.Image = Global.PARsync.My.Resources.Resources.toRead
+        Me.chk_Track_ToRead.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.chk_Track_ToRead.Location = New System.Drawing.Point(6, 19)
+        Me.chk_Track_ToRead.Name = "chk_Track_ToRead"
+        Me.chk_Track_ToRead.Size = New System.Drawing.Size(106, 25)
+        Me.chk_Track_ToRead.TabIndex = 8
+        Me.chk_Track_ToRead.Text = "to read"
+        Me.chk_Track_ToRead.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.chk_Track_ToRead.UseVisualStyleBackColor = True
         '
         'btn_SyncNow
         '
         Me.btn_SyncNow.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_SyncNow.Location = New System.Drawing.Point(9, 382)
+        Me.btn_SyncNow.Location = New System.Drawing.Point(187, 367)
         Me.btn_SyncNow.Name = "btn_SyncNow"
-        Me.btn_SyncNow.Size = New System.Drawing.Size(965, 34)
+        Me.btn_SyncNow.Size = New System.Drawing.Size(609, 47)
         Me.btn_SyncNow.TabIndex = 3
         Me.btn_SyncNow.Text = "Sync now"
         Me.btn_SyncNow.UseVisualStyleBackColor = True
@@ -156,12 +298,51 @@ Partial Class frm_Main
         Me.grp_SyncMode.Controls.Add(Me.rad_SyncMode_AskUser)
         Me.grp_SyncMode.Controls.Add(Me.rad_SyncMode_UsePowerampRating)
         Me.grp_SyncMode.Controls.Add(Me.rad_SyncMode_UseTagRating)
-        Me.grp_SyncMode.Location = New System.Drawing.Point(9, 328)
+        Me.grp_SyncMode.Location = New System.Drawing.Point(187, 313)
         Me.grp_SyncMode.Name = "grp_SyncMode"
-        Me.grp_SyncMode.Size = New System.Drawing.Size(965, 48)
+        Me.grp_SyncMode.Size = New System.Drawing.Size(609, 48)
         Me.grp_SyncMode.TabIndex = 2
         Me.grp_SyncMode.TabStop = False
         Me.grp_SyncMode.Text = "Sync Mode"
+        '
+        'rad_SyncMode_AskUser
+        '
+        Me.rad_SyncMode_AskUser.Image = Global.PARsync.My.Resources.Resources.arrow_refresh
+        Me.rad_SyncMode_AskUser.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.rad_SyncMode_AskUser.Location = New System.Drawing.Point(6, 19)
+        Me.rad_SyncMode_AskUser.Name = "rad_SyncMode_AskUser"
+        Me.rad_SyncMode_AskUser.Size = New System.Drawing.Size(160, 22)
+        Me.rad_SyncMode_AskUser.TabIndex = 2
+        Me.rad_SyncMode_AskUser.TabStop = True
+        Me.rad_SyncMode_AskUser.Text = "Ask me for each track"
+        Me.rad_SyncMode_AskUser.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.rad_SyncMode_AskUser.UseVisualStyleBackColor = True
+        '
+        'rad_SyncMode_UsePowerampRating
+        '
+        Me.rad_SyncMode_UsePowerampRating.Image = Global.PARsync.My.Resources.Resources.arrow_left
+        Me.rad_SyncMode_UsePowerampRating.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.rad_SyncMode_UsePowerampRating.Location = New System.Drawing.Point(338, 19)
+        Me.rad_SyncMode_UsePowerampRating.Name = "rad_SyncMode_UsePowerampRating"
+        Me.rad_SyncMode_UsePowerampRating.Size = New System.Drawing.Size(176, 22)
+        Me.rad_SyncMode_UsePowerampRating.TabIndex = 1
+        Me.rad_SyncMode_UsePowerampRating.TabStop = True
+        Me.rad_SyncMode_UsePowerampRating.Text = "Always use Poweramp rating"
+        Me.rad_SyncMode_UsePowerampRating.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.rad_SyncMode_UsePowerampRating.UseVisualStyleBackColor = True
+        '
+        'rad_SyncMode_UseTagRating
+        '
+        Me.rad_SyncMode_UseTagRating.Image = Global.PARsync.My.Resources.Resources.arrow_right
+        Me.rad_SyncMode_UseTagRating.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.rad_SyncMode_UseTagRating.Location = New System.Drawing.Point(172, 19)
+        Me.rad_SyncMode_UseTagRating.Name = "rad_SyncMode_UseTagRating"
+        Me.rad_SyncMode_UseTagRating.Size = New System.Drawing.Size(160, 22)
+        Me.rad_SyncMode_UseTagRating.TabIndex = 0
+        Me.rad_SyncMode_UseTagRating.TabStop = True
+        Me.rad_SyncMode_UseTagRating.Text = "Always use Tag rating"
+        Me.rad_SyncMode_UseTagRating.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
+        Me.rad_SyncMode_UseTagRating.UseVisualStyleBackColor = True
         '
         'dgv_Tracklist
         '
@@ -171,7 +352,7 @@ Partial Class frm_Main
         Me.dgv_Tracklist.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgv_Tracklist.Location = New System.Drawing.Point(9, 19)
         Me.dgv_Tracklist.Name = "dgv_Tracklist"
-        Me.dgv_Tracklist.Size = New System.Drawing.Size(965, 250)
+        Me.dgv_Tracklist.Size = New System.Drawing.Size(965, 288)
         Me.dgv_Tracklist.TabIndex = 1
         '
         'grp_Target
@@ -242,6 +423,17 @@ Partial Class frm_Main
         Me.grp_Settings.TabStop = False
         Me.grp_Settings.Text = "Settings"
         '
+        'btn_LocalMainPath
+        '
+        Me.btn_LocalMainPath.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_LocalMainPath.BackgroundImage = Global.PARsync.My.Resources.Resources.folder
+        Me.btn_LocalMainPath.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
+        Me.btn_LocalMainPath.Location = New System.Drawing.Point(949, 14)
+        Me.btn_LocalMainPath.Name = "btn_LocalMainPath"
+        Me.btn_LocalMainPath.Size = New System.Drawing.Size(25, 25)
+        Me.btn_LocalMainPath.TabIndex = 4
+        Me.btn_LocalMainPath.UseVisualStyleBackColor = True
+        '
         'txt_RemoteMainPath
         '
         Me.txt_RemoteMainPath.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
@@ -299,123 +491,6 @@ Partial Class frm_Main
         '
         Me.sfd_exportNPM.FileName = "poweramp_ratings_backup.txt"
         '
-        'btn_LocalMainPath
-        '
-        Me.btn_LocalMainPath.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_LocalMainPath.BackgroundImage = Global.PARsync.My.Resources.Resources.folder
-        Me.btn_LocalMainPath.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
-        Me.btn_LocalMainPath.Location = New System.Drawing.Point(949, 14)
-        Me.btn_LocalMainPath.Name = "btn_LocalMainPath"
-        Me.btn_LocalMainPath.Size = New System.Drawing.Size(25, 25)
-        Me.btn_LocalMainPath.TabIndex = 4
-        Me.btn_LocalMainPath.UseVisualStyleBackColor = True
-        '
-        'chk_ToRead
-        '
-        Me.chk_ToRead.Checked = True
-        Me.chk_ToRead.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chk_ToRead.Image = Global.PARsync.My.Resources.Resources.toRead
-        Me.chk_ToRead.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.chk_ToRead.Location = New System.Drawing.Point(6, 19)
-        Me.chk_ToRead.Name = "chk_ToRead"
-        Me.chk_ToRead.Size = New System.Drawing.Size(106, 25)
-        Me.chk_ToRead.TabIndex = 8
-        Me.chk_ToRead.Text = "to read"
-        Me.chk_ToRead.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
-        Me.chk_ToRead.UseVisualStyleBackColor = True
-        '
-        'chk_Synced
-        '
-        Me.chk_Synced.Checked = True
-        Me.chk_Synced.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chk_Synced.Image = Global.PARsync.My.Resources.Resources.synced
-        Me.chk_Synced.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.chk_Synced.Location = New System.Drawing.Point(342, 19)
-        Me.chk_Synced.Name = "chk_Synced"
-        Me.chk_Synced.Size = New System.Drawing.Size(106, 25)
-        Me.chk_Synced.TabIndex = 7
-        Me.chk_Synced.Text = "synced"
-        Me.chk_Synced.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
-        Me.chk_Synced.UseVisualStyleBackColor = True
-        '
-        'chk_ToSync
-        '
-        Me.chk_ToSync.Checked = True
-        Me.chk_ToSync.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chk_ToSync.Image = Global.PARsync.My.Resources.Resources.toSync
-        Me.chk_ToSync.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.chk_ToSync.Location = New System.Drawing.Point(230, 19)
-        Me.chk_ToSync.Name = "chk_ToSync"
-        Me.chk_ToSync.Size = New System.Drawing.Size(106, 25)
-        Me.chk_ToSync.TabIndex = 6
-        Me.chk_ToSync.Text = "to sync"
-        Me.chk_ToSync.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
-        Me.chk_ToSync.UseVisualStyleBackColor = True
-        '
-        'chk_NotFound
-        '
-        Me.chk_NotFound.Checked = True
-        Me.chk_NotFound.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chk_NotFound.Image = Global.PARsync.My.Resources.Resources.notFound
-        Me.chk_NotFound.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.chk_NotFound.Location = New System.Drawing.Point(118, 19)
-        Me.chk_NotFound.Name = "chk_NotFound"
-        Me.chk_NotFound.Size = New System.Drawing.Size(106, 25)
-        Me.chk_NotFound.TabIndex = 5
-        Me.chk_NotFound.Text = "File not found"
-        Me.chk_NotFound.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
-        Me.chk_NotFound.UseVisualStyleBackColor = True
-        '
-        'rad_SyncMode_AskUser
-        '
-        Me.rad_SyncMode_AskUser.Image = Global.PARsync.My.Resources.Resources.arrow_refresh
-        Me.rad_SyncMode_AskUser.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.rad_SyncMode_AskUser.Location = New System.Drawing.Point(6, 19)
-        Me.rad_SyncMode_AskUser.Name = "rad_SyncMode_AskUser"
-        Me.rad_SyncMode_AskUser.Size = New System.Drawing.Size(160, 22)
-        Me.rad_SyncMode_AskUser.TabIndex = 2
-        Me.rad_SyncMode_AskUser.TabStop = True
-        Me.rad_SyncMode_AskUser.Text = "Ask me for each track"
-        Me.rad_SyncMode_AskUser.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
-        Me.rad_SyncMode_AskUser.UseVisualStyleBackColor = True
-        '
-        'rad_SyncMode_UsePowerampRating
-        '
-        Me.rad_SyncMode_UsePowerampRating.Image = Global.PARsync.My.Resources.Resources.arrow_left
-        Me.rad_SyncMode_UsePowerampRating.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.rad_SyncMode_UsePowerampRating.Location = New System.Drawing.Point(338, 19)
-        Me.rad_SyncMode_UsePowerampRating.Name = "rad_SyncMode_UsePowerampRating"
-        Me.rad_SyncMode_UsePowerampRating.Size = New System.Drawing.Size(176, 22)
-        Me.rad_SyncMode_UsePowerampRating.TabIndex = 1
-        Me.rad_SyncMode_UsePowerampRating.TabStop = True
-        Me.rad_SyncMode_UsePowerampRating.Text = "Always use Poweramp rating"
-        Me.rad_SyncMode_UsePowerampRating.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
-        Me.rad_SyncMode_UsePowerampRating.UseVisualStyleBackColor = True
-        '
-        'rad_SyncMode_UseTagRating
-        '
-        Me.rad_SyncMode_UseTagRating.Image = Global.PARsync.My.Resources.Resources.arrow_right
-        Me.rad_SyncMode_UseTagRating.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.rad_SyncMode_UseTagRating.Location = New System.Drawing.Point(172, 19)
-        Me.rad_SyncMode_UseTagRating.Name = "rad_SyncMode_UseTagRating"
-        Me.rad_SyncMode_UseTagRating.Size = New System.Drawing.Size(160, 22)
-        Me.rad_SyncMode_UseTagRating.TabIndex = 0
-        Me.rad_SyncMode_UseTagRating.TabStop = True
-        Me.rad_SyncMode_UseTagRating.Text = "Always use Tag rating"
-        Me.rad_SyncMode_UseTagRating.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
-        Me.rad_SyncMode_UseTagRating.UseVisualStyleBackColor = True
-        '
-        'btn_OFD
-        '
-        Me.btn_OFD.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_OFD.BackgroundImage = Global.PARsync.My.Resources.Resources.script
-        Me.btn_OFD.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
-        Me.btn_OFD.Location = New System.Drawing.Point(949, 81)
-        Me.btn_OFD.Name = "btn_OFD"
-        Me.btn_OFD.Size = New System.Drawing.Size(25, 25)
-        Me.btn_OFD.TabIndex = 3
-        Me.btn_OFD.UseVisualStyleBackColor = True
-        '
         'frm_Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -431,7 +506,8 @@ Partial Class frm_Main
         Me.grp_Source.ResumeLayout(False)
         Me.grp_Source.PerformLayout()
         Me.grp_Sync.ResumeLayout(False)
-        Me.grp_FilterDGV.ResumeLayout(False)
+        Me.grp_Filter_SyncStatus.ResumeLayout(False)
+        Me.grp_Filter_TrackStatus.ResumeLayout(False)
         Me.grp_SyncMode.ResumeLayout(False)
         CType(Me.dgv_Tracklist, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grp_Target.ResumeLayout(False)
@@ -466,11 +542,11 @@ Partial Class frm_Main
     Friend WithEvents txt_RemoteMainPath As TextBox
     Friend WithEvents btn_LocalMainPath As Button
     Friend WithEvents fbd_LocalMainPath As FolderBrowserDialog
-    Friend WithEvents grp_FilterDGV As GroupBox
-    Friend WithEvents chk_ToRead As CheckBox
-    Friend WithEvents chk_Synced As CheckBox
-    Friend WithEvents chk_ToSync As CheckBox
-    Friend WithEvents chk_NotFound As CheckBox
+    Friend WithEvents grp_Filter_TrackStatus As GroupBox
+    Friend WithEvents chk_Track_ToRead As CheckBox
+    Friend WithEvents chk_Track_Synced As CheckBox
+    Friend WithEvents chk_Track_ToSync As CheckBox
+    Friend WithEvents chk_Track_NotFound As CheckBox
     Friend WithEvents bgw_PopulateDGV As System.ComponentModel.BackgroundWorker
     Friend WithEvents bgw_transformLocalPath As System.ComponentModel.BackgroundWorker
     Friend WithEvents bgw_ReadTagRating As System.ComponentModel.BackgroundWorker
@@ -480,4 +556,9 @@ Partial Class frm_Main
     Friend WithEvents rad_SyncMode_AskUser As RadioButton
     Friend WithEvents rad_SyncMode_UseTagRating As RadioButton
     Friend WithEvents rad_SyncMode_UsePowerampRating As RadioButton
+    Friend WithEvents grp_Filter_SyncStatus As GroupBox
+    Friend WithEvents chk_Sync_Cancelled As CheckBox
+    Friend WithEvents chk_Sync_UsedPowerampRating As CheckBox
+    Friend WithEvents chk_Sync_UsedTagRating As CheckBox
+    Friend WithEvents chk_Sync_Synced As CheckBox
 End Class
