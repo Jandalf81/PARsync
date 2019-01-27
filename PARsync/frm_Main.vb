@@ -3,13 +3,14 @@
 Public Class frm_Main
     Public listOfTracks As New Tracklist()
     Public settings As New Settings()
-    Public WithEvents bs As New BindingSource()
+    'Public WithEvents bs As New BindingSource()
+
+    Public bs As Equin.ApplicationFramework.BindingListView(Of Track) = New Equin.ApplicationFramework.BindingListView(Of Track)(listOfTracks.tracks)
+    'Public bs As New Equin.ApplicationFramework.BindingListView(Of Track)(listOfTracks.tracks)
+
 
 #Region "onLoad"
     Private Sub frm_Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ' TODO remove this setting
-        'System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = False
-
         settings.load()
         txt_LocalMainPath.Text = settings._localMainPath
         txt_RemoteMainPath.Text = settings._remoteMainPath
@@ -37,8 +38,9 @@ Public Class frm_Main
         Me.dgv_Tracklist.SelectionMode = DataGridViewSelectionMode.FullRowSelect
         Me.dgv_Tracklist.RowHeadersVisible = False
 
-        Me.bs.DataSource = listOfTracks.tracks
-        Me.dgv_Tracklist.DataSource = Me.bs
+        'Me.bs.DataSource = listOfTracks.tracks
+        '  bs = New Equin.ApplicationFramework.BindingListView(Of Track)(listOfTracks.tracks)
+        '  Me.dgv_Tracklist.DataSource = Me.bs
 
         ' prepare columns for DataGridView
         Dim col_Artist As New DataGridViewTextBoxColumn()
@@ -106,10 +108,12 @@ Public Class frm_Main
         dgv_Tracklist.Columns.Add(col_LocalPath)
         dgv_Tracklist.Columns.Add(col_RemotePath)
 
-        dgv_Tracklist.Columns.Item(0).Width = 45
+        dgv_Tracklist.Columns.Item("Track" + vbCrLf + "Status").Width = 45
+        dgv_Tracklist.Columns.Item("Sync" + vbCrLf + "Status").Width = 45
 
         ' disable some control elements
         grp_Filter_TrackStatus.Enabled = False
+        grp_Filter_SyncStatus.Enabled = False
         grp_Sync.Enabled = False
         grp_Target.Enabled = False
     End Sub
@@ -145,16 +149,17 @@ Public Class frm_Main
             tst_NoOfTracks.Text = "Number of Tracks: " + listOfTracks.tracks.Count.ToString
             tst_Status.Text = "| Status: Idle"
 
-            Me.bs.ResetBindings(False) ' refresh DataGridView bound to BindingSource
+            bs = New Equin.ApplicationFramework.BindingListView(Of Track)(listOfTracks.tracks)
+            Me.dgv_Tracklist.DataSource = Me.bs
 
-            tst_Status.Text = "| Status: getting Local Path..."
+            tst_Status.Text = "| Status: getting local Path..."
             bgw_transformLocalPath.RunWorkerAsync()
         End If
     End Sub
 #End Region
 
 #Region "grp_Sync"
-    ' TODO make the DGV filter-able and sort-able
+    ' TODO make the DGV sort-able
     Private Sub chk_Synced_CheckedChanged(sender As Object, e As EventArgs) Handles chk_Track_Synced.CheckedChanged
         set_DGV_Filter()
     End Sub
@@ -209,8 +214,53 @@ Public Class frm_Main
     Private Sub btn_SyncNow_Click(sender As Object, e As EventArgs) Handles btn_SyncNow.Click
         tst_Status.Text = " | Status: syncing Ratings..."
 
+        chk_Track_ToRead.Checked = True
+        chk_Track_NotFound.Checked = True
+        chk_Track_ToSync.Checked = True
+        chk_Track_Synced.Checked = True
+        grp_Filter_SyncStatus.Enabled = False
+        bs.RemoveFilter()
+
         bgw_SyncNow.RunWorkerAsync()
     End Sub
+
+#Region "filter DataGridView"
+    'handle changes of CHECKBOXes in grp_Filter_TrackStatus
+    Private Sub chk_TrackFilter_Click(sender As Object, e As EventArgs) Handles _
+            chk_Track_ToRead.CheckedChanged,
+            chk_Track_NotFound.CheckedChanged,
+            chk_Track_ToSync.CheckedChanged,
+            chk_Track_Synced.CheckedChanged
+        bs.ApplyFilter(AddressOf trackFilterBefore)
+    End Sub
+
+    'handle changes of CHECKBOXes in grp_Filter_SyncStatus
+    Private Sub chk_SyncFilter_Click(sender As Object, e As EventArgs) Handles _
+            chk_Sync_Synced.CheckedChanged,
+            chk_Sync_UsedTagRating.CheckedChanged,
+            chk_Sync_UsedPowerampRating.CheckedChanged,
+            chk_Sync_Cancelled.CheckedChanged
+        bs.ApplyFilter(AddressOf trackFilterAfter)
+    End Sub
+
+    Private Function trackFilterBefore(ByVal track As Track) As Boolean
+        If (chk_Track_ToRead.Checked = True AndAlso track._trackStatus = Track.trackStatusEnum.toRead) Then Return True
+        If (chk_Track_NotFound.Checked = True AndAlso track._trackStatus = Track.trackStatusEnum.notFound) Then Return True
+        If (chk_Track_ToSync.Checked = True AndAlso track._trackStatus = Track.trackStatusEnum.toSync) Then Return True
+        If (chk_Track_Synced.Checked = True AndAlso track._trackStatus = Track.trackStatusEnum.synced) Then Return True
+
+        Return False
+    End Function
+
+    Private Function trackFilterAfter(ByVal track As Track) As Boolean
+        If (chk_Sync_Synced.Checked = True AndAlso track._syncStatus = Track.syncStatusEnum.synced) Then Return True
+        If (chk_Sync_UsedTagRating.Checked = True AndAlso track._syncStatus = Track.syncStatusEnum.usedTagRating) Then Return True
+        If (chk_Sync_UsedPowerampRating.Checked = True AndAlso track._syncStatus = Track.syncStatusEnum.usedPowerampRating) Then Return True
+        If (chk_Sync_Cancelled.Checked = True AndAlso track._syncStatus = Track.syncStatusEnum.Cancelled) Then Return True
+
+        Return False
+    End Function
+#End Region
 #End Region
 
 #Region "grp_Target"
@@ -242,7 +292,7 @@ Public Class frm_Main
         Dim percent As Integer = 0
         Dim i As Integer = 0
 
-        For Each track As Track In bs.List
+        For Each track As Track In listOfTracks.tracks
             track.transformToLocalPath(settings._remoteMainPath, settings._localMainPath)
 
             i = i + 1
@@ -264,7 +314,7 @@ Public Class frm_Main
         Dim percent As Integer = 0
         Dim i As Integer = 0
 
-        For Each track As Track In bs.List
+        For Each track As Track In listOfTracks.tracks
             If (My.Computer.FileSystem.FileExists(track._localPath) = True) Then
                 track.readTagRating()
                 If (track._TagRating = track._PowerampRating) Then
@@ -288,7 +338,7 @@ Public Class frm_Main
         tst_Status.Text = "| Status: Idle"
         tsp_Progress.ProgressBar.Value = 0
 
-        'TODO enable following controls
+        'enable following controls
         grp_Filter_TrackStatus.Enabled = True
         grp_Sync.Enabled = True
     End Sub
@@ -303,7 +353,7 @@ Public Class frm_Main
         frm_SyncDecision.StartPosition = FormStartPosition.CenterParent
         Dim retval As frm_SyncDecision.syncDecisionResult
 
-        For Each track As Track In bs.List
+        For Each track As Track In listOfTracks.tracks
             If (track._trackStatus <> Track.trackStatusEnum.notFound) Then
                 If (track._TagRating <> track._PowerampRating) Then
 
@@ -346,6 +396,7 @@ Public Class frm_Main
         tst_Status.Text = "| Status: Idle"
         tsp_Progress.ProgressBar.Value = 0
 
+        grp_Filter_SyncStatus.Enabled = True
         grp_Target.Enabled = True
     End Sub
 #End Region

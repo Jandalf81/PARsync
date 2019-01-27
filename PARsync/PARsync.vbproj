@@ -47,6 +47,10 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Equin.ApplicationFramework.BindingListView, Version=1.2.2446.31718, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unofficial.BindingListView.1.2.0.0\lib\net20\Equin.ApplicationFramework.BindingListView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="policy.2.0.taglib-sharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
       <HintPath>..\packages\taglib.2.1.0.0\lib\policy.2.0.taglib-sharp.dll</HintPath>
       <Private>True</Private>
@@ -139,7 +143,9 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="App.config" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\notFound.png" />
