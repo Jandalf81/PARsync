@@ -49,13 +49,13 @@ Public Class frm_Main
         col_Album.DataPropertyName = "_album"
         col_Album.Name = "Album"
 
-        Dim col_Trackno As New DataGridViewTextBoxColumn()
-        col_Trackno.DataPropertyName = "_track"
-        col_Trackno.Name = "#"
-
         Dim col_Track As New DataGridViewTextBoxColumn()
-        col_Track.DataPropertyName = "_title"
-        col_Track.Name = "Title"
+        col_Track.DataPropertyName = "_track"
+        col_Track.Name = "#"
+
+        Dim com_Title As New DataGridViewTextBoxColumn()
+        com_Title.DataPropertyName = "_title"
+        com_Title.Name = "Title"
 
         Dim col_TagRating As New DataGridViewTextBoxColumn()
         col_TagRating.DataPropertyName = "_TagRating"
@@ -64,6 +64,10 @@ Public Class frm_Main
         Dim col_TagRatingImage As New DataGridViewImageColumn()
         col_TagRatingImage.DataPropertyName = "_TagRatingImage"
         col_TagRatingImage.Name = "Tag" + vbCrLf + "Rating"
+
+        Dim col_SyncStatusImage As New DataGridViewImageColumn()
+        col_SyncStatusImage.DataPropertyName = "_syncStatusImage"
+        col_SyncStatusImage.Name = "Sync" + vbCrLf + "Status"
 
         Dim col_PowerampRating As New DataGridViewTextBoxColumn()
         col_PowerampRating.DataPropertyName = "_PowerampRating"
@@ -81,20 +85,24 @@ Public Class frm_Main
         col_RemotePath.DataPropertyName = "_remotePath"
         col_RemotePath.Name = "remote" + vbCrLf + "Path"
 
-        Dim col_TrackImage As New DataGridViewImageColumn()
-        col_TrackImage.DataPropertyName = "_trackStatusImage"
-        col_TrackImage.Name = "Status"
+        Dim col_TrackStatusImage As New DataGridViewImageColumn()
+        col_TrackStatusImage.DataPropertyName = "_trackStatusImage"
+        col_TrackStatusImage.Name = "Track" + vbCrLf + "Status"
 
         ' add prepared columns to DataGridView
-        dgv_Tracklist.Columns.Add(col_TrackImage)
+        dgv_Tracklist.Columns.Add(col_TrackStatusImage)
+
         dgv_Tracklist.Columns.Add(col_Artist)
         dgv_Tracklist.Columns.Add(col_Album)
-        dgv_Tracklist.Columns.Add(col_Trackno)
         dgv_Tracklist.Columns.Add(col_Track)
+        dgv_Tracklist.Columns.Add(com_Title)
+
         'dgv_Tracklist.Columns.Add(col_TagRating)
         dgv_Tracklist.Columns.Add(col_TagRatingImage)
+        dgv_Tracklist.Columns.Add(col_SyncStatusImage)
         'dgv_Tracklist.Columns.Add(col_PowerampRating)
         dgv_Tracklist.Columns.Add(col_PowerampRatingImage)
+
         dgv_Tracklist.Columns.Add(col_LocalPath)
         dgv_Tracklist.Columns.Add(col_RemotePath)
 
@@ -261,8 +269,10 @@ Public Class frm_Main
                 track.readTagRating()
                 If (track._TagRating = track._PowerampRating) Then
                     track._trackStatus = Track.trackStatusEnum.synced
+                    track._syncStatus = Track.syncStatusEnum.synced
                 Else
                     track._trackStatus = Track.trackStatusEnum.toSync
+                    track._syncStatus = Track.syncStatusEnum.toSync
                 End If
             End If
 
@@ -306,22 +316,18 @@ Public Class frm_Main
 
                             Select Case retval
                                 Case frm_SyncDecision.syncDecisionResult.useTagRating
-                                    track._PowerampRating = track._TagRating
-                                    track._trackStatus = Track.trackStatusEnum.synced
+                                    track.useTagRating()
                                 Case frm_SyncDecision.syncDecisionResult.usePowerampRating
-                                    track._TagRating = track._PowerampRating
-                                    track._trackStatus = Track.trackStatusEnum.synced
+                                    track.usePowerampRating()
                                 Case frm_SyncDecision.syncDecisionResult.Cancel
-                                    MsgBox("Cancel")
+                                    track._syncStatus = Track.syncStatusEnum.Cancelled
                                 Case Else
                                     MsgBox("else")
                             End Select
                         Case Settings.syncModeEnum.useTagRating
-                            track._PowerampRating = track._TagRating
-                            track._trackStatus = Track.trackStatusEnum.synced
+                            track.useTagRating()
                         Case Settings.syncModeEnum.usePowerampRating
-                            track._TagRating = track._PowerampRating
-                            track._trackStatus = Track.trackStatusEnum.synced
+                            track.usePowerampRating()
                     End Select
                 End If
             End If

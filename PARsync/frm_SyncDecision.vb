@@ -63,6 +63,6 @@ Public Class frm_SyncDecision
     End Sub
 
     Private Sub frm_SyncDecision_Shown(sender As Object, e As EventArgs) Handles Me.Shown
-        MsgBox("Modal: " + Me.Modal.ToString)
+        'MsgBox("Modal: " + Me.Modal.ToString)
     End Sub
 End Class

@@ -17,16 +17,26 @@ Public Class Track
     Private TagRating As Integer
 
     ' other fields
-    Private trackImage As Image
     Private TagRatingImage As Image
     Private PowerampRatingImage As Image
     Private trackStatus As trackStatusEnum
+    Private trackStatusImage As Image
+    Private syncStatus As syncStatusEnum
+    Private syncStatusImage As Image
 
     Public Enum trackStatusEnum
         toRead
         notFound
         toSync
         synced
+    End Enum
+
+    Public Enum syncStatusEnum
+        toSync
+        synced
+        usedTagRating
+        usedPowerampRating
+        Cancelled
     End Enum
 
     Public Property _remotePath As String
@@ -175,10 +185,10 @@ Public Class Track
     End Property
     Public Property _trackStatusImage As Image
         Get
-            Return trackImage
+            Return trackStatusImage
         End Get
         Set(value As Image)
-            trackImage = value
+            trackStatusImage = value
         End Set
     End Property
     Public Property _trackStatus As trackStatusEnum
@@ -199,6 +209,35 @@ Public Class Track
                     _trackStatusImage = My.Resources.synced
             End Select
 
+        End Set
+    End Property
+    Public Property _syncStatus As syncStatusEnum
+        Get
+            Return syncStatus
+        End Get
+        Set(value As syncStatusEnum)
+            syncStatus = value
+
+            Select Case value
+                Case syncStatusEnum.toSync
+                    _syncStatusImage = My.Resources.toSync
+                Case syncStatusEnum.synced
+                    _syncStatusImage = My.Resources.synced
+                Case syncStatusEnum.usedTagRating
+                    _syncStatusImage = My.Resources.arrow_right
+                Case syncStatusEnum.usedPowerampRating
+                    _syncStatusImage = My.Resources.arrow_left
+                Case syncStatusEnum.Cancelled
+                    _syncStatusImage = My.Resources.cancel
+            End Select
+        End Set
+    End Property
+    Public Property _syncStatusImage As Image
+        Get
+            Return syncStatusImage
+        End Get
+        Set(value As Image)
+            syncStatusImage = value
         End Set
     End Property
 
@@ -231,6 +270,7 @@ Public Class Track
         Me.TagRatingImage = My.Resources.star_0
         'Me.remoteRatingImage = My.Resources.star_0
         Me._trackStatus = trackStatusEnum.toRead
+        Me._syncStatus = syncStatusEnum.toSync
     End Sub
 
     Public Sub transformToLocalPath(ByVal remoteMainPath As String, ByVal localMainPath As String)
@@ -242,7 +282,8 @@ Public Class Track
         Me._localPath = tmpLocalPath
 
         If (My.Computer.FileSystem.FileExists(Me._localPath) = False) Then
-            Me.trackImage = Image.FromFile(My.Application.Info.DirectoryPath + "\icons\notFound.png")
+            Me._trackStatus = trackStatusEnum.notFound
+            Me._syncStatus = syncStatusEnum.Cancelled
         End If
     End Sub
 
@@ -276,7 +317,6 @@ Public Class Track
             mp3.Dispose()
         End If
     End Sub
-
     Public Sub writeTagRating(ByVal rating As Integer)
         TagLib.Id3v2.Tag.DefaultVersion = 3
         TagLib.Id3v2.Tag.ForceDefaultVersion = True
@@ -303,5 +343,21 @@ Public Class Track
 
         mp3.Save()
         mp3.Dispose()
+    End Sub
+
+    Public Sub useTagRating()
+        Me._PowerampRating = Me._TagRating
+        Me._trackStatus = trackStatusEnum.synced
+        Me._syncStatus = syncStatusEnum.usedTagRating
+    End Sub
+
+    Public Sub usePowerampRating()
+        Me._TagRating = Me._PowerampRating
+        Me._trackStatus = trackStatusEnum.synced
+        Me._syncStatus = syncStatusEnum.usedPowerampRating
+    End Sub
+
+    Public Sub cancelSync()
+        Me._syncStatus = syncStatusEnum.Cancelled
     End Sub
 End Class
