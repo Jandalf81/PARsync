@@ -89,7 +89,7 @@ Partial Class frm_Main
         Me.grp_Source.Controls.Add(Me.txt_OFD)
         Me.grp_Source.Location = New System.Drawing.Point(12, 89)
         Me.grp_Source.Name = "grp_Source"
-        Me.grp_Source.Size = New System.Drawing.Size(980, 118)
+        Me.grp_Source.Size = New System.Drawing.Size(889, 118)
         Me.grp_Source.TabIndex = 2
         Me.grp_Source.TabStop = False
         Me.grp_Source.Text = "Source"
@@ -108,7 +108,7 @@ Partial Class frm_Main
         Me.btn_OFD.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_OFD.BackgroundImage = Global.PARsync.My.Resources.Resources.script
         Me.btn_OFD.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
-        Me.btn_OFD.Location = New System.Drawing.Point(949, 81)
+        Me.btn_OFD.Location = New System.Drawing.Point(858, 81)
         Me.btn_OFD.Name = "btn_OFD"
         Me.btn_OFD.Size = New System.Drawing.Size(25, 25)
         Me.btn_OFD.TabIndex = 3
@@ -121,7 +121,7 @@ Partial Class frm_Main
         Me.txt_OFD.Location = New System.Drawing.Point(9, 84)
         Me.txt_OFD.Name = "txt_OFD"
         Me.txt_OFD.ReadOnly = True
-        Me.txt_OFD.Size = New System.Drawing.Size(934, 20)
+        Me.txt_OFD.Size = New System.Drawing.Size(843, 20)
         Me.txt_OFD.TabIndex = 2
         '
         'grp_Sync
@@ -136,7 +136,7 @@ Partial Class frm_Main
         Me.grp_Sync.Controls.Add(Me.dgv_Tracklist)
         Me.grp_Sync.Location = New System.Drawing.Point(12, 213)
         Me.grp_Sync.Name = "grp_Sync"
-        Me.grp_Sync.Size = New System.Drawing.Size(980, 424)
+        Me.grp_Sync.Size = New System.Drawing.Size(889, 265)
         Me.grp_Sync.TabIndex = 3
         Me.grp_Sync.TabStop = False
         Me.grp_Sync.Text = "Sync"
@@ -148,7 +148,7 @@ Partial Class frm_Main
         Me.grp_Filter_SyncStatus.Controls.Add(Me.chk_Sync_UsedPowerampRating)
         Me.grp_Filter_SyncStatus.Controls.Add(Me.chk_Sync_UsedTagRating)
         Me.grp_Filter_SyncStatus.Controls.Add(Me.chk_Sync_Synced)
-        Me.grp_Filter_SyncStatus.Location = New System.Drawing.Point(802, 313)
+        Me.grp_Filter_SyncStatus.Location = New System.Drawing.Point(711, 154)
         Me.grp_Filter_SyncStatus.Name = "grp_Filter_SyncStatus"
         Me.grp_Filter_SyncStatus.Size = New System.Drawing.Size(172, 105)
         Me.grp_Filter_SyncStatus.TabIndex = 6
@@ -217,7 +217,7 @@ Partial Class frm_Main
         Me.grp_Filter_TrackStatus.Controls.Add(Me.chk_Track_ToSync)
         Me.grp_Filter_TrackStatus.Controls.Add(Me.chk_Track_NotFound)
         Me.grp_Filter_TrackStatus.Controls.Add(Me.chk_Track_ToRead)
-        Me.grp_Filter_TrackStatus.Location = New System.Drawing.Point(9, 313)
+        Me.grp_Filter_TrackStatus.Location = New System.Drawing.Point(9, 154)
         Me.grp_Filter_TrackStatus.Name = "grp_Filter_TrackStatus"
         Me.grp_Filter_TrackStatus.Size = New System.Drawing.Size(172, 105)
         Me.grp_Filter_TrackStatus.TabIndex = 5
@@ -284,9 +284,9 @@ Partial Class frm_Main
         '
         Me.btn_SyncNow.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_SyncNow.Location = New System.Drawing.Point(187, 367)
+        Me.btn_SyncNow.Location = New System.Drawing.Point(187, 208)
         Me.btn_SyncNow.Name = "btn_SyncNow"
-        Me.btn_SyncNow.Size = New System.Drawing.Size(609, 47)
+        Me.btn_SyncNow.Size = New System.Drawing.Size(518, 51)
         Me.btn_SyncNow.TabIndex = 3
         Me.btn_SyncNow.Text = "Sync now"
         Me.btn_SyncNow.UseVisualStyleBackColor = True
@@ -298,9 +298,9 @@ Partial Class frm_Main
         Me.grp_SyncMode.Controls.Add(Me.rad_SyncMode_AskUser)
         Me.grp_SyncMode.Controls.Add(Me.rad_SyncMode_UsePowerampRating)
         Me.grp_SyncMode.Controls.Add(Me.rad_SyncMode_UseTagRating)
-        Me.grp_SyncMode.Location = New System.Drawing.Point(187, 313)
+        Me.grp_SyncMode.Location = New System.Drawing.Point(187, 154)
         Me.grp_SyncMode.Name = "grp_SyncMode"
-        Me.grp_SyncMode.Size = New System.Drawing.Size(609, 48)
+        Me.grp_SyncMode.Size = New System.Drawing.Size(518, 48)
         Me.grp_SyncMode.TabIndex = 2
         Me.grp_SyncMode.TabStop = False
         Me.grp_SyncMode.Text = "Sync Mode"
@@ -352,7 +352,7 @@ Partial Class frm_Main
         Me.dgv_Tracklist.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgv_Tracklist.Location = New System.Drawing.Point(9, 19)
         Me.dgv_Tracklist.Name = "dgv_Tracklist"
-        Me.dgv_Tracklist.Size = New System.Drawing.Size(965, 288)
+        Me.dgv_Tracklist.Size = New System.Drawing.Size(874, 129)
         Me.dgv_Tracklist.TabIndex = 1
         '
         'grp_Target
@@ -360,9 +360,9 @@ Partial Class frm_Main
         Me.grp_Target.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.grp_Target.Controls.Add(Me.btn_exportNPM)
-        Me.grp_Target.Location = New System.Drawing.Point(12, 643)
+        Me.grp_Target.Location = New System.Drawing.Point(12, 484)
         Me.grp_Target.Name = "grp_Target"
-        Me.grp_Target.Size = New System.Drawing.Size(980, 52)
+        Me.grp_Target.Size = New System.Drawing.Size(889, 52)
         Me.grp_Target.TabIndex = 4
         Me.grp_Target.TabStop = False
         Me.grp_Target.Text = "Target"
@@ -379,9 +379,9 @@ Partial Class frm_Main
         'StatusStrip1
         '
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tst_NoOfTracks, Me.tst_Status, Me.tsp_Progress})
-        Me.StatusStrip1.Location = New System.Drawing.Point(0, 698)
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 539)
         Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(1002, 22)
+        Me.StatusStrip1.Size = New System.Drawing.Size(911, 22)
         Me.StatusStrip1.TabIndex = 5
         Me.StatusStrip1.Text = "StatusStrip1"
         '
@@ -418,7 +418,7 @@ Partial Class frm_Main
         Me.grp_Settings.Controls.Add(Me.lbl_LocalMainPath)
         Me.grp_Settings.Location = New System.Drawing.Point(12, 13)
         Me.grp_Settings.Name = "grp_Settings"
-        Me.grp_Settings.Size = New System.Drawing.Size(980, 70)
+        Me.grp_Settings.Size = New System.Drawing.Size(889, 70)
         Me.grp_Settings.TabIndex = 6
         Me.grp_Settings.TabStop = False
         Me.grp_Settings.Text = "Settings"
@@ -428,7 +428,7 @@ Partial Class frm_Main
         Me.btn_LocalMainPath.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_LocalMainPath.BackgroundImage = Global.PARsync.My.Resources.Resources.folder
         Me.btn_LocalMainPath.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
-        Me.btn_LocalMainPath.Location = New System.Drawing.Point(949, 14)
+        Me.btn_LocalMainPath.Location = New System.Drawing.Point(858, 14)
         Me.btn_LocalMainPath.Name = "btn_LocalMainPath"
         Me.btn_LocalMainPath.Size = New System.Drawing.Size(25, 25)
         Me.btn_LocalMainPath.TabIndex = 4
@@ -440,7 +440,7 @@ Partial Class frm_Main
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txt_RemoteMainPath.Location = New System.Drawing.Point(111, 44)
         Me.txt_RemoteMainPath.Name = "txt_RemoteMainPath"
-        Me.txt_RemoteMainPath.Size = New System.Drawing.Size(863, 20)
+        Me.txt_RemoteMainPath.Size = New System.Drawing.Size(772, 20)
         Me.txt_RemoteMainPath.TabIndex = 3
         '
         'txt_LocalMainPath
@@ -450,7 +450,7 @@ Partial Class frm_Main
         Me.txt_LocalMainPath.Location = New System.Drawing.Point(111, 17)
         Me.txt_LocalMainPath.Name = "txt_LocalMainPath"
         Me.txt_LocalMainPath.ReadOnly = True
-        Me.txt_LocalMainPath.Size = New System.Drawing.Size(832, 20)
+        Me.txt_LocalMainPath.Size = New System.Drawing.Size(741, 20)
         Me.txt_LocalMainPath.TabIndex = 2
         '
         'lbl_RemoteMainPath
@@ -495,12 +495,13 @@ Partial Class frm_Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1002, 720)
+        Me.ClientSize = New System.Drawing.Size(911, 561)
         Me.Controls.Add(Me.grp_Settings)
         Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.grp_Target)
         Me.Controls.Add(Me.grp_Sync)
         Me.Controls.Add(Me.grp_Source)
+        Me.MinimumSize = New System.Drawing.Size(927, 600)
         Me.Name = "frm_Main"
         Me.Text = "PARsync"
         Me.grp_Source.ResumeLayout(False)
