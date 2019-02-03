@@ -117,7 +117,7 @@ Public Class frm_Main
         ' disable some control elements
         grp_Filter_TrackStatus.Enabled = False
         grp_Filter_SyncStatus.Enabled = False
-        grp_Sync.Enabled = False
+        grp_SyncMode.Enabled = False
         grp_Target.Enabled = False
     End Sub
 #End Region
@@ -280,8 +280,6 @@ Public Class frm_Main
         Dim percent As Integer = 0
         Dim i As Integer = 0
 
-        tst_Status.Text = "| Status: testing local files..."
-
         For Each track As Track In listOfTracks.tracks
             track.transformToLocalPath(settings._remoteMainPath, settings._localMainPath)
 
@@ -345,7 +343,7 @@ Public Class frm_Main
 
         'enable following controls
         grp_Filter_TrackStatus.Enabled = True
-        grp_Sync.Enabled = True
+        grp_SyncMode.Enabled = True
         prb_Progress.Visible = False
         lbl_Progress.Visible = False
     End Sub
@@ -408,7 +406,45 @@ Public Class frm_Main
     End Sub
 #End Region
 
+#Region "Help Buttons"
+    Private Sub btn_Help_OpenSourceFile_Click(sender As Object, e As EventArgs) Handles btn_Help_OpenSourceFile.Click
+        MsgBox("1. Open 'New Playlist Manager' on your Android Device" + vbCrLf +
+                "2. Open the burger menu, navigate to 'Library'" + vbCrLf +
+                "3. Open the context menu, select 'Export all tracks to CSV format'" + vbCrLf +
+                "4. Wait for the export to finish" + vbCrLf +
+                "5. Select the created file here",
+            MsgBoxStyle.OkOnly,
+            "PARsync - Open source file")
+    End Sub
 
+    Private Sub btn_Help_Save_Click(sender As Object, e As EventArgs) Handles btn_Help_Save.Click
+        MsgBox("1. Save the file to your Computer" + vbCrLf +
+               "2. Copy the file to your Android device, place it in '/storage/emulated/0/playlist_manager'" + vbCrLf +
+               "3. Open 'New Playlist Manager' on your Android device" + vbCrLf +
+               "4. In 'New Playlist Manager' go to the 'Poweramp' tab" + vbCrLf +
+               "5. Open the context menu, select 'tags and ratings / restore ratings'" + vbCrLf +
+               "6. Wait for the process to finish" + vbCrLf +
+               "7. Re-Start 'Poweramp' to see the just imported ratings",
+            MsgBoxStyle.OkOnly,
+            "PARsync - Save for NPM")
+    End Sub
+
+    Private Sub btn_Help_LocalMainPath_Click(sender As Object, e As EventArgs) Handles btn_Help_LocalMainPath.Click
+        MsgBox("1. Select your local main path of your music here" + vbCrLf +
+               "2. This is the path where all your local tracks should be" + vbCrLf +
+               "3. The diretory structure on your Android device has to mirror the local one",
+            MsgBoxStyle.OkOnly,
+            "PARsync - Set local main Path")
+    End Sub
+
+    Private Sub btn_Help_RemoteMainPath_Click(sender As Object, e As EventArgs) Handles btn_Help_RemoteMainPath.Click
+        MsgBox("1. Select your remote main path of your music here" + vbCrLf +
+               "2. This is the path where all your remote tracks should be" + vbCrLf +
+               "3. The diretory structure on your Android device has to mirror the local one",
+            MsgBoxStyle.OkOnly,
+            "PARsync - Set remote main Path")
+    End Sub
+#End Region
 
 
 

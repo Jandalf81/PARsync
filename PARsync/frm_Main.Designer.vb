@@ -22,10 +22,8 @@ Partial Class frm_Main
     'Das Bearbeiten mit dem Code-Editor ist nicht möglich.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frm_Main))
         Me.ofd_AllTracksCSV = New System.Windows.Forms.OpenFileDialog()
         Me.grp_Source = New System.Windows.Forms.GroupBox()
-        Me.lbl_Source_1 = New System.Windows.Forms.Label()
         Me.btn_OFD = New System.Windows.Forms.Button()
         Me.txt_OFD = New System.Windows.Forms.TextBox()
         Me.grp_Sync = New System.Windows.Forms.GroupBox()
@@ -69,6 +67,10 @@ Partial Class frm_Main
         Me.bgw_ReadCSV = New System.ComponentModel.BackgroundWorker()
         Me.prb_Progress = New System.Windows.Forms.ProgressBar()
         Me.lbl_Progress = New System.Windows.Forms.Label()
+        Me.btn_Help_OpenSourceFile = New System.Windows.Forms.Button()
+        Me.btn_Help_RemoteMainPath = New System.Windows.Forms.Button()
+        Me.btn_Help_LocalMainPath = New System.Windows.Forms.Button()
+        Me.btn_Help_Save = New System.Windows.Forms.Button()
         Me.grp_Source.SuspendLayout()
         Me.grp_Sync.SuspendLayout()
         Me.grp_Filter_SyncStatus.SuspendLayout()
@@ -89,44 +91,37 @@ Partial Class frm_Main
         '
         Me.grp_Source.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.grp_Source.Controls.Add(Me.lbl_Source_1)
+        Me.grp_Source.Controls.Add(Me.btn_Help_OpenSourceFile)
         Me.grp_Source.Controls.Add(Me.btn_OFD)
         Me.grp_Source.Controls.Add(Me.txt_OFD)
         Me.grp_Source.Location = New System.Drawing.Point(12, 89)
         Me.grp_Source.Name = "grp_Source"
-        Me.grp_Source.Size = New System.Drawing.Size(889, 118)
+        Me.grp_Source.Size = New System.Drawing.Size(889, 48)
         Me.grp_Source.TabIndex = 2
         Me.grp_Source.TabStop = False
         Me.grp_Source.Text = "Source"
         '
-        'lbl_Source_1
-        '
-        Me.lbl_Source_1.AutoSize = True
-        Me.lbl_Source_1.Location = New System.Drawing.Point(6, 16)
-        Me.lbl_Source_1.Name = "lbl_Source_1"
-        Me.lbl_Source_1.Size = New System.Drawing.Size(314, 65)
-        Me.lbl_Source_1.TabIndex = 4
-        Me.lbl_Source_1.Text = resources.GetString("lbl_Source_1.Text")
-        '
         'btn_OFD
         '
-        Me.btn_OFD.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_OFD.BackgroundImage = Global.PARsync.My.Resources.Resources.script
         Me.btn_OFD.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
-        Me.btn_OFD.Location = New System.Drawing.Point(858, 81)
+        Me.btn_OFD.Image = Global.PARsync.My.Resources.Resources.script
+        Me.btn_OFD.Location = New System.Drawing.Point(9, 16)
         Me.btn_OFD.Name = "btn_OFD"
-        Me.btn_OFD.Size = New System.Drawing.Size(25, 25)
+        Me.btn_OFD.Size = New System.Drawing.Size(172, 25)
         Me.btn_OFD.TabIndex = 3
+        Me.btn_OFD.Text = "open source file"
+        Me.btn_OFD.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.btn_OFD.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.btn_OFD.UseVisualStyleBackColor = True
         '
         'txt_OFD
         '
         Me.txt_OFD.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txt_OFD.Location = New System.Drawing.Point(9, 84)
+        Me.txt_OFD.Location = New System.Drawing.Point(187, 19)
         Me.txt_OFD.Name = "txt_OFD"
         Me.txt_OFD.ReadOnly = True
-        Me.txt_OFD.Size = New System.Drawing.Size(843, 20)
+        Me.txt_OFD.Size = New System.Drawing.Size(665, 20)
         Me.txt_OFD.TabIndex = 2
         '
         'grp_Sync
@@ -141,9 +136,9 @@ Partial Class frm_Main
         Me.grp_Sync.Controls.Add(Me.btn_SyncNow)
         Me.grp_Sync.Controls.Add(Me.grp_SyncMode)
         Me.grp_Sync.Controls.Add(Me.dgv_Tracklist)
-        Me.grp_Sync.Location = New System.Drawing.Point(12, 213)
+        Me.grp_Sync.Location = New System.Drawing.Point(12, 143)
         Me.grp_Sync.Name = "grp_Sync"
-        Me.grp_Sync.Size = New System.Drawing.Size(889, 296)
+        Me.grp_Sync.Size = New System.Drawing.Size(889, 420)
         Me.grp_Sync.TabIndex = 3
         Me.grp_Sync.TabStop = False
         Me.grp_Sync.Text = "Sync"
@@ -155,7 +150,7 @@ Partial Class frm_Main
         Me.grp_Filter_SyncStatus.Controls.Add(Me.chk_Sync_UsedPowerampRating)
         Me.grp_Filter_SyncStatus.Controls.Add(Me.chk_Sync_UsedTagRating)
         Me.grp_Filter_SyncStatus.Controls.Add(Me.chk_Sync_Synced)
-        Me.grp_Filter_SyncStatus.Location = New System.Drawing.Point(711, 185)
+        Me.grp_Filter_SyncStatus.Location = New System.Drawing.Point(711, 309)
         Me.grp_Filter_SyncStatus.Name = "grp_Filter_SyncStatus"
         Me.grp_Filter_SyncStatus.Size = New System.Drawing.Size(172, 105)
         Me.grp_Filter_SyncStatus.TabIndex = 6
@@ -224,7 +219,7 @@ Partial Class frm_Main
         Me.grp_Filter_TrackStatus.Controls.Add(Me.chk_Track_ToSync)
         Me.grp_Filter_TrackStatus.Controls.Add(Me.chk_Track_NotFound)
         Me.grp_Filter_TrackStatus.Controls.Add(Me.chk_Track_ToRead)
-        Me.grp_Filter_TrackStatus.Location = New System.Drawing.Point(9, 185)
+        Me.grp_Filter_TrackStatus.Location = New System.Drawing.Point(9, 309)
         Me.grp_Filter_TrackStatus.Name = "grp_Filter_TrackStatus"
         Me.grp_Filter_TrackStatus.Size = New System.Drawing.Size(172, 105)
         Me.grp_Filter_TrackStatus.TabIndex = 5
@@ -293,7 +288,7 @@ Partial Class frm_Main
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_SyncNow.Image = Global.PARsync.My.Resources.Resources.arrow_refresh
         Me.btn_SyncNow.ImageAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.btn_SyncNow.Location = New System.Drawing.Point(187, 239)
+        Me.btn_SyncNow.Location = New System.Drawing.Point(187, 363)
         Me.btn_SyncNow.Name = "btn_SyncNow"
         Me.btn_SyncNow.Size = New System.Drawing.Size(518, 51)
         Me.btn_SyncNow.TabIndex = 3
@@ -308,7 +303,7 @@ Partial Class frm_Main
         Me.grp_SyncMode.Controls.Add(Me.rad_SyncMode_AskUser)
         Me.grp_SyncMode.Controls.Add(Me.rad_SyncMode_UsePowerampRating)
         Me.grp_SyncMode.Controls.Add(Me.rad_SyncMode_UseTagRating)
-        Me.grp_SyncMode.Location = New System.Drawing.Point(187, 185)
+        Me.grp_SyncMode.Location = New System.Drawing.Point(187, 309)
         Me.grp_SyncMode.Name = "grp_SyncMode"
         Me.grp_SyncMode.Size = New System.Drawing.Size(518, 48)
         Me.grp_SyncMode.TabIndex = 2
@@ -362,19 +357,20 @@ Partial Class frm_Main
         Me.dgv_Tracklist.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgv_Tracklist.Location = New System.Drawing.Point(9, 19)
         Me.dgv_Tracklist.Name = "dgv_Tracklist"
-        Me.dgv_Tracklist.Size = New System.Drawing.Size(874, 160)
+        Me.dgv_Tracklist.Size = New System.Drawing.Size(874, 284)
         Me.dgv_Tracklist.TabIndex = 1
         '
         'grp_Target
         '
         Me.grp_Target.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.grp_Target.Controls.Add(Me.btn_Help_Save)
         Me.grp_Target.Controls.Add(Me.btn_OpenSavePath)
         Me.grp_Target.Controls.Add(Me.txt_SavePath)
         Me.grp_Target.Controls.Add(Me.btn_exportNPM)
-        Me.grp_Target.Location = New System.Drawing.Point(12, 515)
+        Me.grp_Target.Location = New System.Drawing.Point(12, 569)
         Me.grp_Target.Name = "grp_Target"
-        Me.grp_Target.Size = New System.Drawing.Size(889, 106)
+        Me.grp_Target.Size = New System.Drawing.Size(889, 52)
         Me.grp_Target.TabIndex = 4
         Me.grp_Target.TabStop = False
         Me.grp_Target.Text = "Target"
@@ -383,31 +379,33 @@ Partial Class frm_Main
         '
         Me.btn_OpenSavePath.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_OpenSavePath.Image = Global.PARsync.My.Resources.Resources.script_go
-        Me.btn_OpenSavePath.Location = New System.Drawing.Point(858, 73)
+        Me.btn_OpenSavePath.Location = New System.Drawing.Point(711, 19)
         Me.btn_OpenSavePath.Name = "btn_OpenSavePath"
-        Me.btn_OpenSavePath.Size = New System.Drawing.Size(25, 25)
+        Me.btn_OpenSavePath.Size = New System.Drawing.Size(141, 25)
         Me.btn_OpenSavePath.TabIndex = 2
+        Me.btn_OpenSavePath.Text = "open Explorer window"
+        Me.btn_OpenSavePath.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.btn_OpenSavePath.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.btn_OpenSavePath.UseVisualStyleBackColor = True
         '
         'txt_SavePath
         '
         Me.txt_SavePath.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txt_SavePath.Location = New System.Drawing.Point(9, 76)
+        Me.txt_SavePath.Location = New System.Drawing.Point(187, 22)
         Me.txt_SavePath.Name = "txt_SavePath"
         Me.txt_SavePath.ReadOnly = True
-        Me.txt_SavePath.Size = New System.Drawing.Size(843, 20)
+        Me.txt_SavePath.Size = New System.Drawing.Size(518, 20)
         Me.txt_SavePath.TabIndex = 1
         '
         'btn_exportNPM
         '
-        Me.btn_exportNPM.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_exportNPM.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btn_exportNPM.Image = Global.PARsync.My.Resources.Resources.script_save
         Me.btn_exportNPM.ImageAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.btn_exportNPM.Location = New System.Drawing.Point(9, 19)
+        Me.btn_exportNPM.Location = New System.Drawing.Point(6, 19)
         Me.btn_exportNPM.Name = "btn_exportNPM"
-        Me.btn_exportNPM.Size = New System.Drawing.Size(874, 51)
+        Me.btn_exportNPM.Size = New System.Drawing.Size(172, 25)
         Me.btn_exportNPM.TabIndex = 0
         Me.btn_exportNPM.Text = "save for NPM"
         Me.btn_exportNPM.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
@@ -448,6 +446,8 @@ Partial Class frm_Main
         '
         Me.grp_Settings.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.grp_Settings.Controls.Add(Me.btn_Help_LocalMainPath)
+        Me.grp_Settings.Controls.Add(Me.btn_Help_RemoteMainPath)
         Me.grp_Settings.Controls.Add(Me.btn_LocalMainPath)
         Me.grp_Settings.Controls.Add(Me.txt_RemoteMainPath)
         Me.grp_Settings.Controls.Add(Me.txt_LocalMainPath)
@@ -463,12 +463,15 @@ Partial Class frm_Main
         'btn_LocalMainPath
         '
         Me.btn_LocalMainPath.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_LocalMainPath.BackgroundImage = Global.PARsync.My.Resources.Resources.folder
         Me.btn_LocalMainPath.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
-        Me.btn_LocalMainPath.Location = New System.Drawing.Point(858, 14)
+        Me.btn_LocalMainPath.Image = Global.PARsync.My.Resources.Resources.folder
+        Me.btn_LocalMainPath.Location = New System.Drawing.Point(711, 14)
         Me.btn_LocalMainPath.Name = "btn_LocalMainPath"
-        Me.btn_LocalMainPath.Size = New System.Drawing.Size(25, 25)
+        Me.btn_LocalMainPath.Size = New System.Drawing.Size(141, 25)
         Me.btn_LocalMainPath.TabIndex = 4
+        Me.btn_LocalMainPath.Text = "set local main Path"
+        Me.btn_LocalMainPath.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.btn_LocalMainPath.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.btn_LocalMainPath.UseVisualStyleBackColor = True
         '
         'txt_RemoteMainPath
@@ -477,7 +480,7 @@ Partial Class frm_Main
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txt_RemoteMainPath.Location = New System.Drawing.Point(111, 44)
         Me.txt_RemoteMainPath.Name = "txt_RemoteMainPath"
-        Me.txt_RemoteMainPath.Size = New System.Drawing.Size(772, 20)
+        Me.txt_RemoteMainPath.Size = New System.Drawing.Size(741, 20)
         Me.txt_RemoteMainPath.TabIndex = 3
         '
         'txt_LocalMainPath
@@ -487,7 +490,7 @@ Partial Class frm_Main
         Me.txt_LocalMainPath.Location = New System.Drawing.Point(111, 17)
         Me.txt_LocalMainPath.Name = "txt_LocalMainPath"
         Me.txt_LocalMainPath.ReadOnly = True
-        Me.txt_LocalMainPath.Size = New System.Drawing.Size(741, 20)
+        Me.txt_LocalMainPath.Size = New System.Drawing.Size(594, 20)
         Me.txt_LocalMainPath.TabIndex = 2
         '
         'lbl_RemoteMainPath
@@ -535,7 +538,7 @@ Partial Class frm_Main
         '
         Me.prb_Progress.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.prb_Progress.Location = New System.Drawing.Point(187, 261)
+        Me.prb_Progress.Location = New System.Drawing.Point(187, 385)
         Me.prb_Progress.Name = "prb_Progress"
         Me.prb_Progress.Size = New System.Drawing.Size(518, 29)
         Me.prb_Progress.Style = System.Windows.Forms.ProgressBarStyle.Continuous
@@ -546,12 +549,52 @@ Partial Class frm_Main
         Me.lbl_Progress.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lbl_Progress.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbl_Progress.Location = New System.Drawing.Point(187, 239)
+        Me.lbl_Progress.Location = New System.Drawing.Point(187, 363)
         Me.lbl_Progress.Name = "lbl_Progress"
         Me.lbl_Progress.Size = New System.Drawing.Size(518, 25)
         Me.lbl_Progress.TabIndex = 8
         Me.lbl_Progress.Text = "please select a source file"
         Me.lbl_Progress.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'btn_Help_OpenSourceFile
+        '
+        Me.btn_Help_OpenSourceFile.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_Help_OpenSourceFile.Image = Global.PARsync.My.Resources.Resources.toSync
+        Me.btn_Help_OpenSourceFile.Location = New System.Drawing.Point(858, 16)
+        Me.btn_Help_OpenSourceFile.Name = "btn_Help_OpenSourceFile"
+        Me.btn_Help_OpenSourceFile.Size = New System.Drawing.Size(25, 25)
+        Me.btn_Help_OpenSourceFile.TabIndex = 4
+        Me.btn_Help_OpenSourceFile.UseVisualStyleBackColor = True
+        '
+        'btn_Help_RemoteMainPath
+        '
+        Me.btn_Help_RemoteMainPath.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_Help_RemoteMainPath.Image = Global.PARsync.My.Resources.Resources.toSync
+        Me.btn_Help_RemoteMainPath.Location = New System.Drawing.Point(858, 41)
+        Me.btn_Help_RemoteMainPath.Name = "btn_Help_RemoteMainPath"
+        Me.btn_Help_RemoteMainPath.Size = New System.Drawing.Size(25, 25)
+        Me.btn_Help_RemoteMainPath.TabIndex = 5
+        Me.btn_Help_RemoteMainPath.UseVisualStyleBackColor = True
+        '
+        'btn_Help_LocalMainPath
+        '
+        Me.btn_Help_LocalMainPath.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_Help_LocalMainPath.Image = Global.PARsync.My.Resources.Resources.toSync
+        Me.btn_Help_LocalMainPath.Location = New System.Drawing.Point(858, 14)
+        Me.btn_Help_LocalMainPath.Name = "btn_Help_LocalMainPath"
+        Me.btn_Help_LocalMainPath.Size = New System.Drawing.Size(25, 25)
+        Me.btn_Help_LocalMainPath.TabIndex = 6
+        Me.btn_Help_LocalMainPath.UseVisualStyleBackColor = True
+        '
+        'btn_Help_Save
+        '
+        Me.btn_Help_Save.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_Help_Save.Image = Global.PARsync.My.Resources.Resources.toSync
+        Me.btn_Help_Save.Location = New System.Drawing.Point(858, 19)
+        Me.btn_Help_Save.Name = "btn_Help_Save"
+        Me.btn_Help_Save.Size = New System.Drawing.Size(25, 25)
+        Me.btn_Help_Save.TabIndex = 5
+        Me.btn_Help_Save.UseVisualStyleBackColor = True
         '
         'frm_Main
         '
@@ -590,7 +633,6 @@ Partial Class frm_Main
     Friend WithEvents txt_OFD As TextBox
     Friend WithEvents grp_Sync As GroupBox
     Friend WithEvents grp_Target As GroupBox
-    Friend WithEvents lbl_Source_1 As Label
     Friend WithEvents btn_SyncNow As Button
     Friend WithEvents grp_SyncMode As GroupBox
     Friend WithEvents dgv_Tracklist As DataGridView
@@ -630,4 +672,8 @@ Partial Class frm_Main
     Friend WithEvents btn_OpenSavePath As Button
     Friend WithEvents prb_Progress As ProgressBar
     Friend WithEvents lbl_Progress As Label
+    Friend WithEvents btn_Help_OpenSourceFile As Button
+    Friend WithEvents btn_Help_Save As Button
+    Friend WithEvents btn_Help_LocalMainPath As Button
+    Friend WithEvents btn_Help_RemoteMainPath As Button
 End Class

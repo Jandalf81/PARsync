@@ -100,6 +100,8 @@ Public Class Tracklist
         Dim line As String = ""
         Dim content As String = ""
 
+        Dim m3u As String = ""
+
         content = "Track|Rating|Times Played|Last Played|albumTitle|artist|" + vbLf
 
         For Each track In tracks
@@ -113,10 +115,18 @@ Public Class Tracklist
 
                 content += line + vbLf
             End If
+
+            If track._PowerampRating > 0 Then
+                m3u += track._remotePath + vbCrLf
+            End If
         Next
 
         fileWriter = My.Computer.FileSystem.OpenTextFileWriter(myFile, False)
         fileWriter.Write(content)
+        fileWriter.Close()
+
+        fileWriter = My.Computer.FileSystem.OpenTextFileWriter(myFile.Remove(myFile.LastIndexOf("\")) + "\_hasRating.m3u", False)
+        fileWriter.Write(m3u)
         fileWriter.Close()
     End Sub
 End Class

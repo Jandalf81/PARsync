@@ -120,13 +120,6 @@
   <metadata name="ofd_AllTracksCSV.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>180, 17</value>
   </metadata>
-  <data name="lbl_Source_1.Text" xml:space="preserve">
-    <value>1. Open 'New Playlist Manager' on your Android Device
-2. Open the burger menu, navigate to 'Library'
-3. Open the context menu, select 'Export all tracks to CSV format'
-4. Wait for the export to finish
-5. Select the created file here</value>
-  </data>
   <metadata name="StatusStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>325, 17</value>
   </metadata>
