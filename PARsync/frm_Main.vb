@@ -19,14 +19,17 @@ Public Class frm_Main
                 rad_SyncMode_AskUser.Checked = True
                 rad_SyncMode_UseTagRating.Checked = False
                 rad_SyncMode_UsePowerampRating.Checked = False
+                btn_SyncNow.Image = My.Resources.arrow_refresh
             Case Settings.syncModeEnum.useTagRating
                 rad_SyncMode_AskUser.Checked = False
                 rad_SyncMode_UseTagRating.Checked = True
                 rad_SyncMode_UsePowerampRating.Checked = False
+                btn_SyncNow.Image = My.Resources.arrow_right
             Case Settings.syncModeEnum.usePowerampRating
                 rad_SyncMode_AskUser.Checked = False
                 rad_SyncMode_UseTagRating.Checked = False
                 rad_SyncMode_UsePowerampRating.Checked = True
+                btn_SyncNow.Image = My.Resources.arrow_left
         End Select
 
         tst_NoOfTracks.Text = "Number of Tracks: 0"
@@ -145,6 +148,7 @@ Public Class frm_Main
             txt_OFD.Text = ofd_AllTracksCSV.FileName
 
             tst_Status.Text = "| Status: reading CSV file..."
+            lbl_Progress.Text = "reading CSV file..."
             bgw_ReadCSV.RunWorkerAsync()
         End If
     End Sub
@@ -163,10 +167,13 @@ Public Class frm_Main
             Select Case checkedButton.Name
                 Case "rad_SyncMode_AskUser"
                     settings._syncMode = Settings.syncModeEnum.askUser
+                    btn_SyncNow.Image = My.Resources.arrow_refresh
                 Case "rad_SyncMode_UseTagRating"
                     settings._syncMode = Settings.syncModeEnum.useTagRating
+                    btn_SyncNow.Image = My.Resources.arrow_right
                 Case "rad_SyncMode_UsePowerampRating"
                     settings._syncMode = Settings.syncModeEnum.usePowerampRating
+                    btn_SyncNow.Image = My.Resources.arrow_left
             End Select
         End If
     End Sub
@@ -176,7 +183,7 @@ Public Class frm_Main
         chk_Track_NotFound.Checked = True
         chk_Track_ToSync.Checked = True
         chk_Track_Synced.Checked = True
-        grp_Filter_SyncStatus.Enabled = False
+        grp_Filter_TrackStatus.Enabled = False
         bs.RemoveFilter()
 
         tst_Status.Text = " | Status: syncing Ratings..."
@@ -229,10 +236,15 @@ Public Class frm_Main
 
     Private Sub sfd_exportNPM_FileOk(sender As Object, e As CancelEventArgs) Handles sfd_exportNPM.FileOk
         listOfTracks.exportNPM(sfd_exportNPM.FileName)
+        txt_SavePath.Text = sfd_exportNPM.FileName
     End Sub
 
     Private Sub sfd_AllTracksCSV_FileOk(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles sfd_AllTracksCSV.FileOk
         listOfTracks.exportCSV(sfd_AllTracksCSV.FileName())
+    End Sub
+
+    Private Sub btn_OpenSavePath_Click(sender As Object, e As EventArgs) Handles btn_OpenSavePath.Click
+        Process.Start("explorer.exe", txt_SavePath.Text.Remove(txt_SavePath.Text.LastIndexOf("\")))
     End Sub
 #End Region
 
@@ -255,6 +267,7 @@ Public Class frm_Main
         Me.dgv_Tracklist.DataSource = Me.bs
 
         tst_Status.Text = "| Status: getting local Path..."
+        lbl_Progress.Text = "testing local files... (0%)"
         bgw_transformLocalPath.RunWorkerAsync()
     End Sub
 #End Region
@@ -267,10 +280,13 @@ Public Class frm_Main
         Dim percent As Integer = 0
         Dim i As Integer = 0
 
-        tst_Status.Text = "| Status: getting local Path..."
+        tst_Status.Text = "| Status: testing local files..."
 
         For Each track As Track In listOfTracks.tracks
             track.transformToLocalPath(settings._remoteMainPath, settings._localMainPath)
+
+            ' DEBUG
+            My.Application.Log.WriteEntry("Pfad transformiert: " + i.ToString + " / " + bs.Count.ToString)
 
             i = i + 1
             percent = i * 100 / bs.Count
@@ -279,11 +295,14 @@ Public Class frm_Main
     End Sub
     Private Sub bgw_transformLocalPath_ProgressChanged(sender As Object, e As ProgressChangedEventArgs) Handles bgw_transformLocalPath.ProgressChanged
         tsp_Progress.ProgressBar.Value = e.ProgressPercentage
+        prb_Progress.Value = e.ProgressPercentage
+        lbl_Progress.Text = "testing local files... (" + e.ProgressPercentage.ToString + "%)"
     End Sub
     Private Sub bgw_transformLocalPath_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles bgw_transformLocalPath.RunWorkerCompleted
         tst_Status.Text = "| Status: getting Tag Rating..."
         tsp_Progress.ProgressBar.Value = 0
 
+        lbl_Progress.Text = "getting Tag Ratings... (0%)"
         bgw_ReadTagRating.RunWorkerAsync()
     End Sub
 #End Region
@@ -305,6 +324,9 @@ Public Class frm_Main
                 End If
             End If
 
+            ' DEBUG
+            My.Application.Log.WriteEntry("Track-Ratings gelesen: " + i.ToString + " / " + bs.Count.ToString)
+
             i = i + 1
             percent = i * 100 / bs.Count
             bgw_ReadTagRating.ReportProgress(percent)
@@ -312,6 +334,8 @@ Public Class frm_Main
     End Sub
     Private Sub bgw_ReadTagRating_ProgressChanged(sender As Object, e As ProgressChangedEventArgs) Handles bgw_ReadTagRating.ProgressChanged
         tsp_Progress.ProgressBar.Value = e.ProgressPercentage
+        prb_Progress.Value = e.ProgressPercentage
+        lbl_Progress.Text = "getting Tag ratings... (" + e.ProgressPercentage.ToString + "%)"
     End Sub
     Private Sub bgw_ReadTagRating_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles bgw_ReadTagRating.RunWorkerCompleted
         tst_Status.Text = "| Status: Idle"
@@ -322,6 +346,8 @@ Public Class frm_Main
         'enable following controls
         grp_Filter_TrackStatus.Enabled = True
         grp_Sync.Enabled = True
+        prb_Progress.Visible = False
+        lbl_Progress.Visible = False
     End Sub
 #End Region
 

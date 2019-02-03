@@ -102,8 +102,6 @@ Public Class Track
         End Get
         Set(value As Integer)
             PowerampRating = value
-            _hasBeenUpdated = True
-
             Select Case value
                 Case 0
                     _PowerampRatingImage = My.Resources.star_0
@@ -158,7 +156,6 @@ Public Class Track
         End Get
         Set(value As Integer)
             TagRating = value
-            _hasBeenUpdated = True
             writeTagRating(value)
 
             Select Case value
@@ -305,6 +302,11 @@ Public Class Track
         TagLib.Id3v2.Tag.ForceDefaultVersion = True
 
         If (My.Computer.FileSystem.FileExists(Me._localPath) = True) Then
+            If (IO.Path.GetExtension(Me._localPath) <> ".mp3") Then
+                Me._trackStatus = trackStatusEnum.notFound
+                Exit Sub
+            End If
+
             Dim mp3 As TagLib.File = TagLib.File.Create(Me._localPath)
             Dim tag As TagLib.Tag = mp3.GetTag(TagLib.TagTypes.Id3v2)
 
@@ -330,7 +332,13 @@ Public Class Track
             mp3.Dispose()
         End If
     End Sub
+
     Public Sub writeTagRating(ByVal rating As Integer)
+        If (IO.Path.GetExtension(Me._localPath) <> ".mp3") Then
+            Me._syncStatus = syncStatusEnum.Cancelled
+            Exit Sub
+        End If
+
         TagLib.Id3v2.Tag.DefaultVersion = 3
         TagLib.Id3v2.Tag.ForceDefaultVersion = True
 
@@ -362,12 +370,14 @@ Public Class Track
         Me._PowerampRating = Me._TagRating
         Me._trackStatus = trackStatusEnum.synced
         Me._syncStatus = syncStatusEnum.usedTagRating
+        Me._hasBeenUpdated = True
     End Sub
 
     Public Sub usePowerampRating()
         Me._TagRating = Me._PowerampRating
         Me._trackStatus = trackStatusEnum.synced
         Me._syncStatus = syncStatusEnum.usedPowerampRating
+        Me._hasBeenUpdated = True
     End Sub
 
     Public Sub cancelSync()

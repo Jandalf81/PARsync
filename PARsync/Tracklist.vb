@@ -103,14 +103,16 @@ Public Class Tracklist
         content = "Track|Rating|Times Played|Last Played|albumTitle|artist|" + vbLf
 
         For Each track In tracks
-            line = """" + Path.GetFileName(track._localPath) + """##"
-            line += """" + track._PowerampRating.ToString + """##"
-            line += """" + track._timesPlayed.ToString + """##"
-            line += """0""##"
-            line += """" + track._album + """##"
-            line += """" + track._artist + """"
+            If (track._hasBeenUpdated = True) Then
+                line = """" + Path.GetFileName(track._localPath) + """##"
+                line += """" + track._PowerampRating.ToString + """##"
+                line += """" + track._timesPlayed.ToString + """##"
+                line += """0""##"
+                line += """" + track._album + """##"
+                line += """" + track._artist + """"
 
-            content += line + vbLf
+                content += line + vbLf
+            End If
         Next
 
         fileWriter = My.Computer.FileSystem.OpenTextFileWriter(myFile, False)

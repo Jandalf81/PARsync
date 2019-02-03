@@ -46,6 +46,8 @@ Partial Class frm_Main
         Me.rad_SyncMode_UseTagRating = New System.Windows.Forms.RadioButton()
         Me.dgv_Tracklist = New System.Windows.Forms.DataGridView()
         Me.grp_Target = New System.Windows.Forms.GroupBox()
+        Me.btn_OpenSavePath = New System.Windows.Forms.Button()
+        Me.txt_SavePath = New System.Windows.Forms.TextBox()
         Me.btn_exportNPM = New System.Windows.Forms.Button()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.tst_NoOfTracks = New System.Windows.Forms.ToolStripStatusLabel()
@@ -65,6 +67,8 @@ Partial Class frm_Main
         Me.bgw_SyncNow = New System.ComponentModel.BackgroundWorker()
         Me.sfd_exportNPM = New System.Windows.Forms.SaveFileDialog()
         Me.bgw_ReadCSV = New System.ComponentModel.BackgroundWorker()
+        Me.prb_Progress = New System.Windows.Forms.ProgressBar()
+        Me.lbl_Progress = New System.Windows.Forms.Label()
         Me.grp_Source.SuspendLayout()
         Me.grp_Sync.SuspendLayout()
         Me.grp_Filter_SyncStatus.SuspendLayout()
@@ -130,6 +134,8 @@ Partial Class frm_Main
         Me.grp_Sync.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.grp_Sync.Controls.Add(Me.prb_Progress)
+        Me.grp_Sync.Controls.Add(Me.lbl_Progress)
         Me.grp_Sync.Controls.Add(Me.grp_Filter_SyncStatus)
         Me.grp_Sync.Controls.Add(Me.grp_Filter_TrackStatus)
         Me.grp_Sync.Controls.Add(Me.btn_SyncNow)
@@ -137,7 +143,7 @@ Partial Class frm_Main
         Me.grp_Sync.Controls.Add(Me.dgv_Tracklist)
         Me.grp_Sync.Location = New System.Drawing.Point(12, 213)
         Me.grp_Sync.Name = "grp_Sync"
-        Me.grp_Sync.Size = New System.Drawing.Size(889, 265)
+        Me.grp_Sync.Size = New System.Drawing.Size(889, 296)
         Me.grp_Sync.TabIndex = 3
         Me.grp_Sync.TabStop = False
         Me.grp_Sync.Text = "Sync"
@@ -149,7 +155,7 @@ Partial Class frm_Main
         Me.grp_Filter_SyncStatus.Controls.Add(Me.chk_Sync_UsedPowerampRating)
         Me.grp_Filter_SyncStatus.Controls.Add(Me.chk_Sync_UsedTagRating)
         Me.grp_Filter_SyncStatus.Controls.Add(Me.chk_Sync_Synced)
-        Me.grp_Filter_SyncStatus.Location = New System.Drawing.Point(711, 154)
+        Me.grp_Filter_SyncStatus.Location = New System.Drawing.Point(711, 185)
         Me.grp_Filter_SyncStatus.Name = "grp_Filter_SyncStatus"
         Me.grp_Filter_SyncStatus.Size = New System.Drawing.Size(172, 105)
         Me.grp_Filter_SyncStatus.TabIndex = 6
@@ -218,7 +224,7 @@ Partial Class frm_Main
         Me.grp_Filter_TrackStatus.Controls.Add(Me.chk_Track_ToSync)
         Me.grp_Filter_TrackStatus.Controls.Add(Me.chk_Track_NotFound)
         Me.grp_Filter_TrackStatus.Controls.Add(Me.chk_Track_ToRead)
-        Me.grp_Filter_TrackStatus.Location = New System.Drawing.Point(9, 154)
+        Me.grp_Filter_TrackStatus.Location = New System.Drawing.Point(9, 185)
         Me.grp_Filter_TrackStatus.Name = "grp_Filter_TrackStatus"
         Me.grp_Filter_TrackStatus.Size = New System.Drawing.Size(172, 105)
         Me.grp_Filter_TrackStatus.TabIndex = 5
@@ -285,11 +291,14 @@ Partial Class frm_Main
         '
         Me.btn_SyncNow.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_SyncNow.Location = New System.Drawing.Point(187, 208)
+        Me.btn_SyncNow.Image = Global.PARsync.My.Resources.Resources.arrow_refresh
+        Me.btn_SyncNow.ImageAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.btn_SyncNow.Location = New System.Drawing.Point(187, 239)
         Me.btn_SyncNow.Name = "btn_SyncNow"
         Me.btn_SyncNow.Size = New System.Drawing.Size(518, 51)
         Me.btn_SyncNow.TabIndex = 3
         Me.btn_SyncNow.Text = "Sync now"
+        Me.btn_SyncNow.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.btn_SyncNow.UseVisualStyleBackColor = True
         '
         'grp_SyncMode
@@ -299,7 +308,7 @@ Partial Class frm_Main
         Me.grp_SyncMode.Controls.Add(Me.rad_SyncMode_AskUser)
         Me.grp_SyncMode.Controls.Add(Me.rad_SyncMode_UsePowerampRating)
         Me.grp_SyncMode.Controls.Add(Me.rad_SyncMode_UseTagRating)
-        Me.grp_SyncMode.Location = New System.Drawing.Point(187, 154)
+        Me.grp_SyncMode.Location = New System.Drawing.Point(187, 185)
         Me.grp_SyncMode.Name = "grp_SyncMode"
         Me.grp_SyncMode.Size = New System.Drawing.Size(518, 48)
         Me.grp_SyncMode.TabIndex = 2
@@ -353,34 +362,61 @@ Partial Class frm_Main
         Me.dgv_Tracklist.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgv_Tracklist.Location = New System.Drawing.Point(9, 19)
         Me.dgv_Tracklist.Name = "dgv_Tracklist"
-        Me.dgv_Tracklist.Size = New System.Drawing.Size(874, 129)
+        Me.dgv_Tracklist.Size = New System.Drawing.Size(874, 160)
         Me.dgv_Tracklist.TabIndex = 1
         '
         'grp_Target
         '
         Me.grp_Target.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.grp_Target.Controls.Add(Me.btn_OpenSavePath)
+        Me.grp_Target.Controls.Add(Me.txt_SavePath)
         Me.grp_Target.Controls.Add(Me.btn_exportNPM)
-        Me.grp_Target.Location = New System.Drawing.Point(12, 484)
+        Me.grp_Target.Location = New System.Drawing.Point(12, 515)
         Me.grp_Target.Name = "grp_Target"
-        Me.grp_Target.Size = New System.Drawing.Size(889, 52)
+        Me.grp_Target.Size = New System.Drawing.Size(889, 106)
         Me.grp_Target.TabIndex = 4
         Me.grp_Target.TabStop = False
         Me.grp_Target.Text = "Target"
         '
+        'btn_OpenSavePath
+        '
+        Me.btn_OpenSavePath.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_OpenSavePath.Image = Global.PARsync.My.Resources.Resources.script_go
+        Me.btn_OpenSavePath.Location = New System.Drawing.Point(858, 73)
+        Me.btn_OpenSavePath.Name = "btn_OpenSavePath"
+        Me.btn_OpenSavePath.Size = New System.Drawing.Size(25, 25)
+        Me.btn_OpenSavePath.TabIndex = 2
+        Me.btn_OpenSavePath.UseVisualStyleBackColor = True
+        '
+        'txt_SavePath
+        '
+        Me.txt_SavePath.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txt_SavePath.Location = New System.Drawing.Point(9, 76)
+        Me.txt_SavePath.Name = "txt_SavePath"
+        Me.txt_SavePath.ReadOnly = True
+        Me.txt_SavePath.Size = New System.Drawing.Size(843, 20)
+        Me.txt_SavePath.TabIndex = 1
+        '
         'btn_exportNPM
         '
-        Me.btn_exportNPM.Location = New System.Drawing.Point(9, 20)
+        Me.btn_exportNPM.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_exportNPM.Image = Global.PARsync.My.Resources.Resources.script_save
+        Me.btn_exportNPM.ImageAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.btn_exportNPM.Location = New System.Drawing.Point(9, 19)
         Me.btn_exportNPM.Name = "btn_exportNPM"
-        Me.btn_exportNPM.Size = New System.Drawing.Size(224, 23)
+        Me.btn_exportNPM.Size = New System.Drawing.Size(874, 51)
         Me.btn_exportNPM.TabIndex = 0
         Me.btn_exportNPM.Text = "save for NPM"
+        Me.btn_exportNPM.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.btn_exportNPM.UseVisualStyleBackColor = True
         '
         'StatusStrip1
         '
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tst_NoOfTracks, Me.tst_Status, Me.tsp_Progress})
-        Me.StatusStrip1.Location = New System.Drawing.Point(0, 539)
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 624)
         Me.StatusStrip1.Name = "StatusStrip1"
         Me.StatusStrip1.Size = New System.Drawing.Size(911, 22)
         Me.StatusStrip1.TabIndex = 5
@@ -492,11 +528,36 @@ Partial Class frm_Main
         '
         Me.sfd_exportNPM.FileName = "poweramp_ratings_backup.txt"
         '
+        'bgw_ReadCSV
+        '
+        '
+        'prb_Progress
+        '
+        Me.prb_Progress.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.prb_Progress.Location = New System.Drawing.Point(187, 261)
+        Me.prb_Progress.Name = "prb_Progress"
+        Me.prb_Progress.Size = New System.Drawing.Size(518, 29)
+        Me.prb_Progress.Style = System.Windows.Forms.ProgressBarStyle.Continuous
+        Me.prb_Progress.TabIndex = 7
+        '
+        'lbl_Progress
+        '
+        Me.lbl_Progress.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lbl_Progress.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lbl_Progress.Location = New System.Drawing.Point(187, 239)
+        Me.lbl_Progress.Name = "lbl_Progress"
+        Me.lbl_Progress.Size = New System.Drawing.Size(518, 25)
+        Me.lbl_Progress.TabIndex = 8
+        Me.lbl_Progress.Text = "please select a source file"
+        Me.lbl_Progress.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
         'frm_Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(911, 561)
+        Me.ClientSize = New System.Drawing.Size(911, 646)
         Me.Controls.Add(Me.grp_Settings)
         Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.grp_Target)
@@ -513,6 +574,7 @@ Partial Class frm_Main
         Me.grp_SyncMode.ResumeLayout(False)
         CType(Me.dgv_Tracklist, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grp_Target.ResumeLayout(False)
+        Me.grp_Target.PerformLayout()
         Me.StatusStrip1.ResumeLayout(False)
         Me.StatusStrip1.PerformLayout()
         Me.grp_Settings.ResumeLayout(False)
@@ -564,4 +626,8 @@ Partial Class frm_Main
     Friend WithEvents chk_Sync_UsedTagRating As CheckBox
     Friend WithEvents chk_Sync_Synced As CheckBox
     Friend WithEvents bgw_ReadCSV As System.ComponentModel.BackgroundWorker
+    Friend WithEvents txt_SavePath As TextBox
+    Friend WithEvents btn_OpenSavePath As Button
+    Friend WithEvents prb_Progress As ProgressBar
+    Friend WithEvents lbl_Progress As Label
 End Class
