@@ -144,58 +144,18 @@ Public Class frm_Main
         If result = DialogResult.OK Then
             txt_OFD.Text = ofd_AllTracksCSV.FileName
 
-            tst_Status.Text = "| Status: Reading CSV..."
-            listOfTracks.importCSV(txt_OFD.Text)
-            tst_NoOfTracks.Text = "Number of Tracks: " + listOfTracks.tracks.Count.ToString
-            tst_Status.Text = "| Status: Idle"
-
-            bs = New Equin.ApplicationFramework.BindingListView(Of Track)(listOfTracks.tracks)
-            Me.dgv_Tracklist.DataSource = Me.bs
-
-            tst_Status.Text = "| Status: getting local Path..."
-            bgw_transformLocalPath.RunWorkerAsync()
+            tst_Status.Text = "| Status: reading CSV file..."
+            bgw_ReadCSV.RunWorkerAsync()
         End If
     End Sub
 #End Region
 
 #Region "grp_Sync"
-    ' TODO make the DGV sort-able
-    Private Sub chk_Synced_CheckedChanged(sender As Object, e As EventArgs) Handles chk_Track_Synced.CheckedChanged
-        set_DGV_Filter()
-    End Sub
-
-    Private Sub set_DGV_Filter()
-        Dim filterList As New List(Of String)
-        Dim filter As String = ""
-
-        If chk_Track_ToRead.Checked = True Then
-            filterList.Add("_trackStatus = ""toRead""")
-        End If
-
-        If chk_Track_NotFound.Checked = True Then
-            filterList.Add("_trackStatus = ""notFound""")
-        End If
-
-        If chk_Track_ToSync.Checked = True Then
-            filterList.Add("_trackStatus = ""toSync""")
-        End If
-
-        If chk_Track_Synced.Checked = True Then
-            filterList.Add("_trackStatus = ""synced""")
-        End If
-
-        For Each fl In filterList
-            filter = filter + fl + " OR "
-        Next
-
-        filter = filter.Substring(0, filter.Length - 4)
-    End Sub
-
+    ' TODO make the DGV sort-able: http://blw.sourceforge.net/
     Private Sub rad_SyncMode_CheckedChanged(sender As Object, e As EventArgs) Handles _
-        rad_SyncMode_AskUser.CheckedChanged,
-        rad_SyncMode_UseTagRating.CheckedChanged,
-        rad_SyncMode_UsePowerampRating.CheckedChanged
-
+            rad_SyncMode_AskUser.CheckedChanged,
+            rad_SyncMode_UseTagRating.CheckedChanged,
+            rad_SyncMode_UsePowerampRating.CheckedChanged
         Dim checkedButton As New RadioButton()
         checkedButton = grp_SyncMode.Controls.OfType(Of RadioButton)().FirstOrDefault(Function(radioButton) radioButton.Checked)
 
@@ -212,8 +172,6 @@ Public Class frm_Main
     End Sub
 
     Private Sub btn_SyncNow_Click(sender As Object, e As EventArgs) Handles btn_SyncNow.Click
-        tst_Status.Text = " | Status: syncing Ratings..."
-
         chk_Track_ToRead.Checked = True
         chk_Track_NotFound.Checked = True
         chk_Track_ToSync.Checked = True
@@ -221,6 +179,7 @@ Public Class frm_Main
         grp_Filter_SyncStatus.Enabled = False
         bs.RemoveFilter()
 
+        tst_Status.Text = " | Status: syncing Ratings..."
         bgw_SyncNow.RunWorkerAsync()
     End Sub
 
@@ -231,7 +190,7 @@ Public Class frm_Main
             chk_Track_NotFound.CheckedChanged,
             chk_Track_ToSync.CheckedChanged,
             chk_Track_Synced.CheckedChanged
-        bs.ApplyFilter(AddressOf trackFilterBefore)
+        bs.ApplyFilter(AddressOf trackStatusFilter)
     End Sub
 
     'handle changes of CHECKBOXes in grp_Filter_SyncStatus
@@ -240,10 +199,10 @@ Public Class frm_Main
             chk_Sync_UsedTagRating.CheckedChanged,
             chk_Sync_UsedPowerampRating.CheckedChanged,
             chk_Sync_Cancelled.CheckedChanged
-        bs.ApplyFilter(AddressOf trackFilterAfter)
+        bs.ApplyFilter(AddressOf syncStatusFilter)
     End Sub
 
-    Private Function trackFilterBefore(ByVal track As Track) As Boolean
+    Private Function trackStatusFilter(ByVal track As Track) As Boolean
         If (chk_Track_ToRead.Checked = True AndAlso track._trackStatus = Track.trackStatusEnum.toRead) Then Return True
         If (chk_Track_NotFound.Checked = True AndAlso track._trackStatus = Track.trackStatusEnum.notFound) Then Return True
         If (chk_Track_ToSync.Checked = True AndAlso track._trackStatus = Track.trackStatusEnum.toSync) Then Return True
@@ -252,7 +211,7 @@ Public Class frm_Main
         Return False
     End Function
 
-    Private Function trackFilterAfter(ByVal track As Track) As Boolean
+    Private Function syncStatusFilter(ByVal track As Track) As Boolean
         If (chk_Sync_Synced.Checked = True AndAlso track._syncStatus = Track.syncStatusEnum.synced) Then Return True
         If (chk_Sync_UsedTagRating.Checked = True AndAlso track._syncStatus = Track.syncStatusEnum.usedTagRating) Then Return True
         If (chk_Sync_UsedPowerampRating.Checked = True AndAlso track._syncStatus = Track.syncStatusEnum.usedPowerampRating) Then Return True
@@ -284,6 +243,22 @@ Public Class frm_Main
 #End Region
 
 
+#Region "bgw_ReadCSV"
+    Private Sub bgw_ReadCSV_DoWork(sender As Object, e As DoWorkEventArgs) Handles bgw_ReadCSV.DoWork
+        listOfTracks.importCSV(txt_OFD.Text)
+    End Sub
+    Private Sub bgw_ReadCSV_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles bgw_ReadCSV.RunWorkerCompleted
+        tst_NoOfTracks.Text = "Number of Tracks: " + listOfTracks.tracks.Count.ToString
+        tst_Status.Text = "| Status: Idle"
+
+        bs = New Equin.ApplicationFramework.BindingListView(Of Track)(listOfTracks.tracks)
+        Me.dgv_Tracklist.DataSource = Me.bs
+
+        tst_Status.Text = "| Status: getting local Path..."
+        bgw_transformLocalPath.RunWorkerAsync()
+    End Sub
+#End Region
+
 #Region "bgw_transformLocalPath"
     Private Sub bgw_transformLocalPath_DoWork(sender As Object, e As DoWorkEventArgs) Handles bgw_transformLocalPath.DoWork
         ' TODO make the DGV follow progress
@@ -291,6 +266,8 @@ Public Class frm_Main
 
         Dim percent As Integer = 0
         Dim i As Integer = 0
+
+        tst_Status.Text = "| Status: getting local Path..."
 
         For Each track As Track In listOfTracks.tracks
             track.transformToLocalPath(settings._remoteMainPath, settings._localMainPath)
@@ -305,6 +282,8 @@ Public Class frm_Main
     End Sub
     Private Sub bgw_transformLocalPath_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles bgw_transformLocalPath.RunWorkerCompleted
         tst_Status.Text = "| Status: getting Tag Rating..."
+        tsp_Progress.ProgressBar.Value = 0
+
         bgw_ReadTagRating.RunWorkerAsync()
     End Sub
 #End Region
@@ -337,6 +316,8 @@ Public Class frm_Main
     Private Sub bgw_ReadTagRating_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles bgw_ReadTagRating.RunWorkerCompleted
         tst_Status.Text = "| Status: Idle"
         tsp_Progress.ProgressBar.Value = 0
+
+        Me.dgv_Tracklist.DataSource = Me.bs
 
         'enable following controls
         grp_Filter_TrackStatus.Enabled = True

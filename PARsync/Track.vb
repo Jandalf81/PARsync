@@ -23,6 +23,7 @@ Public Class Track
     Private trackStatusImage As Image
     Private syncStatus As syncStatusEnum
     Private syncStatusImage As Image
+    Private hasBeenUpdated As Boolean
 
     Public Enum trackStatusEnum
         toRead
@@ -101,6 +102,7 @@ Public Class Track
         End Get
         Set(value As Integer)
             PowerampRating = value
+            _hasBeenUpdated = True
 
             Select Case value
                 Case 0
@@ -156,6 +158,7 @@ Public Class Track
         End Get
         Set(value As Integer)
             TagRating = value
+            _hasBeenUpdated = True
             writeTagRating(value)
 
             Select Case value
@@ -240,6 +243,14 @@ Public Class Track
             syncStatusImage = value
         End Set
     End Property
+    Public Property _hasBeenUpdated As Boolean
+        Get
+            Return hasBeenUpdated
+        End Get
+        Set(value As Boolean)
+            hasBeenUpdated = value
+        End Set
+    End Property
 
     Public Sub New()
     End Sub
@@ -271,6 +282,7 @@ Public Class Track
         'Me.remoteRatingImage = My.Resources.star_0
         Me._trackStatus = trackStatusEnum.toRead
         Me._syncStatus = syncStatusEnum.toSync
+        Me._hasBeenUpdated = False
     End Sub
 
     Public Sub transformToLocalPath(ByVal remoteMainPath As String, ByVal localMainPath As String)
@@ -284,6 +296,7 @@ Public Class Track
         If (My.Computer.FileSystem.FileExists(Me._localPath) = False) Then
             Me._trackStatus = trackStatusEnum.notFound
             Me._syncStatus = syncStatusEnum.Cancelled
+            Me._localPath = ""
         End If
     End Sub
 

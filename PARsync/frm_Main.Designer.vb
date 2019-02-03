@@ -64,6 +64,7 @@ Partial Class frm_Main
         Me.bgw_ReadTagRating = New System.ComponentModel.BackgroundWorker()
         Me.bgw_SyncNow = New System.ComponentModel.BackgroundWorker()
         Me.sfd_exportNPM = New System.Windows.Forms.SaveFileDialog()
+        Me.bgw_ReadCSV = New System.ComponentModel.BackgroundWorker()
         Me.grp_Source.SuspendLayout()
         Me.grp_Sync.SuspendLayout()
         Me.grp_Filter_SyncStatus.SuspendLayout()
@@ -153,7 +154,7 @@ Partial Class frm_Main
         Me.grp_Filter_SyncStatus.Size = New System.Drawing.Size(172, 105)
         Me.grp_Filter_SyncStatus.TabIndex = 6
         Me.grp_Filter_SyncStatus.TabStop = False
-        Me.grp_Filter_SyncStatus.Text = "filter Sync Status"
+        Me.grp_Filter_SyncStatus.Text = "filter Sync Status (after Sync)"
         '
         'chk_Sync_Cancelled
         '
@@ -222,7 +223,7 @@ Partial Class frm_Main
         Me.grp_Filter_TrackStatus.Size = New System.Drawing.Size(172, 105)
         Me.grp_Filter_TrackStatus.TabIndex = 5
         Me.grp_Filter_TrackStatus.TabStop = False
-        Me.grp_Filter_TrackStatus.Text = "filter Track Status"
+        Me.grp_Filter_TrackStatus.Text = "filter Track Status (before Sync)"
         '
         'chk_Track_Synced
         '
@@ -562,4 +563,5 @@ Partial Class frm_Main
     Friend WithEvents chk_Sync_UsedPowerampRating As CheckBox
     Friend WithEvents chk_Sync_UsedTagRating As CheckBox
     Friend WithEvents chk_Sync_Synced As CheckBox
+    Friend WithEvents bgw_ReadCSV As System.ComponentModel.BackgroundWorker
 End Class
