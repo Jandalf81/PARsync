@@ -69,10 +69,12 @@ Public Class frm_Main
         Dim col_TagRatingImage As New DataGridViewImageColumn()
         col_TagRatingImage.DataPropertyName = "_TagRatingImage"
         col_TagRatingImage.Name = "Tag" + vbCrLf + "Rating"
+        col_TagRatingImage.SortMode = DataGridViewColumnSortMode.Programmatic
 
         Dim col_SyncStatusImage As New DataGridViewImageColumn()
         col_SyncStatusImage.DataPropertyName = "_syncStatusImage"
         col_SyncStatusImage.Name = "Sync" + vbCrLf + "Status"
+        col_SyncStatusImage.SortMode = DataGridViewColumnSortMode.Programmatic
 
         Dim col_PowerampRating As New DataGridViewTextBoxColumn()
         col_PowerampRating.DataPropertyName = "_PowerampRating"
@@ -81,6 +83,7 @@ Public Class frm_Main
         Dim col_PowerampRatingImage As New DataGridViewImageColumn()
         col_PowerampRatingImage.DataPropertyName = "_PowerampRatingImage"
         col_PowerampRatingImage.Name = "Poweramp" + vbCrLf + "Rating"
+        col_PowerampRatingImage.SortMode = DataGridViewColumnSortMode.Programmatic
 
         Dim col_LocalPath As New DataGridViewTextBoxColumn()
         col_LocalPath.DataPropertyName = "_localPath"
@@ -93,6 +96,7 @@ Public Class frm_Main
         Dim col_TrackStatusImage As New DataGridViewImageColumn()
         col_TrackStatusImage.DataPropertyName = "_trackStatusImage"
         col_TrackStatusImage.Name = "Track" + vbCrLf + "Status"
+        col_TrackStatusImage.SortMode = DataGridViewColumnSortMode.Programmatic
 
         ' add prepared columns to DataGridView
         dgv_Tracklist.Columns.Add(col_TrackStatusImage)
@@ -111,8 +115,8 @@ Public Class frm_Main
         dgv_Tracklist.Columns.Add(col_LocalPath)
         dgv_Tracklist.Columns.Add(col_RemotePath)
 
-        dgv_Tracklist.Columns.Item("Track" + vbCrLf + "Status").Width = 45
-        dgv_Tracklist.Columns.Item("Sync" + vbCrLf + "Status").Width = 45
+        dgv_Tracklist.Columns.Item("Track" + vbCrLf + "Status").Width = 65
+        dgv_Tracklist.Columns.Item("Sync" + vbCrLf + "Status").Width = 65
 
         ' disable some control elements
         grp_Filter_TrackStatus.Enabled = False
@@ -155,7 +159,50 @@ Public Class frm_Main
 #End Region
 
 #Region "grp_Sync"
-    ' TODO make the DGV sort-able: http://blw.sourceforge.net/
+    ' make the DGV sort-able: http://blw.sourceforge.net/
+    Private Sub dgv_Tracklist_ColumnHeaderMouseClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles dgv_Tracklist.ColumnHeaderMouseClick
+        Dim clickedColumn As String = dgv_Tracklist.Columns.Item(e.ColumnIndex).DataPropertyName
+
+        Dim specialColumns As String() = {"_trackStatusImage", "_TagRatingImage", "_syncStatusImage", "_PowerampRatingImage"}
+
+        If specialColumns.Contains(clickedColumn) Then
+            Dim currentSortColumn As String = bs.Sort
+            Dim currentSortOrder As ListSortDirection = bs.SortDirection
+
+            Dim newSortColumn As String = ""
+            Dim newSortOrder As String = ""
+
+            Dim clickedColumnDPN = clickedColumn
+
+            clickedColumn = clickedColumn.Replace("Image", "")
+
+            Select Case currentSortColumn
+                Case = ""
+                    newSortColumn = clickedColumn
+                    newSortOrder = ""
+                Case = clickedColumn
+                    newSortColumn = currentSortColumn
+
+                    If currentSortOrder = ListSortDirection.Ascending Then
+                        newSortOrder = " DESC"
+                    Else
+                        newSortOrder = ""
+                    End If
+                Case <> clickedColumn
+                    newSortColumn = clickedColumn
+                    newSortOrder = ""
+            End Select
+
+            bs.ApplySort(newSortColumn + newSortOrder)
+            Select Case newSortOrder
+                Case ""
+                    dgv_Tracklist.Columns.Item(e.ColumnIndex).HeaderCell.SortGlyphDirection = SortOrder.Ascending
+                Case " DESC"
+                    dgv_Tracklist.Columns.Item(e.ColumnIndex).HeaderCell.SortGlyphDirection = SortOrder.Descending
+            End Select
+        End If
+    End Sub
+
     Private Sub rad_SyncMode_CheckedChanged(sender As Object, e As EventArgs) Handles _
             rad_SyncMode_AskUser.CheckedChanged,
             rad_SyncMode_UseTagRating.CheckedChanged,
