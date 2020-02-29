@@ -319,7 +319,7 @@ Public Class Track
 
         Me._localPath = tmpLocalPath
 
-        If (My.Computer.FileSystem.FileExists(Me._localPath) = False) Then
+        If (My.Computer.FileSystem.FileExists("\\?\" & Me._localPath) = False) Then
             Me._trackStatus = trackStatusEnum.notFound
             Me._syncStatus = syncStatusEnum.Cancelled
             Me._localPath = ""
@@ -330,13 +330,13 @@ Public Class Track
         TagLib.Id3v2.Tag.DefaultVersion = 3
         TagLib.Id3v2.Tag.ForceDefaultVersion = True
 
-        If (My.Computer.FileSystem.FileExists(Me._localPath) = True) Then
-            If (IO.Path.GetExtension(Me._localPath) <> ".mp3") Then
+        If (My.Computer.FileSystem.FileExists("\\?\" & Me._localPath) = True) Then
+            If (IO.Path.GetExtension("\\?\" & Me._localPath) <> ".mp3") Then
                 Me._trackStatus = trackStatusEnum.notFound
                 Exit Sub
             End If
 
-            Dim mp3 As TagLib.File = TagLib.File.Create(Me._localPath)
+            Dim mp3 As TagLib.File = TagLib.File.Create("\\?\" & Me._localPath)
             Dim tag As TagLib.Tag = mp3.GetTag(TagLib.TagTypes.Id3v2)
 
             Dim popm As TagLib.Id3v2.PopularimeterFrame = TagLib.Id3v2.PopularimeterFrame.Get(tag, "Windows Media Player 9 Series", True)
@@ -363,7 +363,7 @@ Public Class Track
     End Sub
 
     Public Sub writeTagRating(ByVal rating As Integer)
-        If (IO.Path.GetExtension(Me._localPath) <> ".mp3") Then
+        If (IO.Path.GetExtension("\\?\" & Me._localPath) <> ".mp3") Then
             Me._syncStatus = syncStatusEnum.Cancelled
             Exit Sub
         End If
@@ -371,7 +371,7 @@ Public Class Track
         TagLib.Id3v2.Tag.DefaultVersion = 3
         TagLib.Id3v2.Tag.ForceDefaultVersion = True
 
-        Dim mp3 As TagLib.File = TagLib.File.Create(Me._localPath)
+        Dim mp3 As TagLib.File = TagLib.File.Create("\\?\" & Me._localPath)
         Dim tag As TagLib.Tag = mp3.GetTag(TagLib.TagTypes.Id3v2)
 
         Dim popm As TagLib.Id3v2.PopularimeterFrame = TagLib.Id3v2.PopularimeterFrame.Get(tag, "Windows Media Player 9 Series", True)

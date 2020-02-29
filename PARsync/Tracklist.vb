@@ -79,7 +79,7 @@ Public Class Tracklist
         ' Get list of Tracks from first connected ADB device
         Dim devices = AdbClient.Instance.GetDevices()
 
-        MsgBox(devices.First.Name)
+        'MsgBox(devices.First.Name)
 
         Dim device = AdbClient.Instance.GetDevices.First()
         Dim receiver = New SharpAdbClient.ConsoleOutputReceiver()

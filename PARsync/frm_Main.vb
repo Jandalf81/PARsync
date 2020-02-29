@@ -395,7 +395,7 @@ Public Class frm_Main
         Dim i As Integer = 0
 
         For Each track As Track In listOfTracks.tracks
-            If (My.Computer.FileSystem.FileExists(track._localPath) = True) Then
+            If (My.Computer.FileSystem.FileExists("\\?\" & track._localPath) = True) Then
                 track.readTagRating()
                 If (track._TagRating = track._PowerampRating) Then
                     track._trackStatus = Track.trackStatusEnum.synced
@@ -407,7 +407,7 @@ Public Class frm_Main
             End If
 
             ' DEBUG
-            My.Application.Log.WriteEntry("Track-Ratings gelesen: " + i.ToString + " / " + bs.Count.ToString)
+            My.Application.Log.WriteEntry("Track-Ratings gelesen: " + i.ToString + " / " + bs.Count.ToString & " - " & track._localPath)
 
             i = i + 1
             percent = i * 100 / bs.Count
