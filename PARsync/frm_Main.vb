@@ -145,6 +145,15 @@ Public Class frm_Main
 #End Region
 
 #Region "grp_Source"
+    Private Sub rad_Source_NPM_CheckedChanged(sender As Object, e As EventArgs) Handles rad_Source_NPM.CheckedChanged
+        btn_OFD.Enabled = rad_Source_NPM.Checked
+        btn_Help_OpenSourceFile.Enabled = rad_Source_NPM.Checked
+    End Sub
+
+    Private Sub rad_Source_ADB_CheckedChanged(sender As Object, e As EventArgs) Handles rad_Source_ADB.CheckedChanged
+        btn_ADB.Enabled = rad_Source_ADB.Checked
+    End Sub
+
     Private Sub btn_OFD_Click(sender As Object, e As EventArgs) Handles btn_OFD.Click
         Dim result As DialogResult = ofd_AllTracksCSV.ShowDialog()
 
@@ -156,9 +165,17 @@ Public Class frm_Main
             bgw_ReadCSV.RunWorkerAsync()
         End If
     End Sub
+
+    Private Sub btn_ADB_Click(sender As Object, e As EventArgs) Handles btn_ADB.Click
+        tst_Status.Text = "| Status: reading from ADB..."
+        lbl_Progress.Text = "reading from ADB..."
+        bgw_ReadADB.RunWorkerAsync()
+    End Sub
 #End Region
 
 #Region "grp_Sync"
+    ' TODO make the DGV filter-able: https://archive.codeplex.com/?p=adgv, https://www.nuget.org/packages/ADGV/
+
     ' make the DGV sort-able: http://blw.sourceforge.net/
     Private Sub dgv_Tracklist_ColumnHeaderMouseClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles dgv_Tracklist.ColumnHeaderMouseClick
         Dim clickedColumn As String = dgv_Tracklist.Columns.Item(e.ColumnIndex).DataPropertyName
@@ -319,6 +336,24 @@ Public Class frm_Main
     End Sub
 #End Region
 
+#Region "bgw_ReadADB"
+    Private Sub bgw_ReadADB_DoWork(sender As Object, e As DoWorkEventArgs) Handles bgw_ReadADB.DoWork
+        listOfTracks.getFromADB()
+    End Sub
+
+    Private Sub bgw_ReadADB_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles bgw_ReadADB.RunWorkerCompleted
+        tst_NoOfTracks.Text = "Number of Tracks: " + listOfTracks.tracks.Count.ToString
+        tst_Status.Text = "| Status: Idle"
+
+        bs = New Equin.ApplicationFramework.BindingListView(Of Track)(listOfTracks.tracks)
+        Me.dgv_Tracklist.DataSource = Me.bs
+
+        tst_Status.Text = "| Status: getting local Path..."
+        lbl_Progress.Text = "testing local files... (0%)"
+        bgw_transformLocalPath.RunWorkerAsync()
+    End Sub
+#End Region
+
 #Region "bgw_transformLocalPath"
     Private Sub bgw_transformLocalPath_DoWork(sender As Object, e As DoWorkEventArgs) Handles bgw_transformLocalPath.DoWork
         ' TODO make the DGV follow progress
@@ -338,11 +373,13 @@ Public Class frm_Main
             bgw_transformLocalPath.ReportProgress(percent)
         Next
     End Sub
+
     Private Sub bgw_transformLocalPath_ProgressChanged(sender As Object, e As ProgressChangedEventArgs) Handles bgw_transformLocalPath.ProgressChanged
         tsp_Progress.ProgressBar.Value = e.ProgressPercentage
         prb_Progress.Value = e.ProgressPercentage
         lbl_Progress.Text = "testing local files... (" + e.ProgressPercentage.ToString + "%)"
     End Sub
+
     Private Sub bgw_transformLocalPath_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles bgw_transformLocalPath.RunWorkerCompleted
         tst_Status.Text = "| Status: getting Tag Rating..."
         tsp_Progress.ProgressBar.Value = 0
@@ -401,6 +438,11 @@ Public Class frm_Main
         Dim percent As Integer = 0
         Dim i As Integer = 0
 
+        Dim syncMethod As String = ""
+
+        If (rad_Source_ADB.Checked = True) Then syncMethod = "ADB"
+        If (rad_Source_NPM.Checked = True) Then syncMethod = "NPM"
+
         Dim frm_SyncDecision As New frm_SyncDecision()
         frm_SyncDecision.StartPosition = FormStartPosition.CenterParent
         Dim retval As frm_SyncDecision.syncDecisionResult
@@ -418,7 +460,7 @@ Public Class frm_Main
 
                             Select Case retval
                                 Case frm_SyncDecision.syncDecisionResult.useTagRating
-                                    track.useTagRating()
+                                    track.useTagRating(syncMethod)
                                 Case frm_SyncDecision.syncDecisionResult.usePowerampRating
                                     track.usePowerampRating()
                                 Case frm_SyncDecision.syncDecisionResult.Cancel
@@ -427,7 +469,7 @@ Public Class frm_Main
                                     MsgBox("else")
                             End Select
                         Case Settings.syncModeEnum.useTagRating
-                            track.useTagRating()
+                            track.useTagRating(syncMethod)
                         Case Settings.syncModeEnum.usePowerampRating
                             track.usePowerampRating()
                     End Select

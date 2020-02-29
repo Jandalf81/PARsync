@@ -1,6 +1,9 @@
 ﻿Imports PARsync
+Imports SharpAdbClient
 
 Public Class Track
+    Private id As Integer
+
     ' fields from csv import
     Private remotePath As String
     Private track As Integer
@@ -39,6 +42,15 @@ Public Class Track
         usedPowerampRating
         Cancelled
     End Enum
+
+    Public Property _id As Integer
+        Get
+            Return id
+        End Get
+        Set(value As Integer)
+            id = value
+        End Set
+    End Property
 
     Public Property _remotePath As String
         Get
@@ -249,8 +261,25 @@ Public Class Track
         End Set
     End Property
 
+
+
     Public Sub New()
     End Sub
+
+    Public Sub New(ByVal id As Integer, ByVal remotePath As String, ByVal remoteRating As Integer)
+        Me._id = id
+        Me.remotePath = remotePath
+        Me._PowerampRating = remoteRating
+
+        Me.localPath = ""
+        Me.TagRating = 0
+        Me.TagRatingImage = My.Resources.star_0
+        'Me.remoteRatingImage = My.Resources.star_0
+        Me._trackStatus = trackStatusEnum.toRead
+        Me._syncStatus = syncStatusEnum.toSync
+        Me._hasBeenUpdated = False
+    End Sub
+
     Public Sub New(
             ByVal remotePath As String,
             ByVal trackno As Integer,
@@ -366,11 +395,30 @@ Public Class Track
         mp3.Dispose()
     End Sub
 
-    Public Sub useTagRating()
-        Me._PowerampRating = Me._TagRating
-        Me._trackStatus = trackStatusEnum.synced
-        Me._syncStatus = syncStatusEnum.usedTagRating
-        Me._hasBeenUpdated = True
+    Public Sub useTagRating(syncMethod As String)
+        If (syncMethod = "NPM") Then
+            Me._PowerampRating = Me._TagRating
+            Me._trackStatus = trackStatusEnum.synced
+            Me._syncStatus = syncStatusEnum.usedTagRating
+            Me._hasBeenUpdated = True
+        End If
+
+        If (syncMethod = "ADB") Then
+            Dim server As AdbServer = New AdbServer()
+            Dim result = server.StartServer("c:\adb\adb.exe", True)
+
+            Dim devices = AdbClient.Instance.GetDevices()
+
+            Dim device = AdbClient.Instance.GetDevices.First()
+            Dim receiver = New SharpAdbClient.ConsoleOutputReceiver()
+
+            AdbClient.Instance.ExecuteRemoteCommand("content update --uri content://com.maxmpz.audioplayer.data/files/" & Me._id & " --bind rating:i:" & Me._TagRating, device, receiver)
+
+            Me._PowerampRating = Me._TagRating
+            Me._trackStatus = trackStatusEnum.synced
+            Me._syncStatus = syncStatusEnum.usedTagRating
+            Me._hasBeenUpdated = True
+        End If
     End Sub
 
     Public Sub usePowerampRating()

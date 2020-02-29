@@ -1,4 +1,6 @@
 ﻿Imports System.IO
+Imports SharpAdbClient
+Imports System.Text.RegularExpressions
 
 Public Class Tracklist
     Public Property tracks As New List(Of Track)
@@ -68,6 +70,55 @@ Public Class Tracklist
         Else
             MsgBox("Datei existiert nicht")
         End If
+    End Sub
+
+    Public Sub getFromADB()
+        Dim server As AdbServer = New AdbServer()
+        Dim result = server.StartServer("c:\adb\adb.exe", True)
+
+        ' Get list of Tracks from first connected ADB device
+        Dim devices = AdbClient.Instance.GetDevices()
+
+        MsgBox(devices.First.Name)
+
+        Dim device = AdbClient.Instance.GetDevices.First()
+        Dim receiver = New SharpAdbClient.ConsoleOutputReceiver()
+        Dim output As String
+
+        'AdbClient.Instance.ExecuteRemoteCommand("content query --uri content://com.maxmpz.audioplayer.data/files --projection folder_files._id:path:folder_files.name:rating --where ""folder_files.name LIKE '%Die%'"" --sort ""path, folder_files.name""", device, receiver)
+        AdbClient.Instance.ExecuteRemoteCommand("content query --uri content://com.maxmpz.audioplayer.data/files --projection folder_files._id:path:folder_files.name:rating --sort ""path, folder_files.name""", device, receiver)
+
+        ' write Tracklist to file (because of encoding)
+        Dim file As System.IO.StreamWriter
+        file = My.Computer.FileSystem.OpenTextFileWriter(My.Application.Info.DirectoryPath & "\tmp.txt", False, System.Text.Encoding.GetEncoding("iso-8859-1"))
+        output = receiver.ToString
+        file.Write(output)
+        file.Close()
+
+        ' Read Tracklist from file
+        Dim fileReader As StreamReader = My.Computer.FileSystem.OpenTextFileReader(My.Application.Info.DirectoryPath & "\tmp.txt", System.Text.Encoding.UTF8)
+        Dim line As String
+
+        Dim _id As Integer
+        Dim _remotePath As String
+        Dim _rating As Integer
+
+        Do
+            line = fileReader.ReadLine
+
+            If line Is Nothing Then Exit Do
+
+            line = line.Replace("/, name=", "/") ' create a full path from both fields
+
+            _id = Regex.Match(line, "_id=(?'id'\d{1,6}), path=", RegexOptions.IgnoreCase).Groups("id").Value
+            _remotePath = Regex.Match(line, "path=(?'path'.*), rating=", RegexOptions.IgnoreCase).Groups("path").Value
+            _rating = Regex.Match(line, "rating=(?'rating'\d{1})", RegexOptions.IgnoreCase).Groups("rating").Value
+
+            Dim t As New Track(_id, _remotePath, _rating)
+            Me.tracks.Add(t)
+        Loop
+
+        fileReader.Close()
     End Sub
 
     Public Sub exportCSV(ByVal myFile As String)
